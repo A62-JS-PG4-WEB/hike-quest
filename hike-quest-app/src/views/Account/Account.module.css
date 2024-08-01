@@ -1,0 +1,45 @@
+ .content p {
+   font-size: 16px;
+   margin: 10px 0;
+   text-align: center;
+   color: #273f17;
+ }
+
+ .button {
+   padding: 4px 9px;
+   border: none;
+   border-radius: 5px;
+   background-color: #afc6a0;
+   color: #273f17;
+   font-size: 14px;
+   cursor: pointer;
+   margin: 10px;
+   transition: background-color 0.3s, color 0.3s;
+ }
+
+ .description {
+   display: flex;
+   flex-direction: column;
+ }
+
+ .header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ .about {
+   margin: 10px;
+   color: #273f17;
+ }
+
+ .input {
+   margin-top: 2px;
+   margin-bottom: 10px;
+   width: 100%;
+   padding: 8px;
+   box-sizing: border-box;
+   border-radius: 5px;
+   border-color: #afc6a0;
+   color: #273f17;
+ }
