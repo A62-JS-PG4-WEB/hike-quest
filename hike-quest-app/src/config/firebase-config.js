@@ -13,6 +13,6 @@ export const firebaseConfig = {
     databaseURL: "https://hike-quest-8d75b-default-rtdb.europe-west1.firebasedatabase.app/"
 };
 
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getDatabase(app);

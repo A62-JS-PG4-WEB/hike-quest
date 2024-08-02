@@ -13,15 +13,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-body {
-  margin: 0;
+.footer {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #afc6a0;
+  border-radius: 10px; 
+  color: white;
 }
 
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -52,4 +59,22 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+
+.terms {
+  text-align: left;
+  padding-left: 30px;
+}
+
+.about {
+  text-align: right;
+  padding-right: 30px;
+}
+
+.rights {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.nav > a {
+  color: magenta
 }
