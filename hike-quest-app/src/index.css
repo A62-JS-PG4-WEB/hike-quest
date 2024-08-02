@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #756f6f;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,22 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #afc6a0;
-  border-radius: 10px; 
-  color: white;
-}
-
-.topRow {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  
-}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -50,7 +34,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -60,21 +44,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 
-.terms {
-  text-align: left;
-  padding-left: 30px;
-}
-
-.about {
-  text-align: right;
-  padding-right: 30px;
-}
-
-.rights {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.nav > a {
-  color: magenta
 }
