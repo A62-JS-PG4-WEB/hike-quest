@@ -8,7 +8,7 @@ export default function Header() {
     return (
         <header>
             <h1>Hike Quest Forum</h1>
-            <nav className={styles.nav}>
+            <nav >
                 <NavLink to="/topics">Topics</NavLink>
                 <NavLink to="/login">Login</NavLink>
             </nav>
