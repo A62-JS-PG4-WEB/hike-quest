@@ -17,6 +17,7 @@ export default function Header() {
     return (
         <header>
             <h1>Hike Quest Forum</h1>
+
             <nav >
                 <div className="searchContainer">
                     <input
@@ -33,6 +34,7 @@ export default function Header() {
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
                 {user && <p>Welcome, {user.name}</p>}
+
             </nav>
         </header>
     );
