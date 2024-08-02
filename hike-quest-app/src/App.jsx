@@ -7,6 +7,7 @@ import MyPosts from './views/MyPosts/MyPosts'
 import Topics from './views/Topics/Topics'
 import Login from './views/Login/Login'
 import Post from './components/Post/Post'
+import Register from './views/Register/Register'
 import {AppContext} from '././state/app.context'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect, useState } from 'react'
@@ -44,6 +45,8 @@ console.log(user, user.id);
           <Route path='/my-posts' element={<MyPosts />} />
           <Route path='/post' element={<Post />} />
           <Route path='/login' element={!user && <Login />} />
+          <Route path='/register' element={!user && <Register />} />
+
 
         </Routes>
         <Footer />

@@ -3,8 +3,6 @@
     justify-content: left;
 }
 
-
-
 .userName {
     display: contents;
     justify-content: left;
@@ -41,8 +39,11 @@
     border-color: rgb(0, 0, 0);
 }
 
-.postButton {
+.postButtons {
+    background-color: wheat;
+    color: rgb(58, 129, 25);
     margin: 5px;
+    margin-right: 1050px;
 }
 
 .buttonContainer {
