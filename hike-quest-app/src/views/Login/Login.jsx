@@ -2,24 +2,52 @@ import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useContext, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase-config";
+import { AppContext } from "../../state/app.context";
+import { loginUser } from "../../services/auth.service";
 
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] =useState("")
+    const [user, setUser] = useState({
+        email: '',
+        password: '',
+    });
+    const { setAppState } = useContext(AppContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const signin = async() =>{
-await signInWithPopup(auth, email, password)
+    const updateUser = prop => e => {
+        setUser({
+            ...user,
+            [prop]: e.target.value,
+        })
+    };
+
+
+    const login = async () => {
+        if (!user.email || !user.password) {
+            return alert('No credentials provided!');
+        }
+
+        try {
+            const credentials = await loginUser(user.email, user.password);
+            setAppState({
+                user: credentials.user,
+                userData: null,
+            });
+            navigate(location.state?.from.pathname ?? '/');
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
-  return (
-    <div>
-      <input placeholder="Email..."
-      onChange={(e) => setEmail(e.target.value)}/>
-      <input placeholder="Password..."
-      type="password"
-       onChange={(e) => setPassword(e.target.value)}/>
-      <button onClick={signin}> Sign in</button>
-    </div>
-  )
+    return (
+        <div>
+            <h1>Login</h1>
+            <label htmlFor="email">Email: </label>
+            <input value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /><br /><br />
+            <label htmlFor="password">Password: </label>
+            <input value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /><br />
+            <button onClick={login}>Login</button>
+        </div>
+    )
 }
