@@ -1,4 +1,4 @@
-.header {
+/* .header {
   display: flex;
   align-items: center;
   padding: 20px;
@@ -38,6 +38,29 @@
 
 .button.active {
   background-color: #273f17;
+  color: white;
+  font-weight: bold;
+} */
+
+
+h1{
+  align-items: left;
+  display: flex;
+}
+
+a {
+color:  #273f17;;
+align-items: right;
+gap: 2px;
+margin-right: 20px;
+}
+
+a:hover {
+  background-color: #d8e2dc;
+  color: #273f17;
+}
+a.active {
+  background-color: magenta;
   color: white;
   font-weight: bold;
 }

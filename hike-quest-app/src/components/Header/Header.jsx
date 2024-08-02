@@ -1,29 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css'
+import { useContext } from 'react';
+import { AppContext } from '../../state/app.context';
 
 export default function Header() {
+    const {} = useContext(AppContext)
     return (
-        <header className={styles.header}>
-            <h1 className={styles.heading}>Hike Quest Forum</h1>
-            <nav className={styles.navContainer}>
-                <div className={styles.navOptions}>
-                    <NavLink
-                        to="/topics"
-                        className={({ isActive }) =>
-                            isActive ? `${styles.button} ${styles.active}` : styles.button
-                        }
-                    >
-                        Topics
-                    </NavLink>
-                    <NavLink
-                        to="/login"
-                        className={({ isActive }) =>
-                            isActive ? `${styles.button} ${styles.active}` : styles.button
-                        }
-                    >
-                        Login
-                    </NavLink>
-                </div>
+        <header>
+            <h1>Hike Quest Forum</h1>
+            <nav >
+                <NavLink to="/topics">Topics</NavLink>
+                <NavLink to="/login">Login</NavLink>
             </nav>
         </header>
     );
