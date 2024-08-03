@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './Header.module.css'
 import { useContext } from 'react';
 import { AppContext } from '../../state/app.context';
@@ -7,6 +7,16 @@ import { logoutUser } from '../../services/auth.service';
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const search = searchParams.get('search') ?? '';
+
+    const setSearch = (value) => {
+        console.log(value);
+        setSearchParams({
+            search: value,
+        });
+    }
+
 
     const logout = async () => {
         await logoutUser();
@@ -19,11 +29,8 @@ export default function Header() {
             <h1>Hike Quest Forum</h1>
             <nav >
                 <div className="searchContainer">
-                    <input
-                        className="searchBar"
-                        type="text"
-                        placeholder="Search topics..."
-                    />
+                    <label htmlFor="search"></label>
+                    <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
                 </div>
                 {user && (<>
                     <NavLink to="/threads">All Threads</NavLink>
@@ -32,7 +39,7 @@ export default function Header() {
                 {!user && <NavLink to="/login">Login</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
-                {user && <p>Welcome, {user.email.slice(0,5)}</p>}
+                {user && <p>Welcome, {user.email.slice(0, 5)}</p>}
             </nav>
         </header>
     );
