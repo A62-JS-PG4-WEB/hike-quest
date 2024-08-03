@@ -8,7 +8,6 @@ export default function AllThreads() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search') ?? '';
 
-  console.log(threads);
 
   useEffect(() => {
     getAllThreads(search)

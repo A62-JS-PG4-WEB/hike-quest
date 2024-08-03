@@ -1,13 +1,21 @@
 import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey } from 'firebase/database';
 import { db } from '../config/firebase-config'
 //author,
-export const createThread = async ( title, content) => {
+export const createThread = async (  title, content) => {
   const thread = {  title, content, createdOn: new Date().toString() };
   const result = await push(ref(db, 'threads'), thread);
   const id = result.key;
   await update(ref(db), {
     [`threads/${id}/id`]: id,
   });
+};
+
+export const getThreadsCount = async () => {
+  const snapshot = await get(ref(db, 'threads'));
+ console.log(snapshot);
+
+  const threads = Object.values(snapshot.val());
+  return threads.length;
 };
 
 export const getAllThreads = async (search = '') => {
