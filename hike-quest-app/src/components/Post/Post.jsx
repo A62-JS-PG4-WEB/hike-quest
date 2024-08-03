@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react"
 import "./Post.css"
 
@@ -21,8 +22,8 @@ const Post = () => {
             </div>
             <p className="actualPost">The hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.he hike around Everest was an amazing Journey. Made me feel like a god over the world when I got to the peek.</p>
             <div className="buttonContainer">
-                <button className="postButton">Like</button>
-                <button className="postButton">Comment</button>
+                <button className="postButtons">Like</button>
+                <button className="postButtons">Comment</button>
             </div>
             
         </div>
