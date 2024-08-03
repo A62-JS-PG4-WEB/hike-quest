@@ -3,10 +3,8 @@ import './App.css'
 import Header from './components/Header/Header'
 import Account from './views/Account/Account'
 import Footer from './views/Footer/Footer'
-import MyPosts from './views/MyPosts/MyPosts'
 import AllThreads from './views/AllThreads/AllThreads'
 import Login from './views/Login/Login'
-import Post from './components/Post/Post'
 import Register from './views/Register/Register'
 import {AppContext} from '././state/app.context'
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -45,9 +43,7 @@ console.log(user, user.id);
           <Route path='/account-user' element={<Account />} />
           <Route path='/threads' element={<AllThreads />} />
             {/* <Route path='/threads/:id' element={<SingleThread />} /> */}
-          <Route path='/my-posts' element={<MyPosts />} />
-          <Route path='/post' element={<Post />} />
-          <Route path='/create-thread' element={<CreateThread/>} />
+                  <Route path='/create-thread' element={<CreateThread/>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
 
