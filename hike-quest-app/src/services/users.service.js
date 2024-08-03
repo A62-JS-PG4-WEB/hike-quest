@@ -15,3 +15,5 @@ export const getUserData = async (uid) => {
   const snapshot = await get(query(ref(db, 'users'), orderByChild('uid'), equalTo(uid)));
   return snapshot.val();
 };
+
+//test

@@ -8,3 +8,4 @@ export const loginUser = (email, password) => {
 export const logoutUser = () => {
   return signOut(auth);
 };
+//test
