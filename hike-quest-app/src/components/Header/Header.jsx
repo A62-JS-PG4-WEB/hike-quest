@@ -17,7 +17,6 @@ export default function Header() {
     return (
         <header>
             <h1>Hike Quest Forum</h1>
-
             <nav >
                 <div className="searchContainer">
                     <input
@@ -27,14 +26,13 @@ export default function Header() {
                     />
                 </div>
                 {user && (<>
-                    <NavLink to="/topics">Topics</NavLink>
-                    <NavLink to="/thread-create">Create thread</NavLink>
+                    <NavLink to="/threads">All Threads</NavLink>
+                    <NavLink to="/create-thread">Create Thread</NavLink>
                 </>)}
                 {!user && <NavLink to="/login">Login</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
-                {user && <p>Welcome, {user.name}</p>}
-
+                {user && <p>Welcome, {user.email.slice(0,5)}</p>}
             </nav>
         </header>
     );
