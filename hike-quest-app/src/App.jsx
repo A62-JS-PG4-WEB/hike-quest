@@ -42,14 +42,13 @@ function App() {
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
         <Routes>
-
           <Route path='/account-user' element={<Account />} />
           <Route path='/threads' element={<AllThreads />} />
           <Route path='/threads/:id' element={<SingleThread />} />
           <Route path='/create-thread' element={<CreateThread />} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
-
+          {/* <Route path='/admin' element={userData && userData.admin && <Admin />} /> */}
         </Routes>
         <Footer />
       </AppContext.Provider>
