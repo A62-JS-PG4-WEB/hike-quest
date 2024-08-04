@@ -19,6 +19,7 @@ export default function Thread({ thread }) {
   const { userData } = useContext(AppContext);
   const toggleLike = async () => {
     const isLiked = thread.likedBy.includes(userData.handle);
+    console.log(userData);
     try {
       if (isLiked) {
         await dislikeThread(userData.handle, thread.id);
@@ -35,6 +36,7 @@ export default function Thread({ thread }) {
       <h3>{thread.title}</h3>
       <p>{thread.content}</p>
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
+      <p>Created by: {thread.author}</p>
       <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
     </div>
   )

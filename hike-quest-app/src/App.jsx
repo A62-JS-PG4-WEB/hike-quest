@@ -49,6 +49,7 @@ function App() {
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           {/* <Route path='/admin' element={userData && userData.admin && <Admin />} /> */}
+          {/* <Route path='*' element={<NotFound />} /> */}
         </Routes>
         <Footer />
       </AppContext.Provider>

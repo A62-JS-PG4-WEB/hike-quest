@@ -1,8 +1,9 @@
 import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey } from 'firebase/database';
 import { db } from '../config/firebase-config'
 //author,
-export const createThread = async (title, content, handle) => {
-  const thread = { title, content, handle, createdOn: new Date().toString() };
+export const createThread = async (author, title, content) => {
+  console.log("createservicethread",author);
+  const thread = { author, title, content, createdOn: new Date().toString() };
   const result = await push(ref(db, 'threads'), thread);
   const id = result.key;
   await update(ref(db), {
@@ -60,66 +61,3 @@ export const dislikeThread = (handle, threadId) => {
 
   return update(ref(db), updateObject);
 };
-
-// export const createTweet = async (title, content) => {
-//   const response = await fetch('http://127.0.0.1:3000/tweets', {
-//     method: 'POST',
-//     body: JSON.stringify({ title, content }),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
-
-//   return response.json();
-// };
-
-// export const getAllTweets = async (search = '') => {
-//   const response = await fetch(`http://127.0.0.1:3000/tweets?search=${search}`);
-
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
-
-//   return response.json();
-// };
-
-// export const getTweetById = async (id) => {
-//   const response = await fetch(`http://127.0.0.1:3000/tweets/${id}`);
-
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
-
-//   return response.json();
-// };
-
-// /**
-//  * 
-//  * @param {{
-// *  id: number,
-// *  title: string,
-// *  content: string,
-// *  createdOn: string,
-// *  liked: boolean
-// * }} tweet 
-//  * @returns 
-//  */
-// export const updateTweet = async (tweet) => {
-//   const response = await fetch(`http://127.0.0.1:3000/tweets/${tweet.id}`, {
-//     method: 'PUT',
-//     body: JSON.stringify(tweet),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
-
-//   return response.json();
-// };
