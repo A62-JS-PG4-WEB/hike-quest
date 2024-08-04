@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { auth } from './config/firebase-config'
 import { getUserData } from './services/users.service'
 import CreateThread from './views/CreateThread/CreateThread'
+import SingleThread from './views/SingleThread/SingleThread'
 
 function App() {
   const [appState, setAppState] = useState({
@@ -44,11 +45,10 @@ function App() {
 
           <Route path='/account-user' element={<Account />} />
           <Route path='/threads' element={<AllThreads />} />
-          {/* <Route path='/threads/:id' element={<SingleThread />} /> */}
+          <Route path='/threads/:id' element={<SingleThread />} />
           <Route path='/create-thread' element={<CreateThread />} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
-
 
         </Routes>
         <Footer />
