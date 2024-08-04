@@ -44,7 +44,7 @@ function App() {
         <Routes>
           <Route path='/account-user' element={<Account />} />
           <Route path='/threads' element={<AllThreads />} />
-          <Route path='/threads/:id' element={<SingleThread />} />
+          <Route path='/threads/:threadId' element={<SingleThread />} />
           <Route path='/create-thread' element={<CreateThread />} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
