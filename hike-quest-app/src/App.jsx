@@ -6,6 +6,7 @@ import Footer from './views/Footer/Footer'
 import AllThreads from './views/AllThreads/AllThreads'
 import Login from './views/Login/Login'
 import Register from './views/Register/Register'
+import SingleThread from './views/SingleThread/SingleThread'
 import { AppContext } from '././state/app.context'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect, useState } from 'react'
@@ -41,15 +42,13 @@ function App() {
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
         <Routes>
-
           <Route path='/account-user' element={<Account />} />
           <Route path='/threads' element={<AllThreads />} />
-          {/* <Route path='/threads/:id' element={<SingleThread />} /> */}
+          <Route path='/threads/:id' element={<SingleThread />} />
           <Route path='/create-thread' element={<CreateThread />} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
-
-
+          {/* <Route path='/admin' element={userData && userData.admin && <Admin />} /> */}
         </Routes>
         <Footer />
       </AppContext.Provider>
