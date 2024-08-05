@@ -1,8 +1,8 @@
-import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove } from 'firebase/database';
+import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
 
 export const createThread = async (author, title, content) => {
-  console.log("createservicethread",author);
+  console.log("createservicethread", author);
   const thread = { author, title, content, createdOn: new Date().toString() };
   const result = await push(ref(db, 'threads'), thread);
   const id = result.key;
@@ -73,3 +73,17 @@ export const deleteThread = async (threadId) => {
     throw error;
   }
 }
+
+
+export const subscribeToThreadChanges = (callback) => {
+  const threadsRef = ref(db, 'threads');
+
+  const handleData = (snapshot) => {
+    const threads = snapshot.val();
+    const count = threads ? Object.keys(threads).length : 0;
+    callback(count);
+  };
+
+  const unsubscribe = onValue(threadsRef, handleData);
+  return unsubscribe;
+};

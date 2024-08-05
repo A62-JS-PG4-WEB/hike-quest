@@ -7,7 +7,7 @@ import { db } from "../../config/firebase-config";
 export default function SingleThread() {
   const [thread, setThread] = useState(null);
   const { id } = useParams();
-
+console.log(thread);
   // useEffect(() => {
   //   getThreadById(id)
   //     .then(thread => setThread(thread))

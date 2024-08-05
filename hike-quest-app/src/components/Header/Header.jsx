@@ -3,33 +3,40 @@ import styles from './Header.module.css'
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/app.context';
 import { logoutUser } from '../../services/auth.service';
-import { getThreadsCount } from '../../services/threads.service';
+import { getThreadsCount, subscribeToThreadChanges } from '../../services/threads.service';
 
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
-
-    //console.log(user.uid);
-
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('search') ?? '';
     const [count, setCount] = useState(0);
 
     const setSearch = (value) => {
-
         setSearchParams({
             search: value,
 
         });
-
     }
 
     useEffect(() => {
-        getThreadsCount()
-            .then(countNew => setCount(countNew))
-            .catch(error => alert(error.message));
+        const fetchThreadsCount = async () => {
+            try {
+                const countNew = await getThreadsCount();
+                setCount(countNew);
+            } catch (error) {
+                alert(error.message);
+            }
+        };
 
-    }, 0);
+        fetchThreadsCount();
+
+        const unsubscribe = subscribeToThreadChanges(newCount => {
+            setCount(newCount);
+        });
+
+        return () => unsubscribe();
+    }, []);
 
 
     const logout = async () => {
