@@ -35,11 +35,11 @@ export default function CreateThread() {
     }
 
     try {
-      await createThread(  userData.handle, thread.title, thread.content);
+      await createThread(userData.handle, thread.title, thread.content);
       setThread({ title: '', content: '' });
       alert('Thanks for your contribution!');
       navigate('/threads')
-      
+
     } catch (error) {
       alert(error.message);
     }
@@ -55,4 +55,4 @@ export default function CreateThread() {
       <button onClick={handleCreateThread}>Create</button>
     </div>
   )
-}
+};

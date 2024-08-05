@@ -13,6 +13,7 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
+        isAdmin: false
     });
     const { setAppState } = useContext(AppContext);
     const navigate = useNavigate();
@@ -30,17 +31,17 @@ export default function Register() {
         }
         if (user.firstName.length < MIN_FIRSTNAME) {
             return alert('First name too short!');
-          }
-          if (user.firstName.length > MAX_FIRSTNAME) {
+        }
+        if (user.firstName.length > MAX_FIRSTNAME) {
             return alert('First name too long!');
-          }
-          if (user.lastName.length < MIN_LASTNAME) {
+        }
+        if (user.lastName.length < MIN_LASTNAME) {
             return alert('Last name too short!');
-          }
-      
-          if (user.lastName.length > MAX_LASTNAME) {
+        }
+
+        if (user.lastName.length > MAX_LASTNAME) {
             return alert('Last name too long!');
-          }
+        }
         try {
             const userDB = await getUserByEmail(user.email);
             if (userDB) {
