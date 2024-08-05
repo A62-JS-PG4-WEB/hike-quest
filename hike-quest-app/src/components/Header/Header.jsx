@@ -41,7 +41,7 @@ export default function Header() {
     return (
         <header>
             <h1>Hike Quest Forum</h1>
-                <nav >
+            <nav >
                 <div className="searchContainer">
                     <label htmlFor="search"></label>
                     <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
@@ -51,11 +51,11 @@ export default function Header() {
                     <NavLink to="/threads">All Threads</NavLink>
                     <NavLink to="/create-thread">Create Thread</NavLink>
                 </>)}
-                   {!user && <NavLink to="/login">Login to access</NavLink>}
+                {!user && <NavLink to="/login">Login to access</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
                 {userData && <p>Welcome, {userData.firstName}</p>}
-                {user &&  <label> Thanks for contributing threads {count} </label>}
+                {user && <label> Thanks for contributing threads {count} </label>}
             </nav>
         </header>
     );

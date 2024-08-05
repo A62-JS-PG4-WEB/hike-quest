@@ -1,7 +1,7 @@
 import PropType from 'prop-types';
 import { useContext } from 'react';
 import { AppContext } from "../../state/app.context"
-import { dislikeThread, likeThread } from '../../services/threads.service';
+import { deleteThread, dislikeThread, likeThread } from '../../services/threads.service';
 
 /**
  * 
@@ -17,9 +17,9 @@ import { dislikeThread, likeThread } from '../../services/threads.service';
  */
 export default function Thread({ thread }) {
   const { userData } = useContext(AppContext);
+
   const toggleLike = async () => {
     const isLiked = thread.likedBy.includes(userData.handle);
-    console.log(userData);
     try {
       if (isLiked) {
         await dislikeThread(userData.handle, thread.id);
@@ -31,6 +31,16 @@ export default function Thread({ thread }) {
     }
   };
 
+  const handleDeleteThread = async () => {
+    try {
+      await deleteThread(thread.id);
+      alert('Thread deleted successfully.');
+    } catch (error) {
+      alert('Failed to delete the thread: ' + error.message);
+    }
+  };
+
+
   return (
     <div>
       <h3>{thread.title}</h3>
@@ -38,6 +48,7 @@ export default function Thread({ thread }) {
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
       <p>Created by: {thread.author}</p>
       <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
+      <button onClick={handleDeleteThread}>Delete </button>
     </div>
   )
 }

@@ -13,6 +13,8 @@ import { auth } from './config/firebase-config'
 import { getUserData } from './services/users.service'
 import CreateThread from './views/CreateThread/CreateThread'
 import SingleThread from './views/SingleThread/SingleThread'
+import NotFound from './views/NotFound/NotFound'
+import Authenticated from './hoc/Authenticated'
 
 function App() {
   const [appState, setAppState] = useState({
@@ -42,19 +44,18 @@ function App() {
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
         <Routes>
-          <Route path='/account-user' element={<Account />} />
-          <Route path='/threads' element={<AllThreads />} />
-          <Route path='/threads/:id' element={<SingleThread />} />
-          <Route path='/create-thread' element={<CreateThread />} />
+          <Route path='/account-user' element={<Authenticated><Account /> </Authenticated>} />
+          <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
+          <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
+          <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           {/* <Route path='/admin' element={userData && userData.admin && <Admin />} /> */}
-          {/* <Route path='*' element={<NotFound />} /> */}
+          <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
       </AppContext.Provider>
     </BrowserRouter>
-
   )
 }
 

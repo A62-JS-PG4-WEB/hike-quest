@@ -1,6 +1,6 @@
-import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey } from 'firebase/database';
+import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove } from 'firebase/database';
 import { db } from '../config/firebase-config'
-//author,
+
 export const createThread = async (author, title, content) => {
   console.log("createservicethread",author);
   const thread = { author, title, content, createdOn: new Date().toString() };
@@ -61,3 +61,15 @@ export const dislikeThread = (handle, threadId) => {
 
   return update(ref(db), updateObject);
 };
+
+
+export const deleteThread = async (threadId) => {
+  try {
+    const threadRef = ref(db, `threads/${threadId}`);
+    await remove(threadRef);
+    console.log(`Thread with ID ${threadId} removed successfully.`);
+  } catch (error) {
+    console.error('Error deleting thread:', error);
+    throw error;
+  }
+}
