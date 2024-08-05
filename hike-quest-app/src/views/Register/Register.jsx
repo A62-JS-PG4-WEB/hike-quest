@@ -3,6 +3,7 @@ import { registerUser } from "../../services/auth.service"
 import { AppContext } from "../../state/app.context"
 import { useNavigate } from "react-router-dom"
 import { createUserHandle, getUserByEmail, getUserByHandle } from "../../services/users.service"
+import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
 
 
 export default function Register() {
@@ -27,19 +28,19 @@ export default function Register() {
         if (!user.email || !user.password) {
             return alert('No credentials provided!');
         }
-        // if (user.firstName.length < MIN_THREAD_TITLE) {
-        //     return alert('First name too short!');
-        //   }
-        //   if (user.firstName.length > MAX_THREAD_TITLE) {
-        //     return alert('First name too long!');
-        //   }
-        //   if (thread.content.length < MIN_THREAD_CONTENT) {
-        //     return alert('Last name too short!');
-        //   }
+        if (user.firstName.length < MIN_FIRSTNAME) {
+            return alert('First name too short!');
+          }
+          if (user.firstName.length > MAX_FIRSTNAME) {
+            return alert('First name too long!');
+          }
+          if (user.lastName.length < MIN_LASTNAME) {
+            return alert('Last name too short!');
+          }
       
-        //   if (thread.content.length > MAX_THREAD_CONTENT) {
-        //     return alert('Last name too long!');
-        //   }
+          if (user.lastName.length > MAX_LASTNAME) {
+            return alert('Last name too long!');
+          }
         try {
             const userDB = await getUserByEmail(user.email);
             if (userDB) {
