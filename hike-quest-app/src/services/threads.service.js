@@ -19,7 +19,7 @@ export const getThreadsCount = async () => {
   return threads.length;
 };
 
-export const getAllThreads = async (search = '') => {
+export const getAllThreads = async (search = '', sort, filter) => {
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
@@ -28,7 +28,15 @@ export const getAllThreads = async (search = '') => {
   if (search) {
     return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
   }
+  if (filter) {
+    return threads.filter(t => t.author.toLowerCase().includes(filter.toLowerCase()));
+  }
 
+  if (sort === 'date') {
+    return threads.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+  } else if (sort === 'title') {
+    return threads.sort((a, b) => a.title.localeCompare(b.title));
+  }
   return threads;
 };
 
