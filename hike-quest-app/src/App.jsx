@@ -1,10 +1,63 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import Header from './components/Header/Header'
+import Account from './views/Account/Account'
+import Footer from './views/Footer/Footer'
+import AllThreads from './views/AllThreads/AllThreads'
+import Login from './views/Login/Login'
+import Register from './views/Register/Register'
+import { AppContext } from '././state/app.context'
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useEffect, useState } from 'react'
+import { auth } from './config/firebase-config'
+import { getUserData } from './services/users.service'
+import CreateThread from './views/CreateThread/CreateThread'
+import SingleThread from './views/SingleThread/SingleThread'
+import NotFound from './views/NotFound/NotFound'
+import Authenticated from './hoc/Authenticated'
 
 function App() {
- 
-  return (<div>test</div>)
+  const [appState, setAppState] = useState({
+    user: null,
+    userData: null,
+  });
+  const [user, loading, error] = useAuthState(auth);
 
+  if (appState.user !== user) {
+    setAppState({ ...appState, user });
+  }
 
+  useEffect(() => {
+    if (!user) return;
+
+    console.log(user, user.id);
+
+    getUserData(appState.user.uid)
+      .then(data => {
+        const userData = data[Object.keys(data)[0]];
+        setAppState({ ...appState, userData });
+      });
+  }, [user]);
+
+  return (
+    <BrowserRouter>
+      <AppContext.Provider value={{ ...appState, setAppState }}>
+        <Header />
+        <Routes>
+          <Route path='/account-user' element={<Authenticated><Account /> </Authenticated>} />
+          <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
+          <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
+          <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
+          <Route path='/login' element={!user && <Login />} />
+          <Route path='/register' element={!user && <Register />} />
+          {/* <Route path='/admin' element={userData && userData.admin && <Admin />} /> */}
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </AppContext.Provider>
+    </BrowserRouter>
+  )
 }
+
 
 export default App
