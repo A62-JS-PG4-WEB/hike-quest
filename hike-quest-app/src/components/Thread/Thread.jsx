@@ -39,9 +39,6 @@ export default function Thread({ thread }) {
 
   const handleDeleteThread = async () => {
 
-    if (thread.author !== user.handle) {
-      return alert('Not authorised!');
-    }
     if (userData)
     try {
       await deleteThread(thread.id);
@@ -59,8 +56,13 @@ export default function Thread({ thread }) {
       <p>{thread.content}</p>
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
       <p>Created by: {thread.author}</p>
-      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
-      <button onClick={handleDeleteThread}>Delete </button>
+      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Liked' : 'Like'}</button>
+      {userData?.handle === thread.author && (
+        <button onClick={handleDeleteThread}>Delete</button>
+      )}
+       {/* {userData?.handle === thread.author && (
+        <button onClick={editThread}>Edit</button>
+      )} */}
     </div>
   )
 }
