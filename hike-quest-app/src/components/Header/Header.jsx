@@ -10,7 +10,7 @@ export default function Header() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('search') ?? '';
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(null);
 
     const setSearch = (value) => {
         setSearchParams({
@@ -28,9 +28,7 @@ export default function Header() {
                 alert(error.message);
             }
         };
-
         fetchThreadsCount();
-
         const unsubscribe = subscribeToThreadChanges(newCount => {
             setCount(newCount);
         });

@@ -57,10 +57,10 @@ export default function Thread({ thread }) {
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
       <p>Created by: {thread.author}</p>
       <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Liked' : 'Like'}</button>
-      {userData?.handle === thread.author && (
+      {userData && (userData.handle === thread.author || userData.isAdmin) && (
         <button onClick={handleDeleteThread}>Delete</button>
       )}
-       {/* {userData?.handle === thread.author && (
+         {/* {userData?.handle === thread.author && (
         <button onClick={editThread}>Edit</button>
       )} */}
     </div>

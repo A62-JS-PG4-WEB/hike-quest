@@ -13,7 +13,8 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
-        isAdmin: false
+        isAdmin: false,
+        isBlocked: false
     });
     const { setAppState } = useContext(AppContext);
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ export default function Register() {
                 return alert(`User {${user.handle}} already exists!`);
             }
             const credential = await registerUser(user.email, user.password);
-            await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email);
+            await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email, user.isAdmin, user.isBlocked);
             setAppState({ user: credential.user, userData: null });
             navigate('/');
         } catch (error) {
