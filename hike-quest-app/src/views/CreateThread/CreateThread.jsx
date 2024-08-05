@@ -34,8 +34,8 @@ export default function CreateThread() {
     }
     //userData.handle,
     try {
-      await createThread( thread.title, thread.content);
-     // console.log('createThread ' , userData.handle );
+      await createThread(  userData.handle, thread.title, thread.content);
+     console.log('createThread ' , userData.handle );
       setThread({ title: '', content: '' });
     } catch (error) {
       alert(error.message);

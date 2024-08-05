@@ -13,7 +13,7 @@ export default function AllThreads() {
     getAllThreads(search)
       .then(threads => setThreads(threads))
       .catch(error => alert(error.message));
-   
+
   }, [search]);
 
 
@@ -21,8 +21,8 @@ export default function AllThreads() {
     <div>
       <h1>Our Threads</h1>
       {threads.length > 0
-      ? threads.map(t => <p key={t.id}> <strong>{t.title}</strong> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button></p>)
-      : 'No threads'
+        ? threads.map(t => <p key={t.id}> <strong>{t.title} - {new Date(t.createdOn).toDateString()}</strong> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button></p>)
+        : 'No threads'
       }
     </div>
   )

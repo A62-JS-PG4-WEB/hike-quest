@@ -54,7 +54,7 @@ export default function Header() {
                    {!user && <NavLink to="/login">Login to access</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
-                {user && <p>Welcome, {user.email}</p>}
+                {userData && <p>Welcome, {userData.firstName}</p>}
                 {user &&  <label> Thanks for contributing threads {count} </label>}
             </nav>
         </header>
