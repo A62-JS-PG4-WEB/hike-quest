@@ -13,7 +13,7 @@ export const createUserHandle = async (handle, firstName, lastName, uid, email) 
 };
 
 export const getUserData = async (uid) => {
-  console.log('getuser data uid N',uid);
+  //console.log('getuser data uid N',uid);
   const snapshot = await get(query(ref(db, 'users'), orderByChild('uid'), equalTo(uid)));
   return snapshot.val();
 };

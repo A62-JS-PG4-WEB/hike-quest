@@ -2,6 +2,7 @@ import PropType from 'prop-types';
 import { useContext } from 'react';
 import { AppContext } from "../../state/app.context"
 import { deleteThread, dislikeThread, likeThread } from '../../services/threads.service';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * 
@@ -16,9 +17,14 @@ import { deleteThread, dislikeThread, likeThread } from '../../services/threads.
  * @returns 
  */
 export default function Thread({ thread }) {
-  const { userData } = useContext(AppContext);
+  const { user, userData } = useContext(AppContext);
+  const navigate = useNavigate();
+
+
 
   const toggleLike = async () => {
+    // console.log( thread.author);
+    // console.log(userData.handle,);
     const isLiked = thread.likedBy.includes(userData.handle);
     try {
       if (isLiked) {
@@ -32,9 +38,15 @@ export default function Thread({ thread }) {
   };
 
   const handleDeleteThread = async () => {
+
+    if (thread.author !== user.handle) {
+      return alert('Not authorised!');
+    }
+    if (userData)
     try {
       await deleteThread(thread.id);
       alert('Thread deleted successfully.');
+      navigate('/threads')
     } catch (error) {
       alert('Failed to delete the thread: ' + error.message);
     }
