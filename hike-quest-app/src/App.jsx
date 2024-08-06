@@ -23,11 +23,14 @@ function App() {
   });
   const [user, loading, error] = useAuthState(auth);
 
-  useEffect(() => {
-    if (appState.user !== user) {
-      setAppState({ ...appState, user });
-    }
-  }, [user, appState]);
+  if (appState.user !== user) {
+    setAppState({...appState, user });
+  }
+  // useEffect(() => {
+  //   if (appState.user !== user) {
+  //     setAppState({ ...appState, user });
+  //   }
+  // }, [user, appState]);
 
   useEffect(() => {
     if (!user) return;
@@ -58,7 +61,7 @@ function App() {
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
         <Routes>
-          <Route path='/account-user' element={<Authenticated><Account /></Authenticated>} />
+          <Route path='/account-user' element={user && <Authenticated><Account /></Authenticated>} />
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
           <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
