@@ -73,8 +73,8 @@ export default function Thread({ thread }) {
 
   return (
     <div>
-      <h3>{thread.title}</h3>
-      <p>{thread.content}</p>
+      <h2 className='threadTitle'>{thread.title}</h2>
+      <p className='threadContent'>{thread.content}</p>
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
       <p>Created by: {thread.author}</p>
       <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
