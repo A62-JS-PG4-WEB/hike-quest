@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
+import Comment from "../../components/Comment/Comment";
 
 export default function SingleThread() {
   const [thread, setThread] = useState(null);
@@ -28,6 +29,7 @@ export default function SingleThread() {
     <div>
       <h1>Single thread</h1>
       {thread && <Thread thread={thread} />}
+      {thread && <Comment thread={thread} />}
     </div>
   )
 }
