@@ -2,10 +2,11 @@ import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, 
 import { db } from '../config/firebase-config'
 
 export const createThread = async (author, title, content) => {
-  console.log("createservicethread", author);
+
   const thread = { author, title, content, createdOn: new Date().toString() };
   const result = await push(ref(db, 'threads'), thread);
   const id = result.key;
+
   await update(ref(db), {
     [`threads/${id}/id`]: id,
   });
@@ -13,7 +14,6 @@ export const createThread = async (author, title, content) => {
 
 export const getThreadsCount = async () => {
   const snapshot = await get(ref(db, 'threads'));
-  console.log(snapshot);
 
   const threads = Object.values(snapshot.val());
   return threads.length;
@@ -95,3 +95,21 @@ export const subscribeToThreadChanges = (callback) => {
   const unsubscribe = onValue(threadsRef, handleData);
   return unsubscribe;
 };
+
+export const addCommentToThread = async (threadId, comment) => {
+  try {
+
+    const commentsRef = push(ref(db, `threads/${threadId}/comments`));
+
+    const commentData = {
+      ...comment,
+      createdOn: new Date().toString()
+    };
+
+    await set(commentsRef, commentData);
+
+    console.log("Comment added successfully");
+  } catch (error) {
+    console.error('Error adding comment:', error);
+  }
+}

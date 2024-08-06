@@ -26,9 +26,16 @@ function App() {
   if (appState.user !== user) {
     setAppState({...appState, user });
   }
+
   // useEffect(() => {
   //   if (appState.user !== user) {
-  //     setAppState({ ...appState, user });
+  //     setAppState(prevState => ({ ...prevState, user }));
+  //   }
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (appState.user !== user) {
+  //     setAppState(prevState => ({ ...prevState, user }));
   //   }
   // }, [user, appState]);
 
@@ -39,7 +46,7 @@ function App() {
       try {
         const data = await getUserData(user.uid);
         const userData = data[Object.keys(data)[0]];
-        setAppState({ ...appState, userData });
+        setAppState(prevState => ({ ...prevState, userData }));
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
