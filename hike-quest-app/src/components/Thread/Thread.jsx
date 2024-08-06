@@ -1,8 +1,10 @@
-import PropType from 'prop-types';
-import { useContext } from 'react';
+import PropTypes from 'prop-types';
+import { useContext, useState } from 'react';
 import { AppContext } from "../../state/app.context"
 import { deleteThread, dislikeThread, likeThread } from '../../services/threads.service';
 import { useNavigate } from 'react-router-dom';
+import { getDatabase, ref, update } from 'firebase/database';
+import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 
 /**
  * 
@@ -19,12 +21,10 @@ import { useNavigate } from 'react-router-dom';
 export default function Thread({ thread }) {
   const { user, userData } = useContext(AppContext);
   const navigate = useNavigate();
-
-
+  const [showModal, setShowModal] = useState(false);
+  const [currentThread, setCurrentThread] = useState(thread);
 
   const toggleLike = async () => {
-    // console.log( thread.author);
-    // console.log(userData.handle,);
     const isLiked = thread.likedBy.includes(userData.handle);
     try {
       if (isLiked) {
@@ -38,17 +38,38 @@ export default function Thread({ thread }) {
   };
 
   const handleDeleteThread = async () => {
-
-    if (userData)
+    if (thread.author !== userData.handle && !userData.isAdmin) {
+      return alert('Not authorised!');
+    }
     try {
       await deleteThread(thread.id);
       alert('Thread deleted successfully.');
-      navigate('/threads')
+      navigate('/threads');
     } catch (error) {
       alert('Failed to delete the thread: ' + error.message);
     }
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const db = getDatabase();
+    update(ref(db, `threads/${currentThread.id}`), {
+      title: currentThread.title,
+      content: currentThread.content,
+    }).then(() => {
+      closeModal();
+    }).catch((error) => {
+      console.error("Error updating thread: ", error);
+    });
+  };
 
   return (
     <div>
@@ -56,24 +77,31 @@ export default function Thread({ thread }) {
       <p>{thread.content}</p>
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
       <p>Created by: {thread.author}</p>
-      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Liked' : 'Like'}</button>
-      {userData && (userData.handle === thread.author || userData.isAdmin) && (
-        <button onClick={handleDeleteThread}>Delete</button>
+      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
+      {(thread.author === userData.handle || userData.isAdmin) && (
+        <>
+          <button onClick={handleDeleteThread}>Delete</button>
+          <button onClick={openModal}>Edit</button>
+        </>
       )}
-         {/* {userData?.handle === thread.author && (
-        <button onClick={editThread}>Edit</button>
-      )} */}
+      <UpdateThreadModal
+        show={showModal}
+        handleClose={closeModal}
+        handleSubmit={handleSubmit}
+        thread={currentThread}
+        setThread={setCurrentThread}
+      />
     </div>
-  )
+  );
 }
 
 Thread.propTypes = {
-  thread: PropType.shape({
-    id: PropType.string,
-    author: PropType.string,
-    title: PropType.string,
-    content: PropType.string,
-    createdOn: PropType.string,
-    likedBy: PropType.arrayOf(PropType.string),
-  })
-}
+  thread: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    createdOn: PropTypes.string.isRequired,
+    likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+};
