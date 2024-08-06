@@ -81,9 +81,9 @@ export default function Thread({ thread }) {
       {(thread.author === userData.handle || userData.isAdmin) && (
         <>
           <button onClick={handleDeleteThread}>Delete</button>
-          <button onClick={openModal}>Edit</button>
         </>
       )}
+      {thread.author === userData.handle && <button onClick={openModal}>Edit</button>}
       <UpdateThreadModal
         show={showModal}
         handleClose={closeModal}
