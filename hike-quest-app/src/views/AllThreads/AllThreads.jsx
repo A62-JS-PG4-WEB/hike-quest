@@ -47,7 +47,7 @@ export default function AllThreads() {
         />
       </div>
       {threads.length > 0
-        ? threads.map(t => <p key={t.id}> <strong>{t.title} - {new Date(t.createdOn).toDateString()}</strong> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button></p>)
+        ? threads.map(t => <p key={t.id}> <strong>{t.title} </strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button></p>)
         : 'No threads'
       }
     </div>
