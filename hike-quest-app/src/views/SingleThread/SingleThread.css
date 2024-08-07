@@ -23,13 +23,13 @@
     object-fit: cover;
 }
 
-.postContainer {
+.threadContainer {
     border-style: solid;
     border-radius: 10px;
     border-color: black;
 }
 
-.actualPost {
+.actualThread {
     display: flex;
     justify-content: center;
     margin: 20px;
@@ -37,9 +37,11 @@
     border-style: solid;
     border-radius: 10px;
     border-color: rgb(0, 0, 0);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-.postButtons {
+.threadButtons {
     background-color: wheat;
     color: rgb(58, 129, 25);
     margin: 5px;

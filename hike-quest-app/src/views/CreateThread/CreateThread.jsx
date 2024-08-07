@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { AppContext } from "../../state/app.context";
 import { createThread } from "../../services/threads.service";
 import { MAX_THREAD_CONTENT, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_TITLE } from "../../common/constants";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateThread() {
   const [thread, setThread] = useState({
@@ -9,7 +10,7 @@ export default function CreateThread() {
     content: '',
   });
   const { userData } = useContext(AppContext);
-
+  const navigate = useNavigate();
 
   const updateThread = (key, value) => {
     setThread({
@@ -32,11 +33,13 @@ export default function CreateThread() {
     if (thread.content.length > MAX_THREAD_CONTENT) {
       return alert('Content too long!');
     }
-    //userData.handle,
+
     try {
-      await createThread( thread.title, thread.content);
-     // console.log('createThread ' , userData.handle );
+      await createThread(userData.handle, thread.title, thread.content);
       setThread({ title: '', content: '' });
+      alert('Thanks for your contribution!');
+      navigate('/threads')
+
     } catch (error) {
       alert(error.message);
     }
@@ -52,4 +55,4 @@ export default function CreateThread() {
       <button onClick={handleCreateThread}>Create</button>
     </div>
   )
-}
+};

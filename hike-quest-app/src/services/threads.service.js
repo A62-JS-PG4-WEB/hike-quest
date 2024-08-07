@@ -1,10 +1,12 @@
-import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey } from 'firebase/database';
+import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
-//author,
-export const createThread = async (  title, content) => {
-  const thread = {  title, content, createdOn: new Date().toString() };
+
+export const createThread = async (author, title, content) => {
+
+  const thread = { author, title, content, createdOn: new Date().toString() };
   const result = await push(ref(db, 'threads'), thread);
   const id = result.key;
+
   await update(ref(db), {
     [`threads/${id}/id`]: id,
   });
@@ -12,13 +14,12 @@ export const createThread = async (  title, content) => {
 
 export const getThreadsCount = async () => {
   const snapshot = await get(ref(db, 'threads'));
- console.log(snapshot);
 
   const threads = Object.values(snapshot.val());
   return threads.length;
 };
 
-export const getAllThreads = async (search = '') => {
+export const getAllThreads = async (search = '', sort, filter) => {
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
@@ -27,7 +28,15 @@ export const getAllThreads = async (search = '') => {
   if (search) {
     return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
   }
+  if (filter) {
+    return threads.filter(t => t.author.toLowerCase().includes(filter.toLowerCase()));
+  }
 
+  if (sort === 'date') {
+    return threads.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+  } else if (sort === 'title') {
+    return threads.sort((a, b) => a.title.localeCompare(b.title));
+  }
   return threads;
 };
 
@@ -61,65 +70,46 @@ export const dislikeThread = (handle, threadId) => {
   return update(ref(db), updateObject);
 };
 
-// export const createTweet = async (title, content) => {
-//   const response = await fetch('http://127.0.0.1:3000/tweets', {
-//     method: 'POST',
-//     body: JSON.stringify({ title, content }),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
 
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
+export const deleteThread = async (threadId) => {
+  try {
+    const threadRef = ref(db, `threads/${threadId}`);
+    await remove(threadRef);
+    console.log(`Thread with ID ${threadId} removed successfully.`);
+  } catch (error) {
+    console.error('Error deleting thread:', error);
+    throw error;
+  }
+}
 
-//   return response.json();
-// };
 
-// export const getAllTweets = async (search = '') => {
-//   const response = await fetch(`http://127.0.0.1:3000/tweets?search=${search}`);
+export const subscribeToThreadChanges = (callback) => {
+  const threadsRef = ref(db, 'threads');
 
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
+  const handleData = (snapshot) => {
+    const threads = snapshot.val();
+    const count = threads ? Object.keys(threads).length : 0;
+    callback(count);
+  };
 
-//   return response.json();
-// };
+  const unsubscribe = onValue(threadsRef, handleData);
+  return unsubscribe;
+};
 
-// export const getTweetById = async (id) => {
-//   const response = await fetch(`http://127.0.0.1:3000/tweets/${id}`);
+export const addCommentToThread = async (threadId, comment) => {
+  try {
 
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
+    const commentsRef = push(ref(db, `threads/${threadId}/comments`));
 
-//   return response.json();
-// };
+    const commentData = {
+      ...comment,
+      createdOn: new Date().toString()
+    };
 
-// /**
-//  * 
-//  * @param {{
-// *  id: number,
-// *  title: string,
-// *  content: string,
-// *  createdOn: string,
-// *  liked: boolean
-// * }} tweet 
-//  * @returns 
-//  */
-// export const updateTweet = async (tweet) => {
-//   const response = await fetch(`http://127.0.0.1:3000/tweets/${tweet.id}`, {
-//     method: 'PUT',
-//     body: JSON.stringify(tweet),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
+    await set(commentsRef, commentData);
 
-//   if (!response.ok) {
-//     throw new Error('Something went wrong!');
-//   }
-
-//   return response.json();
-// };
+    console.log("Comment added successfully");
+  } catch (error) {
+    console.error('Error adding comment:', error);
+  }
+}

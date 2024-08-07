@@ -3,33 +3,38 @@ import styles from './Header.module.css'
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/app.context';
 import { logoutUser } from '../../services/auth.service';
-import { getThreadsCount } from '../../services/threads.service';
+import { getThreadsCount, subscribeToThreadChanges } from '../../services/threads.service';
 
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
-
-    //console.log(user.uid);
-
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('search') ?? '';
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(null);
 
     const setSearch = (value) => {
-
         setSearchParams({
             search: value,
 
         });
-
     }
 
     useEffect(() => {
-        getThreadsCount()
-            .then(countNew => setCount(countNew))
-            .catch(error => alert(error.message));
+        const fetchThreadsCount = async () => {
+            try {
+                const countNew = await getThreadsCount();
+                setCount(countNew);
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+        fetchThreadsCount();
+        const unsubscribe = subscribeToThreadChanges(newCount => {
+            setCount(newCount);
+        });
 
-    }, 0);
+        return () => unsubscribe();
+    }, []);
 
 
     const logout = async () => {
@@ -41,7 +46,7 @@ export default function Header() {
     return (
         <header>
             <h1>Hike Quest Forum</h1>
-                <nav >
+            <nav >
                 <div className="searchContainer">
                     <label htmlFor="search"></label>
                     <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
@@ -51,11 +56,11 @@ export default function Header() {
                     <NavLink to="/threads">All Threads</NavLink>
                     <NavLink to="/create-thread">Create Thread</NavLink>
                 </>)}
-                   {!user && <NavLink to="/login">Login to access</NavLink>}
+                {!user && <NavLink to="/login">Login to access</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
-                {user && <p>Welcome, {user.email}</p>}
-                {user &&  <label> Thanks for contributing threads {count} </label>}
+                {userData && <p>Welcome, {userData.firstName}</p>}
+                {user && <label> Thanks for contributing threads {count} </label>}
             </nav>
         </header>
     );
