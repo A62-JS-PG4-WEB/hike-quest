@@ -28,7 +28,6 @@ export default function Account() {
                 ...prevState,
                 userData: { ...prevState.userData, email: newEmail }
             }));
-            // console.log(user.email);
             setEditingEmail(false);
             alert('Email updated successfully.');
         } catch (error) {

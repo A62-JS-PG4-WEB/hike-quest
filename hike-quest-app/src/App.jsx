@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
 import Account from './views/Account/Account';
@@ -25,7 +25,7 @@ function App() {
   const [user, loading, error] = useAuthState(auth);
 
   if (appState.user !== user) {
-    setAppState({...appState, user });
+    setAppState({ ...appState, user });
   }
 
   // useEffect(() => {
@@ -68,6 +68,7 @@ function App() {
     <BrowserRouter>
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
+
         <Routes> 
            {/* <Route path='/' element={!user && < LandingPage/>} /> */}
            <Route path='/'>
@@ -92,3 +93,15 @@ function App() {
 }
 
 export default App;
+
+
+// <Routes>
+// <Route index element={<Navigate to='/threads' />} />
+// <Route path='/account-user' element={<Authenticated><Account /></Authenticated>} />
+// <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
+// <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
+// <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
+// <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
+// <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
+// <Route path='*' element={<NotFound />} />
+// </Routes>

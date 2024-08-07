@@ -21,12 +21,14 @@ export const getThreadsCount = async () => {
 
 export const getUsersCount = async () => {
   const snapshot = await get(ref(db, 'users'));
-
   const users = Object.values(snapshot.val());
   return users.length;
 };
 
-export const getAllThreads = async (search = '', sort = '', filter = '') => {
+
+//TODO Fix filtering
+export const getAllThreads = async (search = '', sort = '', userFilter = '') => {
+
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
@@ -35,8 +37,8 @@ export const getAllThreads = async (search = '', sort = '', filter = '') => {
   if (search) {
     return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
   }
-  if (filter) {
-    return threads.filter(t => t.author.toLowerCase().includes(filter.toLowerCase()));
+  if (userFilter) {
+    return threads.filter(t => t.author.toLowerCase().includes(userFilter.toLowerCase()));
   }
 
   if (sort === 'date') {
@@ -121,10 +123,18 @@ export const addCommentToThread = async (threadId, comment) => {
   }
 }
 
-export const getAllComments = async(threadId) => {
-  const snapshot = await get(ref(db, `threads/${threadId}/comments`));
-  if (!snapshot.exists()) return [];
 
-  console.log(snapshot);
-  return Object.values(snapshot.val());
+export const getCommentsByThread = async (threadId) => {
+  try {
+    const snapshot = await get(ref(db, `threads/${threadId}/comments`));
+
+    if (!snapshot.exists()) return [];
+
+    const comments = Object.entries(snapshot.val()).map(([id, props]) => ({ id, ...props }));
+
+    return comments;
+  } catch (error) {
+    console.error(`Error getting comments for ${threadId} :`, error);
+  }
+
 }

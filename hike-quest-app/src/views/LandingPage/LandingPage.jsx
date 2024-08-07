@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllComments, getAllThreads } from "../../services/threads.service";
+import { getAllThreads } from "../../services/threads.service";
 import { useNavigate } from "react-router-dom";
 import { COUNT_THREADS_LANDINGPAGE } from "../../common/constants";
 
