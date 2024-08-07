@@ -32,7 +32,12 @@ export const getAllThreads = async (search = '', sort = '', userFilter = '') => 
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
-  const threads = Object.values(snapshot.val());
+  const threads = Object.values(snapshot.val())
+    .map(thread => ({
+      ...thread,
+      commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
+    }));
+
 
   if (search) {
     return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
@@ -81,7 +86,7 @@ export const dislikeThread = (handle, threadId) => {
 
 
 export const deleteThread = async (threadId) => {
-    try {
+  try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
     console.log(`Thread with ID ${threadId} removed successfully.`);
