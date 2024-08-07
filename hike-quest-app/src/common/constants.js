@@ -6,3 +6,4 @@ export const MIN_FIRSTNAME = 2;
 export const MAX_FIRSTNAME = 12;
 export const MIN_LASTNAME = 2;
 export const MAX_LASTNAME= 12;
+export const COUNT_THREADS_LANDINGPAGE = 3;

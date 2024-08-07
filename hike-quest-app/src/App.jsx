@@ -15,6 +15,7 @@ import CreateThread from './views/CreateThread/CreateThread';
 import SingleThread from './views/SingleThread/SingleThread';
 import NotFound from './views/NotFound/NotFound';
 import Authenticated from './hoc/Authenticated';
+import LandingPage from './views/LandingPage/LandingPage';
 
 function App() {
   const [appState, setAppState] = useState({
@@ -67,7 +68,15 @@ function App() {
     <BrowserRouter>
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
-        <Routes>
+        <Routes> 
+           {/* <Route path='/' element={!user && < LandingPage/>} /> */}
+           <Route path='/'>
+            {user ? (
+              <Route path='/' element={<Authenticated><AllThreads /></Authenticated>} />
+            ) : (
+              <Route path='/' element={<LandingPage />} />
+            )}
+          </Route>
           <Route path='/account-user' element={user && <Authenticated><Account /></Authenticated>} />
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />

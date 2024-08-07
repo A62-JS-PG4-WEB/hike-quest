@@ -19,7 +19,14 @@ export const getThreadsCount = async () => {
   return threads.length;
 };
 
-export const getAllThreads = async (search = '', sort, filter) => {
+export const getUsersCount = async () => {
+  const snapshot = await get(ref(db, 'users'));
+
+  const users = Object.values(snapshot.val());
+  return users.length;
+};
+
+export const getAllThreads = async (search = '', sort = '', filter = '') => {
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
@@ -72,7 +79,7 @@ export const dislikeThread = (handle, threadId) => {
 
 
 export const deleteThread = async (threadId) => {
-  try {
+    try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
     console.log(`Thread with ID ${threadId} removed successfully.`);
@@ -112,4 +119,12 @@ export const addCommentToThread = async (threadId, comment) => {
   } catch (error) {
     console.error('Error adding comment:', error);
   }
+}
+
+export const getAllComments = async(threadId) => {
+  const snapshot = await get(ref(db, `threads/${threadId}/comments`));
+  if (!snapshot.exists()) return [];
+
+  console.log(snapshot);
+  return Object.values(snapshot.val());
 }
