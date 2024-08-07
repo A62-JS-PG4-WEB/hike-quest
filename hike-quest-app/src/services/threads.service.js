@@ -19,6 +19,7 @@ export const getThreadsCount = async () => {
   return threads.length;
 };
 
+//TODO Fix filtering
 export const getAllThreads = async (search = '', sort = '', userFilter = '') => {
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
@@ -111,5 +112,19 @@ export const addCommentToThread = async (threadId, comment) => {
     console.log("Comment added successfully");
   } catch (error) {
     console.error('Error adding comment:', error);
+  }
+}
+
+export const getCommentsByThread = async (threadId) => {
+  try {
+    const snapshot = await get(ref(db, `threads/${threadId}/comments`));
+
+    if (!snapshot.exists()) return [];
+
+    const comments = Object.entries(snapshot.val()).map(([id, props]) => ({ id, ...props }));
+
+    return comments;
+  } catch (error) {
+    console.error(`Error getting comments for ${threadId} :`, error);
   }
 }

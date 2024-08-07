@@ -19,7 +19,7 @@ import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
  * @returns 
  */
 export default function Thread({ thread }) {
-  const { user, userData } = useContext(AppContext);
+  const { userData } = useContext(AppContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [currentThread, setCurrentThread] = useState(thread);
