@@ -15,6 +15,7 @@ import CreateThread from './views/CreateThread/CreateThread';
 import SingleThread from './views/SingleThread/SingleThread';
 import NotFound from './views/NotFound/NotFound';
 import Authenticated from './hoc/Authenticated';
+import LandingPage from './views/LandingPage/LandingPage';
 
 function App() {
   const [appState, setAppState] = useState({
@@ -67,14 +68,22 @@ function App() {
     <BrowserRouter>
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
-        <Routes>
-          <Route index element={<Navigate to='/threads' />} />
-          <Route path='/account-user' element={<Authenticated><Account /></Authenticated>} />
+
+        <Routes> 
+           {/* <Route path='/' element={!user && < LandingPage/>} /> */}
+           <Route path='/'>
+            {user ? (
+              <Route path='/' element={<Authenticated><AllThreads /></Authenticated>} />
+            ) : (
+              <Route path='/' element={<LandingPage />} />
+            )}
+          </Route>
+          <Route path='/account-user' element={user && <Authenticated><Account /></Authenticated>} />
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
           <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
-          <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
-          <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
+          <Route path='/login' element={!user && <Login />} />
+          <Route path='/register' element={!user && <Register />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
@@ -84,3 +93,15 @@ function App() {
 }
 
 export default App;
+
+
+// <Routes>
+// <Route index element={<Navigate to='/threads' />} />
+// <Route path='/account-user' element={<Authenticated><Account /></Authenticated>} />
+// <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
+// <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
+// <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
+// <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
+// <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
+// <Route path='*' element={<NotFound />} />
+// </Routes>
