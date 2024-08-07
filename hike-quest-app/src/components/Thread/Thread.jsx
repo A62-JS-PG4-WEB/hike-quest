@@ -78,12 +78,12 @@ export default function Thread({ thread }) {
       <p>Created on: {new Date(thread.createdOn).toLocaleDateString()}</p>
       <p>Created by: {thread.author}</p>
       <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
-      {(thread.author === userData.handle || userData.isAdmin) && (
+      {(thread.author === userData?.handle || userData?.isAdmin) && (
         <>
           <button onClick={handleDeleteThread}>Delete</button>
         </>
       )}
-      {thread.author === userData.handle && <button onClick={openModal}>Edit</button>}
+      {thread.author === userData?.handle && <button onClick={openModal}>Edit</button>}
       <UpdateThreadModal
         show={showModal}
         handleClose={closeModal}
