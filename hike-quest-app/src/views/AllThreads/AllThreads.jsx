@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getAllThreads } from "../../services/threads.service";
+import { deleteThread, getAllThreads } from "../../services/threads.service";
+import { AppContext } from "../../state/app.context";
 
 export default function AllThreads() {
   const [threads, setThreads] = useState([]);
@@ -9,6 +10,7 @@ export default function AllThreads() {
   const search = searchParams.get('search') ?? '';
   const [sort, setSort] = useState('date');
   const [userFilter, setUserFilter] = useState('');
+  const { userData } = useContext(AppContext);
 
   useEffect(() => {
     const loadThreads = async () => {
@@ -22,6 +24,15 @@ export default function AllThreads() {
 
     loadThreads();
   }, [search, sort, userFilter]);
+
+  const handleDeleteThread = async (threadId) => {
+    try {
+      await deleteThread(threadId);
+      setThreads(threads.filter(thread => thread.id !== threadId));
+    } catch (error) {
+      console.error('Error deleting thread:', error);
+    }
+  }
 
   return (
     <div>
@@ -47,7 +58,13 @@ export default function AllThreads() {
         />
       </div>
       {threads.length > 0
-        ? threads.map(t => <p key={t.id}> <strong>{t.title} </strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button></p>)
+        ? threads.map(t => <p key={t.id}> <strong>{t.title} </strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button> 
+        {(t.author === userData?.handle || userData?.isAdmin) && (
+        <>
+          <button onClick={() => handleDeleteThread(t.id)}>Delete</button>
+        </>
+      )}
+       </p>)
         : 'No threads'
       }
     </div>

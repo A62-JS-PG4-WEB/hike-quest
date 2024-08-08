@@ -60,7 +60,9 @@ export default function Header() {
                 {!user && <label> Don't miss our pertinent {count} threads! </label>}
                 {user && (<>
                     <NavLink to="/threads">All Threads</NavLink>
-                    <NavLink to="/create-thread">Create Thread</NavLink>
+                    {!userData?.isBlocked && (
+                        <NavLink to="/create-thread">Create Thread</NavLink>)
+                    }
                 </>)}
                 {!user && <NavLink to="/login">Login to access</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
