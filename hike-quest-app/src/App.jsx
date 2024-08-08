@@ -17,6 +17,7 @@ import NotFound from './views/NotFound/NotFound';
 import Authenticated from './hoc/Authenticated';
 import LandingPage from './views/LandingPage/LandingPage';
 import AdminPanel from './components/AdminPanel/AdminPanel';
+import NotAuthorized from './views/NotAuthorized/NotAuthorized';
 
 
 function App() {
@@ -72,8 +73,7 @@ function App() {
         <Header />
 
         <Routes> 
-           {/* <Route path='/' element={!user && < LandingPage/>} /> */}
-           <Route path='/'>
+            <Route path='/'>
             {user ? (
               <Route path='/' element={<Authenticated><AllThreads /></Authenticated>} />
             ) : (
@@ -84,7 +84,7 @@ function App() {
           <Route path='/account-user' element={user && <Authenticated><Account /></Authenticated>} />
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
-          <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
+          <Route path='/create-thread' element={<Authenticated>{!appState.userData?.isBlocked ?<CreateThread /> :<NotAuthorized />}</Authenticated>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           <Route path='*' element={<NotFound />} />
