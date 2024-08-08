@@ -37,9 +37,10 @@ const AdminPanel = () => {
 
   useEffect(() => {
     setFilteredUsers(
-      users.filter(user =>
-        (user[searchBy]?.toLowerCase() || '').includes(searchQuery.toLowerCase())
-      )
+      users.filter(user => {
+        const value = user[searchBy]?.toLowerCase() || ''; 
+        return value.includes(searchQuery.toLowerCase());
+      })
     );
   }, [searchQuery, searchBy, users]);
 
@@ -53,13 +54,18 @@ const AdminPanel = () => {
     };
 
     const handleDeleteThread = async (threadId) => {
+      const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
+
+  if (confirmDelete) {
         try {
             await deleteThread(threadId);
             setThreads(threads.filter(thread => thread.id !== threadId));
+            alert('Thread deleted successfully.');
         } catch (error) {
             console.error('Error deleting thread:', error);
         }
-    };
+    }
+  }
 
   return (
     <div>
