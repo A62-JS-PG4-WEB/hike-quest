@@ -45,12 +45,14 @@ export default function Comments({ threadId }) {
         }
 
         try {
-            await addCommentToThread(threadId, {
+            const newComment = {
                 text: comment,
                 author: userData.handle,
                 createdOn: new Date().toISOString(),
-            });
+            }
+            await addCommentToThread(threadId, newComment);
             setComment('');
+            setComments(prevComments => [...prevComments, newComment]);
             alert("Comment added successfully.");
             const fetchedComments = await getCommentsByThread(threadId);
             setComments(sortComments(fetchedComments, sortOrder));
