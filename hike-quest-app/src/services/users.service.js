@@ -1,7 +1,5 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { getAuth, updateEmail } from 'firebase/auth';
-
 
 export const getUserByHandle = async (handle) => {
   const snapshot = await get(ref(db, `users/${handle}`));
@@ -52,3 +50,4 @@ export const updateEmailInAuth = async (newEmail) => {
     throw new Error('No authenticated user found.');
   }
 };
+

@@ -1,6 +1,16 @@
-import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
+import { getDatabase, ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
 
+export const deleteCommentFromThread = async (threadId, commentId) => {
+  const db = getDatabase();
+  const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
+  await remove(commentRef);
+};
+export const updateCommentInThread = async (threadId, commentId, updatedText) => {
+    const db = getDatabase();
+    const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
+    await update(commentRef, { text: updatedText });
+};
 export const createThread = async (author, title, content) => {
 
   const thread = { author, title, content, createdOn: new Date().toString() };
