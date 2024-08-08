@@ -5,12 +5,17 @@ import { getAllThreads, deleteThread } from '../../services/threads.service';
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
   const [threads, setThreads] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchBy, setSearchBy] = useState('handle');
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        setUsers(Object.values(allUsers));
+        const usersArray = Object.values(allUsers);
+        setUsers(usersArray);
+        setFilteredUsers(usersArray);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -28,6 +33,14 @@ const AdminPanel = () => {
     fetchUsers();
     fetchThreads();
   }, []);
+
+  useEffect(() => {
+    setFilteredUsers(
+      users.filter(user =>
+        (user[searchBy]?.toLowerCase() || '').includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, searchBy, users]);
 
   const handleBlockUser = async (handle, isBlocked) => {
     try {
@@ -50,6 +63,19 @@ const AdminPanel = () => {
   return (
     <div>
       <h1>Admin Panel</h1>
+      <select value={searchBy} onChange={(e) => setSearchBy(e.target.value)}>
+        <option value="handle">Handle</option>
+        <option value="email">Email</option>
+        <option value="displayName">Display Name</option>
+      </select>
+
+      <input
+        type="text"
+        placeholder={`Search users by ${searchBy}`}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+
       <h2>Users</h2>
       <table>
         <thead>
@@ -61,7 +87,7 @@ const AdminPanel = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {filteredUsers.map(user => (
             <tr key={user.handle}>
               <td>{user.handle}</td>
               <td>{user.email}</td>
