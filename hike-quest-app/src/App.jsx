@@ -16,6 +16,8 @@ import SingleThread from './views/SingleThread/SingleThread';
 import NotFound from './views/NotFound/NotFound';
 import Authenticated from './hoc/Authenticated';
 import LandingPage from './views/LandingPage/LandingPage';
+import AdminPanel from './components/AdminPanel/AdminPanel';
+
 
 function App() {
   const [appState, setAppState] = useState({
@@ -78,6 +80,7 @@ function App() {
               <Route path='/' element={<LandingPage />} />
             )}
           </Route>
+          <Route path='/admin' element={appState.userData?.isAdmin ? <AdminPanel /> : <NotFound />} />
           <Route path='/account-user' element={user && <Authenticated><Account /></Authenticated>} />
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />

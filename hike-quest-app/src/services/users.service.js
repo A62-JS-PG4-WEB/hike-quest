@@ -1,6 +1,29 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
+export const updateUserStatus = async (handle, updates) => {
+  try {
+    await update(ref(db, `users/${handle}`), updates);
+    console.log('User status updated successfully');
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    throw error;
+  }
+};
+export const getAllUsers = async () => {
+  try {
+    const snapshot = await get(ref(db, 'users'));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.error('No data available');
+      return {};
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
 export const getUserByHandle = async (handle) => {
   const snapshot = await get(ref(db, `users/${handle}`));
   return snapshot.val();
