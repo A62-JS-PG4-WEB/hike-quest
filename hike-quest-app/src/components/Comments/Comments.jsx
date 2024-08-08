@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from 'prop-types';
-import Picker from '@emoji-mart/react';
+
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
@@ -45,12 +45,14 @@ export default function Comments({ threadId }) {
         }
 
         try {
-            await addCommentToThread(threadId, {
+            const newComment = {
                 text: comment,
                 author: userData.handle,
                 createdOn: new Date().toISOString(),
-            });
+            }
+            await addCommentToThread(threadId, newComment);
             setComment('');
+            setComments(prevComments => [...prevComments, newComment]);
             alert("Comment added successfully.");
             const fetchedComments = await getCommentsByThread(threadId);
             setComments(sortComments(fetchedComments, sortOrder));

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getAllUsers, updateUserStatus } from '../../services/users.service';
 import { getAllThreads, deleteThread } from '../../services/threads.service';
+import { AppContext } from '../../state/app.context';
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -21,14 +22,14 @@ const AdminPanel = () => {
       }
     };
 
-    const fetchThreads = async () => {
-      try {
-        const allThreads = await getAllThreads();
-        setThreads(allThreads);
-      } catch (error) {
-        console.error('Error fetching threads:', error);
-      }
-    };
+        const fetchThreads = async () => {
+            try {
+                const allThreads = await getAllThreads();
+                setThreads(allThreads);
+            } catch (error) {
+                console.error('Error fetching threads:', error);
+            }
+        };
 
     fetchUsers();
     fetchThreads();
@@ -42,23 +43,23 @@ const AdminPanel = () => {
     );
   }, [searchQuery, searchBy, users]);
 
-  const handleBlockUser = async (handle, isBlocked) => {
-    try {
-      await updateUserStatus(handle, { isBlocked });
-      setUsers(users.map(user => user.handle === handle ? { ...user, isBlocked } : user));
-    } catch (error) {
-      console.error('Error updating user status:', error);
-    }
-  };
+    const handleBlockUser = async (handle, isBlocked) => {
+        try {
+            await updateUserStatus(handle, { isBlocked });
+            setUsers(users.map(user => user.handle === handle ? { ...user, isBlocked } : user));
+        } catch (error) {
+            console.error('Error updating user status:', error);
+        }
+    };
 
-  const handleDeleteThread = async (threadId) => {
-    try {
-      await deleteThread(threadId);
-      setThreads(threads.filter(thread => thread.id !== threadId));
-    } catch (error) {
-      console.error('Error deleting thread:', error);
-    }
-  };
+    const handleDeleteThread = async (threadId) => {
+        try {
+            await deleteThread(threadId);
+            setThreads(threads.filter(thread => thread.id !== threadId));
+        } catch (error) {
+            console.error('Error deleting thread:', error);
+        }
+    };
 
   return (
     <div>
@@ -102,29 +103,29 @@ const AdminPanel = () => {
         </tbody>
       </table>
 
-      <h2>Threads</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {threads.map(thread => (
-            <tr key={thread.id}>
-              <td>{thread.title}</td>
-              <td>{thread.author}</td>
-              <td>
-                <button onClick={() => handleDeleteThread(thread.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+            <h2>Threads</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {threads.map(thread => (
+                        <tr key={thread.id}>
+                            <td>{thread.title}</td>
+                            <td>{thread.author}</td>
+                            <td>
+                                <button onClick={() => handleDeleteThread(thread.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
 export default AdminPanel;
