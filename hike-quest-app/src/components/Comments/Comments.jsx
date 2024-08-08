@@ -3,6 +3,8 @@ import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
 import PropTypes from 'prop-types';
+import '../../views/SingleThread/SingleThread.css'
+
 
 export default function Comments({ threadId }) {
     const { userData } = useContext(AppContext);
@@ -43,17 +45,17 @@ export default function Comments({ threadId }) {
 
     return (
         <div>
-            <div className="userContainer">
+            <div className="commentSection">
                 <textarea
+                    className="commentBox"
                     value={comment}
                     onChange={handleCommentChange}
                     name="comment"
                     id="comment"
                     placeholder="Write your comment here..."
                 /><br /><br />
-                <button onClick={handleCreateComment}>Comment</button>
-                <div className="userInfo">
-                    <h3 className="userName">{userData ? userData.handle : "Username"}</h3>
+                <div className="commentButton">
+                    <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
                 </div>
             </div>
             {comments.map(c => (<Comment key={c.id} comment={c} />))}
@@ -64,23 +66,3 @@ export default function Comments({ threadId }) {
 Comments.propTypes = {
     threadId: PropTypes.string.isRequired,
 };
-
-{/* <>
-        <div className="singleComment">
-                    <div className="userContainer">
-                            <img 
-                            src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                            alt="profile-pic" 
-                            className="profilePic"
-                            />
-                            <div className="userInfo">
-                                <h3 className="userName">Username</h3>
-                                <p className="userType">User type: {}</p>
-                            </div>
-                    </div>
-                    <p className="actualComment">commencommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentt</p>
-                </div>
-        
-        
-        
-        </> */}

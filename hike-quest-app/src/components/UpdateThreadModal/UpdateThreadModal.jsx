@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread }) => {
@@ -13,12 +12,13 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={handleClose}>&times;</span>
+
         <h2>Update Thread</h2>
         <form onSubmit={handleSubmit}>
           <input type="hidden" value={thread.id} />
           <label htmlFor="title">Title:</label>
           <input
+            className='commentBox'
             type="text"
             id="title"
             name="title"
@@ -28,13 +28,16 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
           />
           <label htmlFor="content">Content:</label>
           <textarea
+            className='commentBox'
             id="content"
             name="content"
             value={thread.content}
             onChange={onChange}
             required
           />
-          <button type="submit">Update</button>
+          <button className="threadButtons" onClick={handleClose}>Cancel</button>
+          <button className="threadButtons" type="submit">Update</button>
+
         </form>
       </div>
     </div>
