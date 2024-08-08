@@ -1,6 +1,16 @@
-import { ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
+import { getDatabase, ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
 
+export const deleteCommentFromThread = async (threadId, commentId) => {
+  const db = getDatabase();
+  const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
+  await remove(commentRef);
+};
+export const updateCommentInThread = async (threadId, commentId, updatedText) => {
+    const db = getDatabase();
+    const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
+    await update(commentRef, { text: updatedText });
+};
 export const createThread = async (author, title, content) => {
 
   const thread = { author, title, content, createdOn: new Date().toString() };
@@ -19,12 +29,25 @@ export const getThreadsCount = async () => {
   return threads.length;
 };
 
+export const getUsersCount = async () => {
+  const snapshot = await get(ref(db, 'users'));
+  const users = Object.values(snapshot.val());
+  return users.length;
+};
+
+
 //TODO Fix filtering
 export const getAllThreads = async (search = '', sort = '', userFilter = '') => {
+
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
-  const threads = Object.values(snapshot.val());
+  const threads = Object.values(snapshot.val())
+    .map(thread => ({
+      ...thread,
+      commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
+    }));
+
 
   if (search) {
     return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
@@ -115,6 +138,7 @@ export const addCommentToThread = async (threadId, comment) => {
   }
 }
 
+
 export const getCommentsByThread = async (threadId) => {
   try {
     const snapshot = await get(ref(db, `threads/${threadId}/comments`));
@@ -127,4 +151,5 @@ export const getCommentsByThread = async (threadId) => {
   } catch (error) {
     console.error(`Error getting comments for ${threadId} :`, error);
   }
+
 }
