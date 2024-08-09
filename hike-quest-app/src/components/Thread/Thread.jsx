@@ -112,19 +112,6 @@ export default function Thread({ thread }) {
         <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
       </div>
 
-
-
-      <p className='threadContent'>{thread.content}</p>
-      <p>Created on: {new Date(thread.createdOn).toDateString()}</p>
-      <p>Created by: {thread.author}</p>
-      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
-      {(thread.author === userData?.handle || userData?.isAdmin) && (
-        <>
-          <button onClick={handleDeleteThread}>Delete</button>
-        </>
-      )}
-      {thread.author === userData?.handle && <button onClick={openModal}>Edit</button>}
-
       <UpdateThreadModal
         show={showModal}
         handleClose={closeModal}

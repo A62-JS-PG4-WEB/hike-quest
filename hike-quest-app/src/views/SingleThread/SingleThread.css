@@ -103,9 +103,14 @@
     justify-content: flex-end;
 }
 
-.commentButton {
+.commentButtons {
+    display: flex;
     text-align: right;
     width: 100%;
+}
+
+.emojiButton {
+    text-align: left;
 }
 
 .buttonContainer {

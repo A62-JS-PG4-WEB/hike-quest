@@ -107,22 +107,23 @@ export default function Comments({ threadId }) {
                     id="comment"
                     placeholder="Add a comment..."
                 /><br /><br />
-                <div className="commentButton">
+                <div className="commentButtons">
                     <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
+                    <div>
+                        <button className="threadButtons emojiButton" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                            {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+                        </button>
+                        {showEmojiPicker && (
+                            <Picker onEmojiSelect={addEmoji} />
+                        )}
+                    </div>
+                    <br />
                 </div>
                 <p className="commentsHeader">Comments</p>
                 <hr></hr>
 
-                <div className="emojiPickerContainer">
-        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-              {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
-             </button>
-            {showEmojiPicker && (
-        <Picker onEmojiSelect={addEmoji} />
-     )}
-</div>
-<br />
-                
+
+
 
                 <div className="sortOptions">
                     <label htmlFor="sortOrder">Sort by:</label>
