@@ -50,9 +50,9 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                 </>
             ) : (
                 <>
-                    <p>{comment.text}</p>
-                    <small>{comment.author}</small>
-                    <p>{new Date(comment.createdOn).toDateString()}</p>
+                   <small>{comment.author} </small> 
+                   <p>{comment.text}</p>
+                   <small> {new Date(comment.createdOn).toDateString()} </small> 
                     {(comment.author === currentUser || isAdmin) && (
                         <>
                             {!isBlocked && (
