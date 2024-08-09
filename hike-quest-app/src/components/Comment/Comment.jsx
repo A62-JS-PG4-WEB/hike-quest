@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Picker from '@emoji-mart/react';
 
-export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser }) {
+export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked }) {
     const [isEditing, setIsEditing] = useState(false);
     const [newText, setNewText] = useState(comment.text);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -34,6 +33,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
         setNewText((prevText) => prevText + emoji.native);
     };
 
+
     return (
         <div className="singleComment">
             {isEditing ? (
@@ -60,7 +60,9 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                     <p>{new Date(comment.createdOn).toDateString()}</p>
                     {comment.author === currentUser && (
                         <>
-                            <button onClick={handleUpdate}>Edit</button>
+                            {!isBlocked && (
+                                <button onClick={handleUpdate}>Edit</button>
+                            )}
                             <button onClick={handleDelete}>Delete</button>
                         </>
                     )}
@@ -80,4 +82,5 @@ Comment.propTypes = {
     onUpdateComment: PropTypes.func.isRequired,
     onDeleteComment: PropTypes.func.isRequired,
     currentUser: PropTypes.string.isRequired,
+    isBlocked: PropTypes.bool.isRequired,
 };

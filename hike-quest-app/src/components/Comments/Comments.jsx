@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from 'prop-types';
-import Picker from '@emoji-mart/react';
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
@@ -47,15 +46,14 @@ export default function Comments({ threadId }) {
         try {
             const newComment = {
                 text: comment,
-                author: userData.handle,
+                author: userData?.handle,
                 createdOn: new Date().toISOString(),
-            }
+            };
             await addCommentToThread(threadId, newComment);
             setComment('');
-            setComments(prevComments => [...prevComments, newComment]);
-            alert("Comment added successfully.");
             const fetchedComments = await getCommentsByThread(threadId);
             setComments(sortComments(fetchedComments, sortOrder));
+            alert("Comment added successfully.");
         } catch (error) {
             console.error("Error adding comment:", error);
             alert("Failed to add comment.");
@@ -75,16 +73,14 @@ export default function Comments({ threadId }) {
     };
 
     const handleDeleteComment = async (commentId) => {
-    {
-            try {
-                await deleteCommentFromThread(threadId, commentId);
-                const fetchedComments = await getCommentsByThread(threadId);
-                setComments(sortComments(fetchedComments, sortOrder));
-                alert("Comment deleted successfully.");
-            } catch (error) {
-                console.error("Error deleting comment:", error);
-                alert("Failed to delete comment.");
-            }
+        try {
+            await deleteCommentFromThread(threadId, commentId);
+            const fetchedComments = await getCommentsByThread(threadId);
+            setComments(sortComments(fetchedComments, sortOrder));
+            alert("Comment deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+            alert("Failed to delete comment.");
         }
     };
 
@@ -92,27 +88,31 @@ export default function Comments({ threadId }) {
         setSortOrder(e.target.value);
     };
 
+    if (!userData) {
+        return <p>Loading user data...</p>; 
+    }
+
     return (
         <div>
-            <div className="userContainer">
-                <textarea
-                    value={comment}
-                    onChange={handleCommentChange}
-                    name="comment"
-                    id="comment"
-                    placeholder="Write your comment here..."
-                /><br /><br />
-                <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                    {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
-                </button>
-                {showEmojiPicker && (
-                    <Picker onEmojiSelect={addEmoji} />
-                )}
-                <button onClick={handleCreateComment}>Comment</button>
-                <div className="userInfo">
-                    <h3 className="userName">{userData ? userData.handle : "Username"}</h3>
+            {!userData?.isBlocked && 
+                <div className="userContainer">
+                    <textarea
+                        value={comment}
+                        onChange={handleCommentChange}
+                        name="comment"
+                        id="comment"
+                        placeholder="Write your comment here..."
+                    /><br /><br />
+                    <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                        {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+                    </button>
+                    {showEmojiPicker && (
+                        <Picker onEmojiSelect={addEmoji} />
+                    )}
+                    <button onClick={handleCreateComment}>Comment</button>
+                    <br/>
                 </div>
-            </div>
+            }
 
             <div className="sortOptions">
                 <label htmlFor="sortOrder">Sort by:</label>
@@ -129,6 +129,7 @@ export default function Comments({ threadId }) {
                     onUpdateComment={handleUpdateComment}
                     onDeleteComment={handleDeleteComment}
                     currentUser={userData.handle}
+                    isBlocked={userData.isBlocked}
                 />
             ))}
         </div>
@@ -138,23 +139,3 @@ export default function Comments({ threadId }) {
 Comments.propTypes = {
     threadId: PropTypes.string.isRequired,
 };
-
-{/* <>
-        <div className="singleComment">
-                    <div className="userContainer">
-                            <img 
-                            src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                            alt="profile-pic" 
-                            className="profilePic"
-                            />
-                            <div className="userInfo">
-                                <h3 className="userName">Username</h3>
-                                <p className="userType">User type: {}</p>
-                            </div>
-                    </div>
-                    <p className="actualComment">commencommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentt</p>
-                </div>
-        
-        
-        
-        </> */}
