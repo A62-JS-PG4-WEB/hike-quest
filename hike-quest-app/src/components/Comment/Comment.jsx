@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser }) {
+export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked }) {
     const [isEditing, setIsEditing] = useState(false);
     const [newText, setNewText] = useState(comment.text);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -58,9 +58,9 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                     <p>{comment.text}</p>
                     <small>{comment.author}</small>
                     <p>{new Date(comment.createdOn).toDateString()}</p>
-                    {comment.author === currentUser.handle && (
+                    {comment.author === currentUser && (
                         <>
-                            {!currentUser.isBlocked && (
+                            {!isBlocked && (
                                 <button onClick={handleUpdate}>Edit</button>
                             )}
                             <button onClick={handleDelete}>Delete</button>
@@ -82,4 +82,5 @@ Comment.propTypes = {
     onUpdateComment: PropTypes.func.isRequired,
     onDeleteComment: PropTypes.func.isRequired,
     currentUser: PropTypes.string.isRequired,
+    isBlocked: PropTypes.bool.isRequired,
 };
