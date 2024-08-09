@@ -92,7 +92,9 @@ export default function Comments({ threadId }) {
     };
 
     if (!userData) {
-        return <p>Loading user data...</p>;
+
+        return <p>Loading...</p>; 
+
     }
 
     return (
@@ -125,6 +127,7 @@ export default function Comments({ threadId }) {
 
 
 
+
                 <div className="sortOptions">
                     <label htmlFor="sortOrder">Sort by:</label>
                     <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
@@ -142,9 +145,11 @@ export default function Comments({ threadId }) {
                         onDeleteComment={handleDeleteComment}
                         currentUser={userData.handle}
                         isBlocked={userData.isBlocked}
+                        isAdmin={userData?.isAdmin}
                     />
                 ))}
             </div>
+
         </div>
 
     );
