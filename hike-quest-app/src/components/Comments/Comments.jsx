@@ -5,9 +5,7 @@ import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteC
 import Comment from "../Comment/Comment";
 // import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
-
-
-
+import Picker from '@emoji-mart/react';
 
 export default function Comments({ threadId }) {
     const { userData } = useContext(AppContext);
@@ -115,25 +113,16 @@ export default function Comments({ threadId }) {
                 <p className="commentsHeader">Comments</p>
                 <hr></hr>
 
-                {!userData?.isBlocked &&
-                    <div className="userContainer">
-                        <textarea
-                            value={comment}
-                            onChange={handleCommentChange}
-                            name="comment"
-                            id="comment"
-                            placeholder="Write your comment here..."
-                        /><br /><br />
-                        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                            {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
-                        </button>
-                        {showEmojiPicker && (
-                            <Picker onEmojiSelect={addEmoji} />
-                        )}
-                        <button onClick={handleCreateComment}>Comment</button>
-                        <br />
-                    </div>
-                }
+                <div className="emojiPickerContainer">
+        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+              {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+             </button>
+            {showEmojiPicker && (
+        <Picker onEmojiSelect={addEmoji} />
+     )}
+</div>
+<br />
+                
 
                 <div className="sortOptions">
                     <label htmlFor="sortOrder">Sort by:</label>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
+import Picker from '@emoji-mart/react';
 
 export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked }) {
     const [isEditing, setIsEditing] = useState(false);
