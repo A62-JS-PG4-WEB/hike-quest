@@ -18,6 +18,7 @@ import Authenticated from './hoc/Authenticated';
 import LandingPage from './views/LandingPage/LandingPage';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import NotAuthorized from './views/NotAuthorized/NotAuthorized';
+import Terms from './views/Terms/Terms';
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
           <Route path='/create-thread' element={<Authenticated>{!appState.userData?.isBlocked ?<CreateThread /> :<NotAuthorized />}</Authenticated>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
+          <Route path='/terms' element={<Terms />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />

@@ -104,7 +104,7 @@ export default function Thread({ thread }) {
       <h2 className='threadTitle'>{thread.title}</h2>
 
       <hr></hr>
-      <p className='threadDate'> {new Date(thread.createdOn).toLocaleDateString()}</p>
+      <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
 
 
       <p className='actualThread'>{thread.content}</p>
