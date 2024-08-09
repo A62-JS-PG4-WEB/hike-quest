@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
+import Picker from '@emoji-mart/react';
 
 export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -66,44 +67,48 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
 
         </>
     )
-
-        <div className="singleComment">
-            {isEditing ? (
-                <>
-                    <textarea
-                        value={newText}
-                        onChange={(e) => setNewText(e.target.value)}
-                        placeholder="Edit your comment..."
-                    />
-                    <br />
-                    <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                        {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
-                    </button>
-                    {showEmojiPicker && (
-                        <Picker onEmojiSelect={addEmoji} />
-                    )}
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
-                </>
-            ) : (
-                <>
-                    <p>{comment.text}</p>
-                    <small>{comment.author}</small>
-                    <p>{new Date(comment.createdOn).toDateString()}</p>
-                    {comment.author === currentUser && (
-                        <>
-                            {!isBlocked && (
-                                <button onClick={handleUpdate}>Edit</button>
-                            )}
-                            <button onClick={handleDelete}>Delete</button>
-                        </>
-                    )}
-                </>
-            )}
-        </div>
-    );
-
 }
+//     <div className="singleComment">
+//         {
+//             isEditing?(
+//                 <>
+//                     <textarea
+//                         value={newText}
+//                         onChange={(e) => setNewText(e.target.value)}
+//                         placeholder="Edit your comment..."
+//                     />
+//                     <br />
+//                     <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+//                         {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+//                     </button>
+//     {
+//         showEmojiPicker && (
+//             <Picker onEmojiSelect={addEmoji} />
+//         )
+//     }
+//                     <button onClick={handleSave}>Save</button>
+//                     <button onClick={handleCancel}>Cancel</button>
+//                 </>
+//             ) : (
+//         <>
+//             <p>{comment.text}</p>
+//             <small>{comment.author}</small>
+//             <p>{new Date(comment.createdOn).toDateString()}</p>
+//             {comment.author === currentUser && (
+//                 <>
+//                     {!isBlocked && (
+//                         <button onClick={handleUpdate}>Edit</button>
+//                     )}
+//                     <button onClick={handleDelete}>Delete</button>
+//                 </>
+//             )}
+//         </>
+//     )
+// }
+//         </ >
+//     );
+
+// }
 
 Comment.propTypes = {
     comment: PropTypes.shape({

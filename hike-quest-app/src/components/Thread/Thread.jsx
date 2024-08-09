@@ -44,16 +44,16 @@ export default function Thread({ thread }) {
     }
 
     const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
-if(confirmDelete) {
-    try {
-      await deleteThread(thread.id);
-      alert('Thread deleted successfully.');
-      navigate('/threads');
-    } catch (error) {
-      alert('Failed to delete the thread: ' + error.message);
+    if (confirmDelete) {
+      try {
+        await deleteThread(thread.id);
+        alert('Thread deleted successfully.');
+        navigate('/threads');
+      } catch (error) {
+        alert('Failed to delete the thread: ' + error.message);
+      }
     }
   }
-}
 
   const openModal = () => {
     setShowModal(true);
@@ -111,19 +111,6 @@ if(confirmDelete) {
       <div className='buttonContainer'>
         <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
       </div>
-
-
-
-      <p className='threadContent'>{thread.content}</p>
-      <p>Created on: {new Date(thread.createdOn).toDateString()}</p>
-      <p>Created by: {thread.author}</p>
-      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
-      {(thread.author === userData?.handle || userData?.isAdmin) && (
-        <>
-          <button onClick={handleDeleteThread}>Delete</button>
-        </>
-      )}
-      {thread.author === userData?.handle && <button onClick={openModal}>Edit</button>}
 
       <UpdateThreadModal
         show={showModal}
