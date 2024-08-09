@@ -44,16 +44,16 @@ export default function Thread({ thread }) {
     }
 
     const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
-if(confirmDelete) {
-    try {
-      await deleteThread(thread.id);
-      alert('Thread deleted successfully.');
-      navigate('/threads');
-    } catch (error) {
-      alert('Failed to delete the thread: ' + error.message);
+    if (confirmDelete) {
+      try {
+        await deleteThread(thread.id);
+        alert('Thread deleted successfully.');
+        navigate('/threads');
+      } catch (error) {
+        alert('Failed to delete the thread: ' + error.message);
+      }
     }
   }
-}
 
   const openModal = () => {
     setShowModal(true);
