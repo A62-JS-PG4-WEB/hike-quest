@@ -3,7 +3,7 @@ import styles from './Header.module.css'
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/app.context';
 import { logoutUser } from '../../services/auth.service';
-import { getThreadsCount, subscribeToThreadChanges } from '../../services/threads.service';
+import { getThreadsCount, getUsersCount, subscribeToThreadChanges } from '../../services/threads.service';
 
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
@@ -11,6 +11,7 @@ export default function Header() {
     const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('search') ?? '';
     const [count, setCount] = useState(null);
+    const [usersCount, setUsersCount] = useState(null)
 
     const setSearch = (value) => {
         setSearchParams({
@@ -20,15 +21,18 @@ export default function Header() {
     }
 
     useEffect(() => {
-        const fetchThreadsCount = async () => {
+        const fetchCounts = async () => {
             try {
+                const users = await getUsersCount();
+                setUsersCount(users);
+
                 const countNew = await getThreadsCount();
                 setCount(countNew);
             } catch (error) {
                 alert(error.message);
             }
         };
-        fetchThreadsCount();
+        fetchCounts();
         const unsubscribe = subscribeToThreadChanges(newCount => {
             setCount(newCount);
         });
@@ -36,6 +40,7 @@ export default function Header() {
         return () => unsubscribe();
     }, []);
 
+    console.log(usersCount);
 
     const logout = async () => {
         await logoutUser();
@@ -51,10 +56,13 @@ export default function Header() {
                     <label htmlFor="search"></label>
                     <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
                 </div>
+                <label>Total hikers {usersCount}, Join us too!</label>
                 {!user && <label> Don't miss our pertinent {count} threads! </label>}
                 {user && (<>
                     <NavLink to="/threads">All Threads</NavLink>
-                    <NavLink to="/create-thread">Create Thread</NavLink>
+                    {!userData?.isBlocked && (
+                        <NavLink to="/create-thread">Create Thread</NavLink>)
+                    }
                 </>)}
                 {!user && <NavLink to="/login">Login to access</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}

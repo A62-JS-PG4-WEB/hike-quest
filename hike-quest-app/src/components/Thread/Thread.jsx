@@ -42,6 +42,9 @@ export default function Thread({ thread }) {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
     }
+
+    const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
+if(confirmDelete) {
     try {
       await deleteThread(thread.id);
       alert('Thread deleted successfully.');
@@ -49,7 +52,8 @@ export default function Thread({ thread }) {
     } catch (error) {
       alert('Failed to delete the thread: ' + error.message);
     }
-  };
+  }
+}
 
   const openModal = () => {
     setShowModal(true);
@@ -98,6 +102,7 @@ export default function Thread({ thread }) {
       </div>
       <hr></hr>
       <h2 className='threadTitle'>{thread.title}</h2>
+
       <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toLocaleDateString()}</p>
 
@@ -108,6 +113,17 @@ export default function Thread({ thread }) {
       </div>
 
 
+
+      <p className='threadContent'>{thread.content}</p>
+      <p>Created on: {new Date(thread.createdOn).toDateString()}</p>
+      <p>Created by: {thread.author}</p>
+      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
+      {(thread.author === userData?.handle || userData?.isAdmin) && (
+        <>
+          <button onClick={handleDeleteThread}>Delete</button>
+        </>
+      )}
+      {thread.author === userData?.handle && <button onClick={openModal}>Edit</button>}
 
       <UpdateThreadModal
         show={showModal}
