@@ -52,7 +52,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                     <p>{comment.text}</p>
                     <small>{comment.author}</small>
                     <p>{new Date(comment.createdOn).toDateString()}</p>
-                    {comment.author === currentUser|| isAdmin && (
+                    {(comment.author === currentUser || isAdmin) && (
                         <>
                             {!isBlocked && (
                                 <button onClick={handleUpdate}>Edit</button>
@@ -76,5 +76,4 @@ Comment.propTypes = {
     onDeleteComment: PropTypes.func.isRequired,
     currentUser: PropTypes.string.isRequired,
     isBlocked: PropTypes.bool.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
 };
