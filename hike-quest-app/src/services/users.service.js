@@ -10,6 +10,7 @@ export const updateUserStatus = async (handle, updates) => {
     throw error;
   }
 };
+
 export const getAllUsers = async () => {
   try {
     const snapshot = await get(ref(db, 'users'));

@@ -26,11 +26,15 @@ export default function AllThreads() {
   }, [search, sort, userFilter]);
 
   const handleDeleteThread = async (threadId) => {
-    try {
-      await deleteThread(threadId);
-      setThreads(threads.filter(thread => thread.id !== threadId));
-    } catch (error) {
-      console.error('Error deleting thread:', error);
+    const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
+    if (confirmDelete) {
+      try {
+
+        await deleteThread(threadId);
+        setThreads(threads.filter(thread => thread.id !== threadId));
+      } catch (error) {
+        console.error('Error deleting thread:', error);
+      }
     }
   }
 
@@ -58,13 +62,13 @@ export default function AllThreads() {
         />
       </div>
       {threads.length > 0
-        ? threads.map(t => <p key={t.id}> <strong>{t.title} </strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button> 
-        {(t.author === userData?.handle || userData?.isAdmin) && (
-        <>
-          <button onClick={() => handleDeleteThread(t.id)}>Delete</button>
-        </>
-      )}
-       </p>)
+        ? threads.map(t => <p key={t.id}> <strong>{t.title} </strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small> <br /><br />{t.content}... <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
+          {(t.author === userData?.handle || userData?.isAdmin) && (
+            <>
+              <button onClick={() => handleDeleteThread(t.id)}>Delete</button>
+            </>
+          )}
+        </p>)
         : 'No threads'
       }
     </div>

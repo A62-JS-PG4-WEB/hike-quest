@@ -89,7 +89,7 @@ export default function Comments({ threadId }) {
     };
 
     if (!userData) {
-        return <p>Loading user data...</p>; 
+        return <p>Loading...</p>; 
     }
 
     return (
@@ -128,8 +128,9 @@ export default function Comments({ threadId }) {
                     comment={c}
                     onUpdateComment={handleUpdateComment}
                     onDeleteComment={handleDeleteComment}
-                    currentUser={userData.handle}
-                    isBlocked={userData.isBlocked}
+                    currentUser={userData?.handle}
+                    isBlocked={userData?.isBlocked}
+                    isAdmin={userData?.isAdmin}
                 />
             ))}
         </div>
