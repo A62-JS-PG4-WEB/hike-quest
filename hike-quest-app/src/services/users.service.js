@@ -1,5 +1,6 @@
-import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
-import { db } from '../config/firebase-config';
+import { get, set, ref, query, equalTo, orderByChild, update  } from 'firebase/database';
+import { auth, db } from '../config/firebase-config';
+import { updateEmail } from "firebase/auth";
 
 export const updateUserStatus = async (handle, updates) => {
   try {
@@ -58,20 +59,47 @@ export const updateEmailDB = async (handle, newEmail) => {
   }
 };
 
-export const updateEmailInAuth = async (newEmail) => {
-  const auth = getAuth();
-  const user = auth.currentUser;
+// export const updateEmailInAuth = async (user, newEmail) => {
+   
+//   if (!user) {
+//     throw new Error("No authenticated user found.");
+// }
 
-  if (user) {
-    try {
-      await updateEmail(user, newEmail);
-      console.log('Email updated successfully in Firebase Authentication.');
-    } catch (error) {
-      console.error('Failed to update email in Firebase Authentication:', error.message);
-      throw new Error(error.message);
+// try {
+//     await updateEmail(user, newEmail);
+// } catch (error) {
+//     throw new Error('Error updating email in Auth: ' + error.message);
+// }
+// };
+
+export const updateEmailInAuth = async (profileData) => {
+  const user = auth.currentUser;
+ console.log(profileData);
+ 
+ 
+  if (!user) {
+    throw new Error('User is not authenticated');
+  }
+ 
+update(ref(db, `users/${user.uid}`));  
+  try {
+    if (profileData.email && profileData.email !== user.email) {
+      console.log('Attempting to update email...');
+      await updateEmail(user, profileData.email);
+      console.log('Email updated in Firebase Auth');
     }
-  } else {
-    throw new Error('No authenticated user found.');
+ 
+ 
+    // console.log('Updating user profile in Realtime Database...');
+    // await update(userRef, {
+    //   firstName: profileData.firstName,
+    //   lastName: profileData.lastName,
+    //   email: profileData.email,
+    // });
+ 
+    
+  } catch (error) {
+    console.error('Error updating user profile:', error);
+    throw error;
   }
 };
-

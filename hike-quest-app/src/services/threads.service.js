@@ -2,12 +2,10 @@ import { getDatabase, ref, push, get, set, update, query, equalTo, orderByChild,
 import { db } from '../config/firebase-config'
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
-  const db = getDatabase();
   const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
   await remove(commentRef);
 };
 export const updateCommentInThread = async (threadId, commentId, updatedText) => {
-    const db = getDatabase();
     const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
     await update(commentRef, { text: updatedText });
 };

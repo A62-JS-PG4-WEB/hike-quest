@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
-// import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
 import Picker from '@emoji-mart/react';
 
