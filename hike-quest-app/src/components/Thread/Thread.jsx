@@ -65,10 +65,17 @@ export default function Thread({ thread }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const updatedThread = {
+      ...currentThread,
+      hashtag: currentThread.hashtag || ''
+    };
+
     const db = getDatabase();
-    update(ref(db, `threads/${currentThread.id}`), {
+    update(ref(db, `threads/${updatedThread.id}`, updatedThread), {
       title: currentThread.title,
       content: currentThread.content,
+      hashtag: currentThread.hashtag
     }).then(() => {
       closeModal();
     }).catch((error) => {
@@ -76,6 +83,7 @@ export default function Thread({ thread }) {
     });
   };
 
+  console.log(thread);
   return (
     <div className='threadContainer'>
       <div className='userContainer'>
@@ -105,7 +113,7 @@ export default function Thread({ thread }) {
 
       <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
-
+      <p className='hashtag'> {thread.hashtag}</p>
 
       <p className='actualThread'>{thread.content}</p>
       <div className='buttonContainer'>

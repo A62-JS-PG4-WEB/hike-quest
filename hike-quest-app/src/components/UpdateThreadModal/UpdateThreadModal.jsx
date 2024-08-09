@@ -7,9 +7,12 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
     return null;
   }
 
+
   const onChange = (e) => {
     setThread({ ...thread, [e.target.name]: e.target.value });
   };
+
+  console.log(thread);
 
   return (
     <div className="modal">
@@ -37,6 +40,15 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
+          <label className="addHashtag" htmlFor="hashtag">Hashtags</label>
+          <textarea
+            className='commentBox'
+            id="hashtag"
+            name="hashtag"
+            value={thread.hashtag || ''}
+            onChange={onChange}
+          />
+          <small>Separate Hashtags by coma</small> <br />
           <button className="threadButtons" onClick={handleClose}>Cancel</button>
           <button className="threadButtons" type="submit">Update</button>
 
