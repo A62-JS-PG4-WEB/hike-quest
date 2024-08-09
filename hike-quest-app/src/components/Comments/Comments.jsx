@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
+import PropTypes from 'prop-types';
+import '../../views/SingleThread/SingleThread.css'
+
+
+
 
 export default function Comments({ threadId }) {
     const { userData } = useContext(AppContext);
@@ -94,6 +99,22 @@ export default function Comments({ threadId }) {
 
     return (
         <div>
+
+            <div className="commentSection">
+                <textarea
+                    className="commentBox"
+                    value={comment}
+                    onChange={handleCommentChange}
+                    name="comment"
+                    id="comment"
+                    placeholder="Add a comment..."
+                /><br /><br />
+                <div className="commentButton">
+                    <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
+                </div>
+                <p className="commentsHeader">Comments</p>
+                <hr></hr>
+
             {!userData?.isBlocked && 
                 <div className="userContainer">
                     <textarea
@@ -120,6 +141,7 @@ export default function Comments({ threadId }) {
                     <option value="newest">Newest First</option>
                     <option value="oldest">Oldest First</option>
                 </select>
+
             </div>
 
             {comments.map(c => (
@@ -133,9 +155,14 @@ export default function Comments({ threadId }) {
                 />
             ))}
         </div>
+
     );
 }
 
 Comments.propTypes = {
     threadId: PropTypes.string.isRequired,
+
 };
+
+};
+

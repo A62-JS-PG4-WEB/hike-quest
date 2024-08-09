@@ -3,6 +3,8 @@ import { AppContext } from "../../state/app.context";
 import { createThread } from "../../services/threads.service";
 import { MAX_THREAD_CONTENT, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_TITLE } from "../../common/constants";
 import { useNavigate } from "react-router-dom";
+import '../../views/SingleThread/SingleThread.css'
+
 
 export default function CreateThread() {
   const [thread, setThread] = useState({
@@ -48,11 +50,11 @@ export default function CreateThread() {
   return (
     <div>
       <h1>Create thread</h1>
-      <label htmlFor="title">Title: </label>
-      <input value={thread.title} onChange={e => updateThread('title', e.target.value)} type="text" name="title" id="title" /><br />
-      <label htmlFor="content">Content: </label>
-      <textarea value={thread.content} onChange={e => updateThread('content', e.target.value)} name="content" id="content" /><br /><br />
-      <button onClick={handleCreateThread}>Create</button>
+      <label className="createTitle" htmlFor="title">Title: </label>
+      <input className="commentBox" placeholder="Add a title..." value={thread.title} onChange={e => updateThread('title', e.target.value)} type="text" name="title" id="title" /><br />
+      <label className="createContent" htmlFor="content">Content: </label>
+      <textarea className="commentBox" placeholder="Add content..." value={thread.content} onChange={e => updateThread('content', e.target.value)} name="content" id="content" /><br /><br />
+      <button className="threadButtons" onClick={handleCreateThread}>Create</button>
     </div>
   )
-};
+}
