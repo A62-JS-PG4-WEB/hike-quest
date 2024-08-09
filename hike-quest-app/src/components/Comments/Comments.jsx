@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from 'prop-types';
-import Picker from '@emoji-mart/react';
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
@@ -94,6 +93,7 @@ export default function Comments({ threadId }) {
 
     return (
         <div>
+             {!userData.isBlocked && 
             <div className="userContainer">
                 <textarea
                     value={comment}
@@ -108,11 +108,11 @@ export default function Comments({ threadId }) {
                 {showEmojiPicker && (
                     <Picker onEmojiSelect={addEmoji} />
                 )}
+               
                 <button onClick={handleCreateComment}>Comment</button>
-                <div className="userInfo">
-                    <h3 className="userName">{userData ? userData.handle : "Username"}</h3>
-                </div>
+             <br/>
             </div>
+}
 
             <div className="sortOptions">
                 <label htmlFor="sortOrder">Sort by:</label>
@@ -128,8 +128,9 @@ export default function Comments({ threadId }) {
                     comment={c}
                     onUpdateComment={handleUpdateComment}
                     onDeleteComment={handleDeleteComment}
-                    currentUser={userData.handle}
-                />
+                    currentUser={userData}
+                    
+                    />
             ))}
         </div>
     );
