@@ -41,6 +41,9 @@ export default function Thread({ thread }) {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
     }
+
+    const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
+if(confirmDelete) {
     try {
       await deleteThread(thread.id);
       alert('Thread deleted successfully.');
@@ -48,7 +51,8 @@ export default function Thread({ thread }) {
     } catch (error) {
       alert('Failed to delete the thread: ' + error.message);
     }
-  };
+  }
+}
 
   const openModal = () => {
     setShowModal(true);
