@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 
+
 /**
  * 
  * @param {{ thread: {
@@ -76,18 +77,41 @@ export default function Thread({ thread }) {
   };
 
   return (
-    <div>
+    <div className='threadContainer'>
+      <div className='userContainer'>
+        <div className='userInfo'>
+          <img
+            src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="profile-pic"
+            className="profilePic"
+          />
+          <div>
+            <p className='userName'>{thread.author}</p>
+            <p className='userType'> User type: { }</p>
+          </div>
+        </div>
+        <div>
+          {(thread.author === userData?.handle || userData?.isAdmin) && (
+            <>
+              <button className="threadButtons" onClick={handleDeleteThread}>Delete</button>
+            </>
+          )}
+          {thread.author === userData?.handle && <button className="threadButtons" onClick={openModal}>Edit</button>}
+
+        </div>
+      </div>
+      <hr></hr>
       <h2 className='threadTitle'>{thread.title}</h2>
-      <p className='threadContent'>{thread.content}</p>
-      <p>Created on: {new Date(thread.createdOn).toDateString()}</p>
-      <p>Created by: {thread.author}</p>
-      <button onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
-      {(thread.author === userData?.handle || userData?.isAdmin) && (
-        <>
-          <button onClick={handleDeleteThread}>Delete</button>
-        </>
-      )}
-      {thread.author === userData?.handle && <button onClick={openModal}>Edit</button>}
+
+      <hr></hr>
+      <p className='threadDate'> {new Date(thread.createdOn).toLocaleDateString()}</p>
+
+
+      <p className='actualThread'>{thread.content}</p>
+      <div className='buttonContainer'>
+        <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
+      </div>
+
       <UpdateThreadModal
         show={showModal}
         handleClose={closeModal}
@@ -95,7 +119,9 @@ export default function Thread({ thread }) {
         thread={currentThread}
         setThread={setCurrentThread}
       />
-    </div>
+    </div >
+
+
   );
 }
 

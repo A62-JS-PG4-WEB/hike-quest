@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
+// import PropTypes from 'prop-types';
+import '../../views/SingleThread/SingleThread.css'
+import Picker from '@emoji-mart/react';
 
 export default function Comments({ threadId }) {
     const { userData } = useContext(AppContext);
@@ -89,54 +92,71 @@ export default function Comments({ threadId }) {
     };
 
     if (!userData) {
+
         return <p>Loading...</p>; 
+
     }
 
     return (
         <div>
-            {!userData?.isBlocked && 
-                <div className="userContainer">
-                    <textarea
-                        value={comment}
-                        onChange={handleCommentChange}
-                        name="comment"
-                        id="comment"
-                        placeholder="Write your comment here..."
-                    /><br /><br />
-                    <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                        {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
-                    </button>
-                    {showEmojiPicker && (
-                        <Picker onEmojiSelect={addEmoji} />
-                    )}
-                    <button onClick={handleCreateComment}>Comment</button>
-                    <br/>
-                </div>
-            }
 
-            <div className="sortOptions">
-                <label htmlFor="sortOrder">Sort by:</label>
-                <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                </select>
+            <div className="commentSection">
+                <textarea
+                    className="commentBox"
+                    value={comment}
+                    onChange={handleCommentChange}
+                    name="comment"
+                    id="comment"
+                    placeholder="Add a comment..."
+                /><br /><br />
+                <div className="commentButtons">
+                    <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
+                    <div>
+                        <button className="threadButtons emojiButton" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                            {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+                        </button>
+                        {showEmojiPicker && (
+                            <Picker onEmojiSelect={addEmoji} />
+                        )}
+                    </div>
+                    <br />
+                </div>
+                <p className="commentsHeader">Comments</p>
+                <hr></hr>
+
+
+
+
+
+                <div className="sortOptions">
+                    <label htmlFor="sortOrder">Sort by:</label>
+                    <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+
+                </div>
+
+                {comments.map(c => (
+                    <Comment
+                        key={c.id}
+                        comment={c}
+                        onUpdateComment={handleUpdateComment}
+                        onDeleteComment={handleDeleteComment}
+                        currentUser={userData.handle}
+                        isBlocked={userData.isBlocked}
+                        isAdmin={userData?.isAdmin}
+                    />
+                ))}
             </div>
 
-            {comments.map(c => (
-                <Comment
-                    key={c.id}
-                    comment={c}
-                    onUpdateComment={handleUpdateComment}
-                    onDeleteComment={handleDeleteComment}
-                    currentUser={userData?.handle}
-                    isBlocked={userData?.isBlocked}
-                    isAdmin={userData?.isAdmin}
-                />
-            ))}
         </div>
+
     );
 }
-
 Comments.propTypes = {
     threadId: PropTypes.string.isRequired,
+
 };
+
+

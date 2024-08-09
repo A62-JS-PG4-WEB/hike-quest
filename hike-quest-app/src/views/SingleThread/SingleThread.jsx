@@ -21,7 +21,6 @@ export default function SingleThread() {
 
     return (
         <div>
-            <h1>Single thread</h1>
             {thread && <Thread thread={thread} />}
             {thread && <Comments threadId={id} />}
         </div>
