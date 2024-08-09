@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 
+
 /**
  * 
  * @param {{ thread: {
@@ -95,14 +96,18 @@ export default function Thread({ thread }) {
 
         </div>
       </div>
+      <hr></hr>
       <h2 className='threadTitle'>{thread.title}</h2>
-      <p className='threadTitle'> {new Date(thread.createdOn).toLocaleDateString()}</p>
+      <hr></hr>
+      <p className='threadDate'> {new Date(thread.createdOn).toLocaleDateString()}</p>
 
 
       <p className='actualThread'>{thread.content}</p>
       <div className='buttonContainer'>
         <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
       </div>
+
+
 
       <UpdateThreadModal
         show={showModal}
@@ -112,6 +117,7 @@ export default function Thread({ thread }) {
         setThread={setCurrentThread}
       />
     </div >
+
 
   );
 }

@@ -42,11 +42,7 @@
 }
 
 
-.threadContainer {
-    border-style: solid;
-    border-radius: 10px;
-    border-color: black;
-}
+.threadContainer {}
 
 .threadCreatedOn {
     font-size: 12px;
@@ -62,7 +58,12 @@
     text-align: center;
     padding: 10px;
     box-sizing: border-box;
+}
 
+.threadDate {
+    display: flex;
+    justify-content: center;
+    font-size: large;
 }
 
 @media screen and (max-width: 768px) {
@@ -85,7 +86,7 @@
     margin: 20px;
     padding: 20px;
     font-size: larger;
-    border-style: solid;
+    border-style: hidden;
     border-radius: 10px;
     border-color: rgb(0, 0, 0);
     word-wrap: break-word;
@@ -125,20 +126,20 @@
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     box-sizing: border-box;
 }
 
 .commentsHeader {
     text-align: center;
+    font-size: x-large;
+    font-variant: small-caps;
 }
 
 .commentSection {
     display: block;
     margin: 20px;
     padding: 20px;
-    border-style: solid;
-    border-radius: 10px;
     border-color: rgb(0, 0, 0);
 }
 
@@ -146,12 +147,23 @@
     display: block;
     text-align: left;
     padding: 20px;
-    border-style: dotted;
+    font-size: large;
+    border-style: double;
     border-radius: 10px;
     border-color: rgb(0, 0, 0);
     word-wrap: break-word;
     overflow-wrap: break-word;
     margin: 0;
+}
+
+.createTitle {
+    font-size: 24px;
+    padding: 16px
+}
+
+.createContent {
+    padding: 16px;
+    font-size: 24px;
 }
 
 

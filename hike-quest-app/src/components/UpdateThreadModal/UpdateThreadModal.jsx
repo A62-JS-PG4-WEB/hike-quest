@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import '../../views/SingleThread/SingleThread.css'
+
 
 const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread }) => {
   if (!show) {
@@ -16,7 +18,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
         <h2>Update Thread</h2>
         <form onSubmit={handleSubmit}>
           <input type="hidden" value={thread.id} />
-          <label htmlFor="title">Title:</label>
+          <label className="createTitle" htmlFor="title">Title:</label>
           <input
             className='commentBox'
             type="text"
@@ -26,7 +28,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
-          <label htmlFor="content">Content:</label>
+          <label className="createContent" htmlFor="content">Content:</label>
           <textarea
             className='commentBox'
             id="content"

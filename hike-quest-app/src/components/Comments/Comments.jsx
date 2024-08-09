@@ -52,14 +52,17 @@ export default function Comments({ threadId }) {
                     onChange={handleCommentChange}
                     name="comment"
                     id="comment"
-                    placeholder="Write your comment here..."
+                    placeholder="Add a comment..."
                 /><br /><br />
                 <div className="commentButton">
                     <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
                 </div>
+                <p className="commentsHeader">Comments</p>
+                <hr></hr>
             </div>
             {comments.map(c => (<Comment key={c.id} comment={c} />))}
         </div>
+
     );
 }
 
