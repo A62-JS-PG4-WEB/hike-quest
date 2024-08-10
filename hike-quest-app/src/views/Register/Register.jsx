@@ -13,6 +13,7 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
+        confirmPassword: '', 
         isAdmin: false,
         isBlocked: false
     });
@@ -27,9 +28,15 @@ export default function Register() {
     };
 
     const register = async () => {
-        if (!user.email || !user.password) {
+        
+        if (!user.email.trim() || !user.password) {
             return alert('No credentials provided!');
         }
+        if (user.password !== user.confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
         if (user.firstName.length < MIN_FIRSTNAME) {
             return alert('First name too short!');
         }
@@ -44,7 +51,7 @@ export default function Register() {
             return alert('Last name too long!');
         }
         try {
-            const userDB = await getUserByEmail(user.email);
+            const userDB = await getUserByEmail(user.email.trim());
             if (userDB) {
                 return alert(`User {${user.email}} already exists!`);
             }
@@ -53,7 +60,7 @@ export default function Register() {
             if (userFromDB) {
                 return alert(`User {${user.handle}} already exists!`);
             }
-            const credential = await registerUser(user.email, user.password);
+            const credential = await registerUser(user.email.trim(), user.password.trim());
             await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email, user.isAdmin, user.isBlocked);
             setAppState({ user: credential.user, userData: null });
             navigate('/');
@@ -76,6 +83,13 @@ export default function Register() {
             <input value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /> <br /><br />
             <label htmlFor="password">Password: </label>
             <input value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /> <br />
+            <label htmlFor="confirmPassword">Confirm Password: </label>
+            <input value={user.confirmPassword}
+                onChange={updateUser('confirmPassword')}
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+            /> <br />
             <button onClick={register}>Register</button>
         </>
     )
