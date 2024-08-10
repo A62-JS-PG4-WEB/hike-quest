@@ -105,6 +105,14 @@
     justify-content: flex-end;
 }
 
+.threadButtons:hover {
+    background-color: rgb(76, 180, 86);
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    border-color: rgb(50, 150, 60);
+    transition: all 0.5s ease;
+}
+
 .commentButtons {
     display: flex;
     text-align: right;
@@ -131,6 +139,23 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
+    font-family: monospace;
+    margin-bottom: 20px;
+}
+
+textarea.commentBox {
+    min-height: 50px;
+}
+
+.locationBox {
+    resize: none;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: monospace;
+    height: 25px;
+    text-align: center;
 }
 
 .commentsHeader {

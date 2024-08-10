@@ -6,12 +6,12 @@ export const deleteCommentFromThread = async (threadId, commentId) => {
   await remove(commentRef);
 };
 export const updateCommentInThread = async (threadId, commentId, updatedText) => {
-    const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
-    await update(commentRef, { text: updatedText });
+  const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
+  await update(commentRef, { text: updatedText });
 };
-export const createThread = async (author, title, content) => {
+export const createThread = async (author, title, content, location) => {
 
-  const thread = { author, title, content, createdOn: new Date().toString() };
+  const thread = { author, title, content, createdOn: new Date().toString(), location };
   const result = await push(ref(db, 'threads'), thread);
   const id = result.key;
 

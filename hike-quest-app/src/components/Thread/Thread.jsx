@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AppContext } from "../../state/app.context"
 import { deleteThread, dislikeThread, likeThread } from '../../services/threads.service';
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
+import { weatherAPI } from '../common/constants.js'
 
 
 /**
@@ -15,6 +16,7 @@ import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
  *  title: string,
  *  content: string,
  *  createdOn: string,
+ *  location: string,
  *  likedBy?: string[]
  * } }} props 
  * @returns 
@@ -23,6 +25,7 @@ export default function Thread({ thread }) {
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [weatherData, setWeatherData] = useState({})
   const [currentThread, setCurrentThread] = useState(thread);
 
   const toggleLike = async () => {
@@ -75,6 +78,7 @@ export default function Thread({ thread }) {
     update(ref(db, `threads/${updatedThread.id}`, updatedThread), {
       title: currentThread.title,
       content: currentThread.content,
+      location: currentThread.location,
       hashtag: currentThread.hashtag
     }).then(() => {
       closeModal();
@@ -83,7 +87,21 @@ export default function Thread({ thread }) {
     });
   };
 
-  console.log(thread);
+
+  console.log(weatherData);
+
+  useEffect(() => {
+    fetch(
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
+      thread.location +
+      "&units=metric&appid=" +
+      weatherAPI
+    )
+      .then((response) => response.json())
+      .then((data) => setWeatherData(data));
+  }, [])
+
+
   return (
     <div className='threadContainer'>
       <div className='userContainer'>
@@ -110,6 +128,7 @@ export default function Thread({ thread }) {
       </div>
       <hr></hr>
       <h2 className='threadTitle'>{thread.title}</h2>
+      <h2>{thread.location}</h2>
 
       <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
@@ -140,6 +159,8 @@ Thread.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     createdOn: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    hashtag: PropTypes.string,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };
