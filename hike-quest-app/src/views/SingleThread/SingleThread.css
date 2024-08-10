@@ -44,6 +44,7 @@
 
 .threadContainer {}
 
+
 .threadCreatedOn {
     font-size: 12px;
 }
@@ -96,6 +97,7 @@
 .threadButtons {
     background-color: rgb(99, 236, 112);
     color: rgb(26, 25, 25);
+    border-color: transparent;
     margin: 5px;
     padding-inline: 20px;
     padding-block: 10px;
@@ -107,10 +109,6 @@
     display: flex;
     text-align: right;
     width: 100%;
-}
-
-.emojiButton {
-    text-align: left;
 }
 
 .buttonContainer {
