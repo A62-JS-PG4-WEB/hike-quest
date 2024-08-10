@@ -37,7 +37,7 @@ export default function CreateThread() {
     }
 
     try {
-      await createThread(userData.handle, thread.title, thread.content);
+      await createThread(userData.handle, thread.title.trim(), thread.content.trim());
       setThread({ title: '', content: '' });
       alert('Thanks for your contribution!');
       navigate('/threads')

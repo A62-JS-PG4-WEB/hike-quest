@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
+import Tags from '../Tags/Tags';
 
 
 const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread }) => {
@@ -40,15 +41,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
-          <label className="addHashtag" htmlFor="hashtag">Hashtags</label>
-          <textarea
-            className='commentBox'
-            id="hashtag"
-            name="hashtag"
-            value={thread.hashtag || ''}
-            onChange={onChange}
-          />
-          <small>Separate Hashtags by coma</small> <br />
+         <Tags/>
           <button className="threadButtons" onClick={handleClose}>Cancel</button>
           <button className="threadButtons" type="submit">Update</button>
 
