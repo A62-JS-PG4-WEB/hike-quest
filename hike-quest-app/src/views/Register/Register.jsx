@@ -6,6 +6,32 @@ import { createUserHandle, getUserByEmail, getUserByHandle } from "../../service
 import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
 
 
+/**
+ * Register component handles user registration by validating user input, 
+ * checking for existing users, and creating a new user account.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Register />
+ * )
+ *
+ * @returns {JSX.Element} The rendered Register component.
+ *
+ * @typedef {Object} User
+ * @property {string} handle - The user's unique handle.
+ * @property {string} firstName - The user's first name.
+ * @property {string} lastName - The user's last name.
+ * @property {string} email - The user's email address.
+ * @property {string} password - The user's password.
+ * @property {string} confirmPassword - Confirmation of the user's password.
+ * @property {boolean} isAdmin - Whether the user has admin privileges.
+ * @property {boolean} isBlocked - Whether the user is blocked.
+ *
+ * @typedef {Object} AppState
+ * @property {User|null} user - The authenticated user.
+ * @property {Object|null} userData - Additional user data.
+ */
 export default function Register() {
     const [user, setUser] = useState({
         handle: '',
@@ -20,12 +46,27 @@ export default function Register() {
     const { setAppState } = useContext(AppContext);
     const navigate = useNavigate();
 
+    /**
+     * Updates the user state with the value from the input field.
+     *
+     * @param {string} prop - The property of the user object to update.
+     * @returns {function} A function that updates the user state.
+     */
     const updateUser = prop => e => {
         setUser({
             ...user,
             [prop]: e.target.value,
-        })
+        });
     };
+
+    /**
+     * Handles the registration process by validating inputs, checking 
+     * for existing users, and creating a new user account.
+     *
+     * @async
+     * @function
+     * @returns {Promise<void>} 
+     */
 
     const register = async () => {
         
