@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
+import Tags from '../Tags/Tags';
 
 
 const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread }) => {
@@ -7,9 +8,12 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
     return null;
   }
 
+
   const onChange = (e) => {
     setThread({ ...thread, [e.target.name]: e.target.value });
   };
+
+  console.log(thread);
 
   return (
     <div className="modal">
@@ -37,6 +41,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
+         <Tags/>
           <button className="threadButtons" onClick={handleClose}>Cancel</button>
           <button className="threadButtons" type="submit">Update</button>
 

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../state/app.context";
 import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteCommentFromThread } from "../../services/threads.service";
 import Comment from "../Comment/Comment";
-// import PropTypes from 'prop-types';
 import '../../views/SingleThread/SingleThread.css'
 import Picker from '@emoji-mart/react';
+
 
 export default function Comments({ threadId }) {
     const { userData } = useContext(AppContext);
@@ -92,7 +92,9 @@ export default function Comments({ threadId }) {
     };
 
     if (!userData) {
-        return <p>Loading user data...</p>;
+
+        return <p>Loading...</p>;
+
     }
 
     return (
@@ -110,8 +112,8 @@ export default function Comments({ threadId }) {
                 <div className="commentButtons">
                     <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
                     <div>
-                        <button className="threadButtons emojiButton" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                            {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+                        <button className="threadButtons" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                            {showEmojiPicker ? "😜" : "😜"}
                         </button>
                         {showEmojiPicker && (
                             <Picker onEmojiSelect={addEmoji} />
@@ -123,11 +125,9 @@ export default function Comments({ threadId }) {
                 <hr></hr>
 
 
-
-
-                <div className="sortOptions">
+                <div>
                     <label htmlFor="sortOrder">Sort by:</label>
-                    <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
+                    <select className="threadButtons" id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
                     </select>
@@ -142,9 +142,11 @@ export default function Comments({ threadId }) {
                         onDeleteComment={handleDeleteComment}
                         currentUser={userData.handle}
                         isBlocked={userData.isBlocked}
+                        isAdmin={userData?.isAdmin}
                     />
                 ))}
             </div>
+
         </div>
 
     );

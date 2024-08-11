@@ -6,6 +6,32 @@ import { createUserHandle, getUserByEmail, getUserByHandle } from "../../service
 import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
 
 
+/**
+ * Register component handles user registration by validating user input, 
+ * checking for existing users, and creating a new user account.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Register />
+ * )
+ *
+ * @returns {JSX.Element} The rendered Register component.
+ *
+ * @typedef {Object} User
+ * @property {string} handle - The user's unique handle.
+ * @property {string} firstName - The user's first name.
+ * @property {string} lastName - The user's last name.
+ * @property {string} email - The user's email address.
+ * @property {string} password - The user's password.
+ * @property {string} confirmPassword - Confirmation of the user's password.
+ * @property {boolean} isAdmin - Whether the user has admin privileges.
+ * @property {boolean} isBlocked - Whether the user is blocked.
+ *
+ * @typedef {Object} AppState
+ * @property {User|null} user - The authenticated user.
+ * @property {Object|null} userData - Additional user data.
+ */
 export default function Register() {
     const [user, setUser] = useState({
         handle: '',
@@ -13,23 +39,45 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
+        confirmPassword: '', 
         isAdmin: false,
         isBlocked: false
     });
     const { setAppState } = useContext(AppContext);
     const navigate = useNavigate();
 
+    /**
+     * Updates the user state with the value from the input field.
+     *
+     * @param {string} prop - The property of the user object to update.
+     * @returns {function} A function that updates the user state.
+     */
     const updateUser = prop => e => {
         setUser({
             ...user,
             [prop]: e.target.value,
-        })
+        });
     };
 
+    /**
+     * Handles the registration process by validating inputs, checking 
+     * for existing users, and creating a new user account.
+     *
+     * @async
+     * @function
+     * @returns {Promise<void>} 
+     */
+
     const register = async () => {
-        if (!user.email || !user.password) {
+        
+        if (!user.email.trim() || !user.password) {
             return alert('No credentials provided!');
         }
+        if (user.password !== user.confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
         if (user.firstName.length < MIN_FIRSTNAME) {
             return alert('First name too short!');
         }
@@ -44,7 +92,7 @@ export default function Register() {
             return alert('Last name too long!');
         }
         try {
-            const userDB = await getUserByEmail(user.email);
+            const userDB = await getUserByEmail(user.email.trim());
             if (userDB) {
                 return alert(`User {${user.email}} already exists!`);
             }
@@ -53,7 +101,7 @@ export default function Register() {
             if (userFromDB) {
                 return alert(`User {${user.handle}} already exists!`);
             }
-            const credential = await registerUser(user.email, user.password);
+            const credential = await registerUser(user.email.trim(), user.password.trim());
             await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email, user.isAdmin, user.isBlocked);
             setAppState({ user: credential.user, userData: null });
             navigate('/');
@@ -76,6 +124,13 @@ export default function Register() {
             <input value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /> <br /><br />
             <label htmlFor="password">Password: </label>
             <input value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /> <br />
+            <label htmlFor="confirmPassword">Confirm Password: </label>
+            <input value={user.confirmPassword}
+                onChange={updateUser('confirmPassword')}
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+            /> <br />
             <button onClick={register}>Register</button>
         </>
     )

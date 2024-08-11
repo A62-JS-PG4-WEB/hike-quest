@@ -21,7 +21,7 @@ export default function Account() {
 
     const saveNewEmail = async () => {
         try {
-            await updateEmailInAuth(newEmail);
+           // await updateEmailInAuth(user);
 
             await updateEmailDB(userData.handle, newEmail);
             setAppState((prevState) => ({
@@ -34,7 +34,7 @@ export default function Account() {
             alert('Failed to update email: ' + error.message);
         }
     };
-
+    //console.log(userData.email);
 
     return (
         <>
