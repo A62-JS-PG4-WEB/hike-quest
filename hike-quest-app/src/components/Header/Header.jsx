@@ -40,8 +40,6 @@ export default function Header() {
         return () => unsubscribe();
     }, []);
 
-    console.log(usersCount);
-
     const logout = async () => {
         await logoutUser();
         setAppState({ user: null, userData: null });
