@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { deleteThread, getAllThreads } from "../../services/threads.service";
 import { AppContext } from "../../state/app.context";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
+import styles from './AllThreads.module.css'; // Import CSS module
 
 export default function AllThreads() {
     const [threads, setThreads] = useState([]);
@@ -17,7 +18,6 @@ export default function AllThreads() {
         const loadThreads = async () => {
             try {
                 const threads = await getAllThreads(search, sort, userFilter);
-                console.log(threads);
                 setThreads(threads);
             } catch (error) {
                 alert(error.message);
@@ -40,44 +40,52 @@ export default function AllThreads() {
     };
 
     return (
-        <div>
-            <h1>Our Threads</h1>
-            <div>
-                <label htmlFor="sort">Sort by:</label>
+        <div className={styles.container}>
+            <h1 className={styles.title}>Our Threads</h1>
+            <div className={styles.filters}>
+                <label htmlFor="sort" className={styles.label}>Sort by:</label>
                 <select
                     id="sort"
                     value={sort}
                     onChange={(e) => setSort(e.target.value)}
+                    className={styles.select}
                 >
                     <option value="date">Date</option>
                     <option value="title">Title</option>
                 </select>
             </div>
-            <div>
-                <label htmlFor="filter">Filter by user:</label>
+            <div className={styles.filters}>
+                <label htmlFor="filter" className={styles.label}>Filter by user:</label>
                 <input
                     id="filter"
                     type="text"
                     value={userFilter}
                     onChange={(e) => setUserFilter(e.target.value)}
+                    className={styles.input}
                 />
             </div>
             {threads.length > 0 ? (
                 threads.map(t => (
-                    <div key={t.id} className="threadItem">
-                        <p><strong>{t.title}</strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small></p>
-                        <p>{t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...</p>
-                        <p>Likes: {t.likeCount} | Comments: {t.commentCount}</p>
-                        <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
-                        {(t.author === userData?.handle || userData?.isAdmin) && (
-                            <>
-                                <button onClick={() => handleDeleteThread(t.id)}>Delete</button>
-                            </>
-                        )}
+                    <div key={t.id} className={styles.threadItem}>
+                        <p className={styles.threadHeader}>
+                            <strong>{t.title}</strong> <br/>
+                </p> by <label className="authorThread"> {t.author} </label>
+                <p className='threadDate'> {new Date(t.createdOn).toDateString()}</p>                        <p className={styles.threadContent}>
+                            {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
+                        </p>
+                        <p className={styles.threadStats}>
+                            Likes: {t.likeCount} | Comments: {t.commentCount}
+                        </p>
+                        <div className={styles.threadButtons}>
+                            <button className={styles.button} onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
+                            {(t.author === userData?.handle || userData?.isAdmin) && (
+                                <button className={styles.button} onClick={() => handleDeleteThread(t.id)}>Delete</button>
+                            )}
+                        </div>
                     </div>
                 ))
             ) : (
-                'No threads'
+                <p>No threads</p>
             )}
         </div>
     );

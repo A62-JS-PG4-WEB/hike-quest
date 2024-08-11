@@ -1,0 +1,29 @@
+.threadContent{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    font-size: larger;
+    border-style: hidden;
+    border-radius: 10px;
+    border-color: rgb(0, 0, 0);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.threadHeader{
+    width: 100%;
+    font-size: medium;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    text-transform: uppercase;
+}
+
+.authorThread{
+    margin: 0;
+    font-size: medium;
+}

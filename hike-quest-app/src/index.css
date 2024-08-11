@@ -1,3 +1,22 @@
+button{
+  background-color:  #afc6a0;
+  border: 3px solid transparent;
+  color: rgb(26, 25, 25);
+  border-color: transparent;
+  margin: 5px;
+  padding-inline: 20px;
+  padding-block: 10px;
+  border-radius: 20px;
+  justify-content: flex-end;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
