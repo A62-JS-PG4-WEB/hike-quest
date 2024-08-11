@@ -6,7 +6,9 @@ import { deleteThread, dislikeThread, likeThread } from '../../services/threads.
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
-import { weatherAPI } from '../../common/constants.js';
+import { weatherAPI } from '../../common/constants.js'
+import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
+import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
 
 
 
@@ -42,7 +44,6 @@ export default function Thread({ thread }) {
       alert(error.message);
     }
   };
-console.log(thread);
 
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
@@ -138,7 +139,7 @@ console.log(thread);
       <hr></hr>
       {(weatherData?.cod === 200) && (
         <div className='weatherContainer'>
-          <h3 >Weather at {thread.location}</h3>
+          <h3>Weather at {thread.location}</h3>
           <div >
             <img
 
@@ -156,8 +157,9 @@ console.log(thread);
 
       {/* <p className='threadDate'> {thread.hashtag}</p> */}
 
+
       <div className='buttonContainer'>
-        <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
+        <button className={`threadButtons ${thread.likedBy.includes(userData?.handle) ? 'like1' : 'like0'}`} style={{ display: 'flex', alignItems: 'center' }} onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? <ThumbsUpFilled /> : <ThumbsUp />} {thread.likedBy.length}</button>
       </div>
 
       <UpdateThreadModal
@@ -180,7 +182,7 @@ Thread.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     createdOn: PropTypes.string.isRequired,
-    // location: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };
