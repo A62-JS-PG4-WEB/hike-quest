@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllThreads } from "../../services/threads.service";
 import { useNavigate } from "react-router-dom";
-import { COUNT_THREADS_LANDINGPAGE } from "../../common/constants";
+import { COUNT_THREADS_LANDINGPAGE, MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 
 export default function LandingPage() {
     const [threads, setThreads] = useState([]);
@@ -38,7 +38,7 @@ export default function LandingPage() {
                                 <p key={t.id}>
                                     <strong>{t.title}</strong>
 
-                                    <br /><br />{t.content.slice(0, 300)}...
+                                    <br /><br />{t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
                                     <button onClick={() => navigate(`/login`)}>See more</button>
                                 </p>
                             ))}

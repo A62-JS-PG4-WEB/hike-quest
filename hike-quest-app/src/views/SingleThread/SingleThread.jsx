@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
@@ -39,12 +39,18 @@ export default function SingleThread() {
         <div>
             {thread && <Thread thread={thread} />}
             {tags.length > 0 ? (
-                    tags.map((tag, index) => (
-                        <span key={index} style={{ marginRight: '5px' }}>#{tag}</span>
-                    ))
-                ) : (
-                    <p>No tags added</p>
-                )}
+                tags.map((tag) => (
+                    <Link
+                        key={tag.id}
+                        state={{ tagName: tag.name }}
+                        to={`/tag-posts/${tag.id}`}
+                    >
+                        #{tag.name}
+                    </Link>
+                ))
+            ) : (
+                <p>No tags added</p>
+            )}
             {thread && <Comments threadId={id} />}
         </div>
     )

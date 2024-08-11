@@ -19,6 +19,7 @@ import LandingPage from './views/LandingPage/LandingPage';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import NotAuthorized from './views/NotAuthorized/NotAuthorized';
 import Terms from './views/Terms/Terms';
+import TagPosts from './views/TagPosts/TagPosts';
 
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
           <Route path='/account-user' element={user && <Authenticated><Account /></Authenticated>} />
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
+          <Route path='/tag-posts/:id' element={<Authenticated><TagPosts /></Authenticated>} />
           <Route path='/create-thread' element={<Authenticated>{!appState.userData?.isBlocked ?<CreateThread /> :<NotAuthorized />}</Authenticated>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
