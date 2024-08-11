@@ -36,28 +36,27 @@ export const getUsersCount = async () => {
 
 //TODO Fix filtering
 export const getAllThreads = async (search = '', sort = '', userFilter = '') => {
-
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
   const threads = Object.values(snapshot.val())
-    .map(thread => ({
-      ...thread,
-      commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
-    }));
-
+      .map(thread => ({
+          ...thread,
+          commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
+          likeCount: thread.likedBy ? Object.keys(thread.likedBy).length : 0,
+      }));
 
   if (search) {
-    return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
+      return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
   }
   if (userFilter) {
-    return threads.filter(t => t.author.toLowerCase().includes(userFilter.toLowerCase()));
+      return threads.filter(t => t.author.toLowerCase().includes(userFilter.toLowerCase()));
   }
 
   if (sort === 'date') {
-    return threads.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+      return threads.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
   } else if (sort === 'title') {
-    return threads.sort((a, b) => a.title.localeCompare(b.title));
+      return threads.sort((a, b) => a.title.localeCompare(b.title));
   }
   return threads;
 };
