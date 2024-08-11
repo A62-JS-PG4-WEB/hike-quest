@@ -64,7 +64,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                             </div>
                         </div>
                         <div>
-                            <p className='commentCreatedOn'> {new Date(comment.createdOn).toLocaleDateString()}</p>
+                            <p className='commentCreatedOn'> {new Date(comment.createdOn).toDateString()}</p>
                         </div>
 
 

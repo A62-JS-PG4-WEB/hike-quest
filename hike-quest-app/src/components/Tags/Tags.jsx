@@ -13,19 +13,19 @@ export default function Tags({ thread }) {
       return;
     }
 
-    const tagsArr = tagInput.split(',').map(tag => tag.trim()).filter(tag => tag !== ''); 
+    const tagsArr = tagInput.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
     console.log(tagsArr);
     for (const t of tagsArr) {
       console.log(t);
       try {
-        await createTag(thread.id, t.trim()); 
+        await createTag(thread.id, t.trim());
       } catch (error) {
         alert(error.message);
-        return; 
+        return;
       }
     }
-    
-    setTagInput(''); 
+
+    setTagInput('');
   };
 
   return (
@@ -36,7 +36,7 @@ export default function Tags({ thread }) {
         id="hashtag"
         name="hashtag"
         value={tagInput}
-        onChange={(e) => setTagInput(e.target.value)} 
+        onChange={(e) => setTagInput(e.target.value)}
       />
       <small>Separate Hashtags by comma</small> <br />
       <button onClick={handleCreateTags}>Add Tag</button>

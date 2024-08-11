@@ -1,4 +1,4 @@
-import { getDatabase, ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
+import { ref, push, get, set, update, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
@@ -40,23 +40,23 @@ export const getAllThreads = async (search = '', sort = '', userFilter = '') => 
   if (!snapshot.exists()) return [];
 
   const threads = Object.values(snapshot.val())
-      .map(thread => ({
-          ...thread,
-          commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
-          likeCount: thread.likedBy ? Object.keys(thread.likedBy).length : 0,
-      }));
+    .map(thread => ({
+      ...thread,
+      commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
+      likeCount: thread.likedBy ? Object.keys(thread.likedBy).length : 0,
+    }));
 
   if (search) {
-      return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
+    return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
   }
   if (userFilter) {
-      return threads.filter(t => t.author.toLowerCase().includes(userFilter.toLowerCase()));
+    return threads.filter(t => t.author.toLowerCase().includes(userFilter.toLowerCase()));
   }
 
   if (sort === 'date') {
-      return threads.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+    return threads.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
   } else if (sort === 'title') {
-      return threads.sort((a, b) => a.title.localeCompare(b.title));
+    return threads.sort((a, b) => a.title.localeCompare(b.title));
   }
   return threads;
 };
@@ -152,81 +152,91 @@ export const getCommentsByThread = async (threadId) => {
 }
 
 export const createTag = async (threadId, tag) => {
-  if (!tag.trim()) { 
+  if (!tag.trim()) {
     return;
   }
   const allTags = await fetchAllTags();
-console.log("all tags", allTags);
+  console.log("all tags", allTags);
 
-const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
-const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
-console.log('Existing tag:', existingTagEntry);
+  const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
+  const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
+  console.log('Existing tag:', existingTagEntry);
 
-if (existingTagId) {
-  const allPosts = await fetchAllPosts(threadId);
-  console.log('All posts:', allPosts);
+  if (existingTagId) {
+    const allPosts = await fetchAllPosts(threadId);
+    console.log('All posts:', allPosts);
 
-  const existingTagPost = allPosts.includes(existingTagId);
-  console.log('Tag exists in post:', existingTagPost);
+    const existingTagPost = allPosts.includes(existingTagId);
+    console.log('Tag exists in post:', existingTagPost);
 
-  if (existingTagPost) {
-    console.log('Tag already exists in the post.');
-    return;
+    if (existingTagPost) {
+      console.log('Tag already exists in the post.');
+      return;
+    } else {
+      await update(ref(db), {
+        [`posts/${threadId}/${existingTagId}`]: true,
+      });
+      console.log('Tag exists, added to the post.');
+    }
+
   } else {
-    await update(ref(db), {
-      [`posts/${threadId}/${existingTagId}`]: true,
-    });
-    console.log('Tag exists, added to the post.');
+    try {
+      const tagRef = push(ref(db, 'tags'), tag.trim());
+      const tagId = tagRef.key;
+
+      await update(ref(db), {
+        [`posts/${threadId}/${tagId}`]: true,
+      });
+
+      console.log('Created new tag and added to the post.');
+      return tagId;
+    } catch (error) {
+      console.error("Error creating tag:", error);
+      throw error;
+    }
   }
-
-} else {
-  try {
-    const tagRef = push(ref(db, 'tags'), tag.trim());
-    const tagId = tagRef.key;
-
-    await update(ref(db), {
-      [`posts/${threadId}/${tagId}`]: true,
-    });
-
-    console.log('Created new tag and added to the post.');
-    return tagId;
-  } catch (error) {
-    console.error("Error creating tag:", error);
-    throw error;
-  }
-}
-};
-export const fetchTagsForPost = async (threadId) => {
-  const postSnapshot = await get(ref(db, `posts/${threadId}`));
-  
-  if (!postSnapshot.exists()) {
-    console.log('No tags found for this post.');
-    return [];
-  }
-
-  const tagIds = Object.keys(postSnapshot.val());
-  console.log('Tag IDs:', tagIds);
-
-  const tagsSnapshot = await get(ref(db, 'tags'));
-  
-  if (!tagsSnapshot.exists()) {
-    console.log('No tags found in the database.');
-    return [];
-  }
-
-  const allTags = tagsSnapshot.val();
-  const tagNames = tagIds.map(tagId => allTags[tagId]);
-
-  console.log('Tag Names:', tagNames);
-  return tagNames;
 };
 
 const fetchAllTags = async () => {
   const snapshot = await get(ref(db, 'tags'));
   return snapshot.exists() ? snapshot.val() : {};
-  }
-  
-  const fetchAllPosts = async (threadId) => {
+}
+
+const fetchAllPosts = async (threadId) => {
   const snapshot = await get(ref(db, `posts/${threadId}`));
   return snapshot.exists() ? Object.keys(snapshot.val()) : [];
+}
+
+
+export const fetchTagsForPost = async (threadId) => {
+  const postSnapshot = await get(ref(db, `posts/${threadId}`));
+
+  if (!postSnapshot.exists()) {
+    return [];
   }
+
+  const tagIds = Object.keys(postSnapshot.val());
+
+  const tagsSnapshot = await get(ref(db, 'tags'));
+
+  if (!tagsSnapshot.exists()) {
+    return [];
+  }
+
+  const allTags = tagsSnapshot.val();
+
+  const tagsForPost = tagIds.map(tagId => ({
+    id: tagId,
+    name: allTags[tagId]
+  }));
+
+  return tagsForPost;
+};
+
+export const fetchPostsByTag = async (threadId, tagId) => {
+  const postRef = ref(db, `posts/${threadId}/${tagId}`);
+  const snapshot = await get(postRef);
+  const result = snapshot.val();
+
+  return result;
+};

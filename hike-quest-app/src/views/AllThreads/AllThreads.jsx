@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { deleteThread, getAllThreads } from "../../services/threads.service";
 import { AppContext } from "../../state/app.context";
+import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 
 export default function AllThreads() {
     const [threads, setThreads] = useState([]);
@@ -16,6 +17,7 @@ export default function AllThreads() {
         const loadThreads = async () => {
             try {
                 const threads = await getAllThreads(search, sort, userFilter);
+                console.log(threads);
                 setThreads(threads);
             } catch (error) {
                 alert(error.message);
@@ -64,7 +66,7 @@ export default function AllThreads() {
                 threads.map(t => (
                     <div key={t.id} className="threadItem">
                         <p><strong>{t.title}</strong> by {t.author} <small>{new Date(t.createdOn).toDateString()}</small></p>
-                        <p>{t.content.slice(0, 300)}...</p>
+                        <p>{t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...</p>
                         <p>Likes: {t.likeCount} | Comments: {t.commentCount}</p>
                         <button onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
                         {(t.author === userData?.handle || userData?.isAdmin) && (
