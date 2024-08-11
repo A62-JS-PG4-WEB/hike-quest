@@ -29,6 +29,7 @@ export default function CreateThread() {
   const [thread, setThread] = useState({
     title: '',
     content: '',
+    location: ''
   });
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
@@ -71,8 +72,8 @@ export default function CreateThread() {
     }
 
     try {
-      await createThread(userData.handle, thread.title.trim(), thread.content.trim());
-      setThread({ title: '', content: '' });
+      await createThread(userData.handle, thread.title.trim(), thread.content.trim(), thread.location.trim());
+      setThread({ title: '', content: '', location: '' });
       alert('Thanks for your contribution!');
       navigate('/threads')
 
@@ -88,6 +89,8 @@ export default function CreateThread() {
       <input className="commentBox" placeholder="Add a title..." value={thread.title} onChange={e => updateThread('title', e.target.value)} type="text" name="title" id="title" /><br />
       <label className="createContent" htmlFor="content">Content: </label>
       <textarea className="commentBox" placeholder="Add content..." value={thread.content} onChange={e => updateThread('content', e.target.value)} name="content" id="content" /><br /><br />
+      <label className="createTitle" htmlFor="location">Hike location: </label>
+      <textarea className="locationBox" placeholder="Add a location..." value={thread.location} onChange={e => updateThread('location', e.target.value)} name="location" id="location" /><br /><br />
       <button className="threadButtons" onClick={handleCreateThread}>Create</button>
     </div>
   )

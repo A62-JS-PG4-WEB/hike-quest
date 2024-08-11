@@ -6,6 +6,7 @@ import Comment from "../Comment/Comment";
 import '../../views/SingleThread/SingleThread.css'
 import Picker from '@emoji-mart/react';
 
+
 export default function Comments({ threadId }) {
     const { userData } = useContext(AppContext);
     const [comment, setComment] = useState('');
@@ -92,7 +93,7 @@ export default function Comments({ threadId }) {
 
     if (!userData) {
 
-        return <p>Loading...</p>; 
+        return <p>Loading...</p>;
 
     }
 
@@ -111,8 +112,8 @@ export default function Comments({ threadId }) {
                 <div className="commentButtons">
                     <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
                     <div>
-                        <button className="threadButtons emojiButton" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                            {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+                        <button className="threadButtons" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                            {showEmojiPicker ? "😜" : "😜"}
                         </button>
                         {showEmojiPicker && (
                             <Picker onEmojiSelect={addEmoji} />
@@ -124,12 +125,9 @@ export default function Comments({ threadId }) {
                 <hr></hr>
 
 
-
-
-
-                <div className="sortOptions">
+                <div>
                     <label htmlFor="sortOrder">Sort by:</label>
-                    <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
+                    <select className="threadButtons" id="sortOrder" value={sortOrder} onChange={handleSortChange}>
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
                     </select>

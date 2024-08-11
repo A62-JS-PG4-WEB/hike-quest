@@ -6,7 +6,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
     const [isEditing, setIsEditing] = useState(false);
     const [newText, setNewText] = useState(comment.text);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    
+
     const handleUpdate = () => {
         setIsEditing(true);
     };
@@ -34,31 +34,50 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
             {isEditing ? (
                 <>
                     <textarea
+                        className='commentBox'
                         value={newText}
                         onChange={(e) => setNewText(e.target.value)}
                         placeholder="Edit your comment..."
                     />
                     <br />
-                    <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                        {showEmojiPicker ? "Close Emoji Picker" : "Add Emoji"}
+                    <button className="threadButtons" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                        {showEmojiPicker ? "😜" : "😜"}
                     </button>
                     {showEmojiPicker && (
                         <Picker onEmojiSelect={addEmoji} />
                     )}
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <button className="threadButtons" onClick={handleSave}>Save</button>
+                    <button className="threadButtons" onClick={handleCancel}>Cancel</button>
                 </>
             ) : (
                 <>
-                   <small>{comment.author} </small> 
-                   <p>{comment.text}</p>
-                   <small> {new Date(comment.createdOn).toDateString()} </small> 
+                    <div className="userContainer">
+                        <div className='userInfo'>
+                            <img
+                                src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                alt="profile-pic"
+                                className="profilePic"
+                            />
+                            <div>
+                                <h3 className="userNameComment">{comment.author}</h3>
+                                <p className="userTypeComment">User type: { }</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p className='commentCreatedOn'> {new Date(comment.createdOn).toLocaleDateString()}</p>
+                        </div>
+
+
+
+                    </div>
+                    <p className="actualComment">{comment.text}</p>
+
                     {(comment.author === currentUser || isAdmin) && (
                         <>
                             {!isBlocked && (
-                                <button onClick={handleUpdate}>Edit</button>
+                                <button className="threadButtons" onClick={handleUpdate}>Edit</button>
                             )}
-                            <button onClick={handleDelete}>Delete</button>
+                            <button className="threadButtons" onClick={handleDelete}>Delete</button>
                         </>
                     )}
                 </>
