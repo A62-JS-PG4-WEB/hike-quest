@@ -42,7 +42,10 @@
 }
 
 
-.threadContainer {}
+.threadContainer {
+    border: 2px dashed;
+    border-style: dashed;
+}
 
 
 .threadCreatedOn {
@@ -52,13 +55,17 @@
 .threadTitle {
     width: 100%;
     font-size: x-large;
-    font-weight: normal;
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 10px;
     box-sizing: border-box;
+    text-transform: uppercase;
+}
+
+.weatherContainer {
+    text-align: center;
 }
 
 .threadDate {
