@@ -6,7 +6,8 @@ import { deleteThread, dislikeThread, likeThread } from '../../services/threads.
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
-import { weatherAPI } from '../../common/constants.js'
+import { weatherAPI } from '../../common/constants.js';
+
 
 
 /**
@@ -72,7 +73,6 @@ console.log(thread);
 
     const updatedThread = {
       ...currentThread,
-      hashtag: currentThread.hashtag || ''
     };
 
     const db = getDatabase();
@@ -80,10 +80,9 @@ console.log(thread);
       title: currentThread.title,
       content: currentThread.content,
 
-      // hashtag: currentThread.hashtag
 
-      location: currentThread.location,
-      hashtag: currentThread.hashtag
+
+      // location: currentThread.location,
 
     }).then(() => {
       closeModal();
@@ -131,6 +130,7 @@ console.log(thread);
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
       <h2 className='threadTitle'>{thread.title}</h2>
       <hr></hr>
+
 
       {/* <p className='hashtag'> {thread.hashtag}</p> */}
 
@@ -181,8 +181,7 @@ Thread.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     createdOn: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    hashtag: PropTypes.string,
+    // location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };

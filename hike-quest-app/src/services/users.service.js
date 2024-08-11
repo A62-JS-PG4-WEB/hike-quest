@@ -49,12 +49,12 @@ export const getUserByEmail = async (email) => {
   return snapshot.val();
 };
 
-export const updateEmailDB = async (handle, newEmail) => {
+export const updateAccountInfoDB = async (handle, newEmail, firstName, lastName) => {
   try {
-    await update(ref(db, `users/${handle}`), { email: newEmail });
-    console.log('Email updated successfully');
+    await update(ref(db, `users/${handle}`), { email: newEmail, firstName, lastName });
+    console.log('Info updated successfully');
   } catch (error) {
-    console.error('Error updating email:', error);
+    console.error('Error updating personal info:', error);
     throw new Error(error.message);
   }
 };

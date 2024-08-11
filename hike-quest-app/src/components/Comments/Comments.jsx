@@ -96,7 +96,7 @@ export default function Comments({ threadId }) {
         return <p>Loading...</p>;
 
     }
-
+console.log(comments.length);
     return (
         <div>
 
