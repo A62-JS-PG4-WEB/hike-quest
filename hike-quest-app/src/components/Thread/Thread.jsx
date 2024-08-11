@@ -1,3 +1,4 @@
+
 import PropTypes from 'prop-types';
 import { useContext, useState, useEffect } from 'react';
 import { AppContext } from "../../state/app.context"
@@ -40,7 +41,7 @@ export default function Thread({ thread }) {
       alert(error.message);
     }
   };
-
+console.log(thread);
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
@@ -78,8 +79,12 @@ export default function Thread({ thread }) {
     update(ref(db, `threads/${updatedThread.id}`, updatedThread), {
       title: currentThread.title,
       content: currentThread.content,
+
+      // hashtag: currentThread.hashtag
+
       location: currentThread.location,
       hashtag: currentThread.hashtag
+
     }).then(() => {
       closeModal();
     }).catch((error) => {
@@ -132,7 +137,7 @@ export default function Thread({ thread }) {
 
       <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
-      <p className='hashtag'> {thread.hashtag}</p>
+      {/* <p className='hashtag'> {thread.hashtag}</p> */}
 
       <p className='actualThread'>{thread.content}</p>
       <div className='buttonContainer'>
