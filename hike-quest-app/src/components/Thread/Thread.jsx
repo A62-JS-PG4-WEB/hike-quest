@@ -5,7 +5,7 @@ import { deleteThread, dislikeThread, likeThread } from '../../services/threads.
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
-import { weatherAPI } from '../common/constants.js'
+import { weatherAPI } from '../../common/constants.js'
 
 
 /**
@@ -87,9 +87,6 @@ export default function Thread({ thread }) {
     });
   };
 
-
-  console.log(weatherData);
-
   useEffect(() => {
     fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -101,6 +98,8 @@ export default function Thread({ thread }) {
       .then((data) => setWeatherData(data));
   }, [])
 
+
+  console.log(weatherData)
 
   return (
     <div className='threadContainer'>
@@ -118,23 +117,37 @@ export default function Thread({ thread }) {
         </div>
         <div>
           {(thread.author === userData?.handle || userData?.isAdmin) && (
-            <>
-              <button className="threadButtons" onClick={handleDeleteThread}>Delete</button>
-            </>
+            <button className="threadButtons" onClick={handleDeleteThread}>Delete</button>
           )}
           {thread.author === userData?.handle && <button className="threadButtons" onClick={openModal}>Edit</button>}
 
         </div>
       </div>
-      <hr></hr>
-      <h2 className='threadTitle'>{thread.title}</h2>
-      <h2>{thread.location}</h2>
-
-      <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
-      <p className='hashtag'> {thread.hashtag}</p>
-
+      <h2 className='threadTitle'>{thread.title}</h2>
+      <hr></hr>
       <p className='actualThread'>{thread.content}</p>
+      <hr></hr>
+      {(weatherData?.cod === 200) && (
+        <div className='weatherContainer'>
+          <h3 >Weather at {thread.location}</h3>
+          <div >
+            <img
+
+              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+            /></div>
+
+          <p>Temperature: {weatherData.main.temp} °C </p>
+
+          <p>Wind: {weatherData.wind.speed} m/s</p>
+          <p>Visibility: {weatherData.visibility} m</p>
+
+        </div>
+
+      )}
+
+      <p className='threadDate'> {thread.hashtag}</p>
+
       <div className='buttonContainer'>
         <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
       </div>
