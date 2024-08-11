@@ -44,7 +44,7 @@ export default function Thread({ thread }) {
       alert(error.message);
     }
   };
-  console.log(thread);
+
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
@@ -105,8 +105,6 @@ export default function Thread({ thread }) {
   }, [])
 
 
-  console.log(weatherData)
-
   return (
     <div className='threadContainer'>
       <div className='userContainer'>
@@ -157,7 +155,7 @@ export default function Thread({ thread }) {
 
       )}
 
-      <p className='threadDate'> {thread.hashtag}</p>
+      {/* <p className='threadDate'> {thread.hashtag}</p> */}
 
 
       <div className='buttonContainer'>

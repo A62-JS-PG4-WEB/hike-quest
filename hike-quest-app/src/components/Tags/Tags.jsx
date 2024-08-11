@@ -6,18 +6,26 @@ export default function Tags({ thread }) {
   const [tagInput, setTagInput] = useState('');
 
 
+
   const handleCreateTags = async () => {
     if (!tagInput.trim()) {
-      alert('Please enter a tag');
+      alert('Please enter your tag');
       return;
     }
 
-    try {
-      await createTag(thread.id, tagInput.trim());
-      setTagInput('');
-    } catch (error) {
-      alert(error.message);
+    const tagsArr = tagInput.split(',').map(tag => tag.trim()).filter(tag => tag !== ''); 
+    console.log(tagsArr);
+    for (const t of tagsArr) {
+      console.log(t);
+      try {
+        await createTag(thread.id, t.trim()); 
+      } catch (error) {
+        alert(error.message);
+        return; 
+      }
     }
+    
+    setTagInput(''); 
   };
 
   return (
