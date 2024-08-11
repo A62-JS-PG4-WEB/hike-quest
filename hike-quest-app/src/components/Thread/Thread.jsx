@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { AppContext } from "../../state/app.context"
 import { deleteThread, dislikeThread, likeThread } from '../../services/threads.service';
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
+import PropTypes from 'prop-types';
 
 
 /**
@@ -37,7 +37,7 @@ export default function Thread({ thread }) {
       alert(error.message);
     }
   };
-
+console.log(thread);
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
@@ -75,7 +75,7 @@ export default function Thread({ thread }) {
     update(ref(db, `threads/${updatedThread.id}`, updatedThread), {
       title: currentThread.title,
       content: currentThread.content,
-      hashtag: currentThread.hashtag
+      // hashtag: currentThread.hashtag
     }).then(() => {
       closeModal();
     }).catch((error) => {
@@ -113,7 +113,7 @@ export default function Thread({ thread }) {
 
       <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
-      <p className='hashtag'> {thread.hashtag}</p>
+      {/* <p className='hashtag'> {thread.hashtag}</p> */}
 
       <p className='actualThread'>{thread.content}</p>
       <div className='buttonContainer'>

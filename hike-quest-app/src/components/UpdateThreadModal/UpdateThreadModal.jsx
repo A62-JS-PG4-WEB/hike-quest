@@ -41,7 +41,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
-         <Tags/>
+         <Tags thread={thread}/>
           <button className="threadButtons" onClick={handleClose}>Cancel</button>
           <button className="threadButtons" type="submit">Update</button>
 
@@ -55,7 +55,12 @@ UpdateThreadModal.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  thread: PropTypes.object.isRequired,
+  thread: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    content: PropTypes.string,
+    uid: PropTypes.string
+  }).isRequired,
   setThread: PropTypes.func.isRequired,
 };
 

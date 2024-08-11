@@ -151,3 +151,42 @@ export const getCommentsByThread = async (threadId) => {
   }
 
 }
+
+export const createTag = async ( threadId, tags) => {
+  console.log(tags);
+  console.log(threadId);
+
+  const tag = { tags };
+  const result = await push(ref(db, 'tags'), tag);
+  const id = result.key;
+  await update(ref(db), {
+    [`tags/${id}/id`]: id,
+   
+  });
+  const resultPost = await push(ref(db, 'posts'), threadId);
+  const idTag = resultPost.key;
+  await update(ref(db), {
+    [`/posts/${threadId}`]:idTag
+   
+  });
+
+
+   // [`/posts/${threadId}`]:id
+};
+
+// export const createTag = async (threadId, tag, post) => {
+//   // Generating a unique ID for the tag
+//   const tagId = new Date().getTime().toString(); 
+
+//   // Firebase update object
+//   const updates = {};
+
+//   // Updating the tags collection with the new tag
+//   updates[`/tags/${tag}`] = tagId;
+
+//   // Updating the posts collection with the postId as key and tagId as value
+//   updates[`/posts/${threadId}`] = tagId;
+
+//   // Committing the updates to Firebase
+//   await update(ref(db), updates);
+// };
