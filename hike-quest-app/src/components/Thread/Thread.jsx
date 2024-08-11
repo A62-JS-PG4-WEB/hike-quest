@@ -10,6 +10,8 @@ import { weatherAPI } from '../../common/constants.js'
 import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
 import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
 
+
+
 /**
  * 
  * @param {{ thread: {
@@ -73,7 +75,6 @@ export default function Thread({ thread }) {
 
     const updatedThread = {
       ...currentThread,
-      hashtag: currentThread.hashtag || ''
     };
 
     const db = getDatabase();
@@ -81,10 +82,9 @@ export default function Thread({ thread }) {
       title: currentThread.title,
       content: currentThread.content,
 
-      // hashtag: currentThread.hashtag
 
-      location: currentThread.location,
-      hashtag: currentThread.hashtag
+
+      // location: currentThread.location,
 
     }).then(() => {
       closeModal();
@@ -133,6 +133,7 @@ export default function Thread({ thread }) {
       <h2 className='threadTitle'>{thread.title}</h2>
       <hr></hr>
 
+
       {/* <p className='hashtag'> {thread.hashtag}</p> */}
 
 
@@ -140,7 +141,7 @@ export default function Thread({ thread }) {
       <hr></hr>
       {(weatherData?.cod === 200) && (
         <div className='weatherContainer'>
-          <h3 >Weather at {thread.location}</h3>
+          <h3>Weather at {thread.location}</h3>
           <div >
             <img
 
@@ -184,7 +185,6 @@ Thread.propTypes = {
     content: PropTypes.string.isRequired,
     createdOn: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    hashtag: PropTypes.string,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };

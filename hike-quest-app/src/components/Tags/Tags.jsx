@@ -1,72 +1,43 @@
-import { useContext } from "react"
-import { AppContext } from "../../state/app.context";
-import PropTypes from 'prop-types';
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import { createTag } from "../../services/threads.service";
 
-export default function Tags({ thread }){
-const [tags, setTags] = useState({
-    tag: '',
-  });
-  const { userData } = useContext(AppContext);
-
-  const updateTag = (key, value) => {
-    console.log(value);
-    console.log( key);
-    setTags({
-   ...tags,
-      [key]: value,
-    });
-  };
+export default function Tags({ thread }) {
+  const [tagInput, setTagInput] = useState('');
 
 
   const handleCreateTags = async () => {
-   
+    if (!tagInput.trim()) {
+      alert('Please enter a tag');
+      return;
+    }
+
     try {
-      await createTag(thread.id, tags.tag);
-      setTags({ tag: '' });
+      await createTag(thread.id, tagInput.trim());
+      setTagInput('');
     } catch (error) {
       alert(error.message);
     }
   };
 
-
-console.log(thread);
-    return (
-        <>
+  return (
+    <>
       <label className="addHashtag" htmlFor="hashtag">Hashtags</label>
       <textarea
         className='commentBox'
         id="hashtag"
         name="hashtag"
-        value={tags.tag || ''}
-        onChange={e => updateTag("tag", e.target.value)} 
+        value={tagInput}
+        onChange={(e) => setTagInput(e.target.value)} 
       />
       <small>Separate Hashtags by comma</small> <br />
       <button onClick={handleCreateTags}>Add Tag</button>
     </>
   );
 }
-//         <>
-//          <label className="addHashtag" htmlFor="hashtag">Hashtags</label>
-//           <textarea
-//             className='commentBox'
-//             id="hashtag"
-//             name="hashtag"
-//             value={tags.tag || ''}
-//             onChange={e => updateTag("tags", e.target.value)} 
-//     //   <input value={tweet.title} onChange={e => updateTweet('title', e.target.value)} type="text" name="title" id="title" /><br/>
-   
-//             // value={thread.hashtag || ''}
-//             // onChange={onChange}
-//           />
-//           <small>Separate Hashtags by coma</small> <br />
-//           </>
-//     )
-// }
 
 Tags.propTypes = {
-    thread: PropTypes.shape({
-      uid: PropTypes.string.isRequired
-    }).isRequired,
-  };
+  thread: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+};
