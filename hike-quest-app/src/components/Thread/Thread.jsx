@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 import { weatherAPI } from '../../common/constants.js'
-
+import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
+import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
 
 /**
  * 
@@ -41,7 +42,7 @@ export default function Thread({ thread }) {
       alert(error.message);
     }
   };
-console.log(thread);
+  console.log(thread);
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
@@ -157,8 +158,9 @@ console.log(thread);
 
       <p className='threadDate'> {thread.hashtag}</p>
 
+
       <div className='buttonContainer'>
-        <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
+        <button className={`threadButtons ${thread.likedBy.includes(userData?.handle) ? 'like1' : 'like0'}`} style={{ display: 'flex', alignItems: 'center' }} onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? <ThumbsUpFilled /> : <ThumbsUp />} {thread.likedBy.length}</button>
       </div>
 
       <UpdateThreadModal
