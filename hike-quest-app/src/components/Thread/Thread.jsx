@@ -6,7 +6,7 @@ import { deleteThread, dislikeThread, likeThread } from '../../services/threads.
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
-import { weatherAPI } from '../common/constants.js'
+import { weatherAPI } from '../../common/constants.js';
 
 
 /**
@@ -72,7 +72,6 @@ console.log(thread);
 
     const updatedThread = {
       ...currentThread,
-      hashtag: currentThread.hashtag || ''
     };
 
     const db = getDatabase();
@@ -80,10 +79,9 @@ console.log(thread);
       title: currentThread.title,
       content: currentThread.content,
 
-      // hashtag: currentThread.hashtag
 
-      location: currentThread.location,
-      hashtag: currentThread.hashtag
+
+      // location: currentThread.location,
 
     }).then(() => {
       closeModal();
@@ -137,8 +135,6 @@ console.log(thread);
 
       <hr></hr>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
-      {/* <p className='hashtag'> {thread.hashtag}</p> */}
-
       <p className='actualThread'>{thread.content}</p>
       <div className='buttonContainer'>
         <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
@@ -164,8 +160,7 @@ Thread.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     createdOn: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    hashtag: PropTypes.string,
+    // location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };

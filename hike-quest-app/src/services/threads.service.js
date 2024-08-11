@@ -151,28 +151,52 @@ export const getCommentsByThread = async (threadId) => {
   }
 
 }
+export const createTag = async (threadId, tag) => {
+  try {
 
-export const createTag = async ( threadId, tags) => {
-  console.log(tags);
-  console.log(threadId);
+    const tagRef = push(ref(db, 'tags'), tag);
+    const tagId = tagRef.key;
 
-  const tag = { tags };
-  const result = await push(ref(db, 'tags'), tag);
-  const id = result.key;
-  await update(ref(db), {
-    [`tags/${id}/id`]: id,
    
-  });
-  const resultPost = await push(ref(db, 'posts'), threadId);
-  const idTag = resultPost.key;
-  await update(ref(db), {
-    [`/posts/${threadId}`]:idTag
-   
-  });
-
-
-   // [`/posts/${threadId}`]:id
+    await update(ref(db), {
+      [`posts/${threadId}/${tagId}`]: true, 
+      // [`Tags/${tagId}/name`]: tag,
+      // [`Tags/${tagId}/posts/${threadId}`]: true
+    });
+  
+    return tagId;
+  } catch (error) {
+    console.error("Error creating tag:", error);
+    throw error;
+  }
 };
+
+// export const createTag = async ( threadId, tags) => {
+//   console.log(tags);
+//   console.log(threadId);
+
+//   const tag =  {tags} 
+//   const result = await push(ref(db, 'tags'), tag);
+//   console.log(result);
+//   const id = result.key;
+//   // await update(ref(db), {
+//   //   [`tag/${id}/id`]: id,
+   
+//   // });
+//   await update(ref(db), {
+//     [`posts/${threadId}/tags/${id}`]: tag,
+//   });
+
+//   const resultPost = await push(ref(db, 'posts'), threadId);
+//   const idTag = resultPost.key;
+//   await update(ref(db), {
+//     [`/posts/${threadId}`]:id
+   
+//   });
+
+
+//    // [`/posts/${threadId}`]:id
+// };
 
 // export const createTag = async (threadId, tag, post) => {
 //   // Generating a unique ID for the tag
