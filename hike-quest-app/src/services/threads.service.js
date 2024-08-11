@@ -151,66 +151,83 @@ export const getCommentsByThread = async (threadId) => {
   }
 
 }
-export const createTag = async (threadId, tag) => {
-  try {
 
-    const tagRef = push(ref(db, 'tags'), tag);
+export const createTag = async (threadId, tag) => {
+  if (!tag.trim()) { 
+    return;
+  }
+  const allTags = await fetchAllTags();
+console.log("all tags", allTags);
+
+const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
+const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
+console.log('Existing tag:', existingTagEntry);
+
+if (existingTagId) {
+  const allPosts = await fetchAllPosts(threadId);
+  console.log('All posts:', allPosts);
+
+  const existingTagPost = allPosts.includes(existingTagId);
+  console.log('Tag exists in post:', existingTagPost);
+
+  if (existingTagPost) {
+    console.log('Tag already exists in the post.');
+    return;
+  } else {
+    await update(ref(db), {
+      [`posts/${threadId}/${existingTagId}`]: true,
+    });
+    console.log('Tag exists, added to the post.');
+  }
+
+} else {
+  try {
+    const tagRef = push(ref(db, 'tags'), tag.trim());
     const tagId = tagRef.key;
 
-   
     await update(ref(db), {
-      [`posts/${threadId}/${tagId}`]: true, 
-      // [`Tags/${tagId}/name`]: tag,
-      // [`Tags/${tagId}/posts/${threadId}`]: true
+      [`posts/${threadId}/${tagId}`]: true,
     });
-  
+
+    console.log('Created new tag and added to the post.');
     return tagId;
   } catch (error) {
     console.error("Error creating tag:", error);
     throw error;
   }
+}
+};
+export const fetchTagsForPost = async (threadId) => {
+  const postSnapshot = await get(ref(db, `posts/${threadId}`));
+  
+  if (!postSnapshot.exists()) {
+    console.log('No tags found for this post.');
+    return [];
+  }
+
+  const tagIds = Object.keys(postSnapshot.val());
+  console.log('Tag IDs:', tagIds);
+
+  const tagsSnapshot = await get(ref(db, 'tags'));
+  
+  if (!tagsSnapshot.exists()) {
+    console.log('No tags found in the database.');
+    return [];
+  }
+
+  const allTags = tagsSnapshot.val();
+  const tagNames = tagIds.map(tagId => allTags[tagId]);
+
+  console.log('Tag Names:', tagNames);
+  return tagNames;
 };
 
-// export const createTag = async ( threadId, tags) => {
-//   console.log(tags);
-//   console.log(threadId);
-
-//   const tag =  {tags} 
-//   const result = await push(ref(db, 'tags'), tag);
-//   console.log(result);
-//   const id = result.key;
-//   // await update(ref(db), {
-//   //   [`tag/${id}/id`]: id,
-   
-//   // });
-//   await update(ref(db), {
-//     [`posts/${threadId}/tags/${id}`]: tag,
-//   });
-
-//   const resultPost = await push(ref(db, 'posts'), threadId);
-//   const idTag = resultPost.key;
-//   await update(ref(db), {
-//     [`/posts/${threadId}`]:id
-   
-//   });
-
-
-//    // [`/posts/${threadId}`]:id
-// };
-
-// export const createTag = async (threadId, tag, post) => {
-//   // Generating a unique ID for the tag
-//   const tagId = new Date().getTime().toString(); 
-
-//   // Firebase update object
-//   const updates = {};
-
-//   // Updating the tags collection with the new tag
-//   updates[`/tags/${tag}`] = tagId;
-
-//   // Updating the posts collection with the postId as key and tagId as value
-//   updates[`/posts/${threadId}`] = tagId;
-
-//   // Committing the updates to Firebase
-//   await update(ref(db), updates);
-// };
+const fetchAllTags = async () => {
+  const snapshot = await get(ref(db, 'tags'));
+  return snapshot.exists() ? snapshot.val() : {};
+  }
+  
+  const fetchAllPosts = async (threadId) => {
+  const snapshot = await get(ref(db, `posts/${threadId}`));
+  return snapshot.exists() ? Object.keys(snapshot.val()) : [];
+  }

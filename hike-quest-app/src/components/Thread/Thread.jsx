@@ -43,6 +43,7 @@ export default function Thread({ thread }) {
     }
   };
 console.log(thread);
+
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return alert('Not authorised!');
@@ -103,8 +104,6 @@ console.log(thread);
   }, [])
 
 
-  console.log(weatherData)
-
   return (
     <div className='threadContainer'>
       <div className='userContainer'>
@@ -155,7 +154,7 @@ console.log(thread);
 
       )}
 
-      <p className='threadDate'> {thread.hashtag}</p>
+      {/* <p className='threadDate'> {thread.hashtag}</p> */}
 
       <div className='buttonContainer'>
         <button className="threadButtons" onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? 'Dislike' : 'Like'}</button>
