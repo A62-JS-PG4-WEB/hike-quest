@@ -98,9 +98,9 @@ export const deleteThread = async (threadId) => {
   try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
-
+    toast.success('Thread deleted successfully.');
   } catch (error) {
-    toast.error('Error deleting thread:', error);
+    toast.error('Error deleting thread: ' + error.message || error);
     throw error;
   }
 }
@@ -132,7 +132,7 @@ export const addCommentToThread = async (threadId, comment) => {
     await set(commentsRef, commentData);
 
   } catch (error) {
-    t.error('Error adding comment:', error);
+    toast.error('Error adding comment:', error);
   }
 }
 

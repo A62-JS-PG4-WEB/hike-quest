@@ -11,6 +11,8 @@ import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
 import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 
 
 /**
@@ -50,9 +52,19 @@ export default function Thread({ thread }) {
     if (thread.author !== userData.handle && !userData.isAdmin) {
       return toast.error('Not authorised!');
     }
-    //TODO confirm
-    const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
-    if (confirmDelete) {
+
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(99, 236, 112)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteThread(thread.id);
         toast.success('Thread deleted successfully.');
@@ -61,7 +73,7 @@ export default function Thread({ thread }) {
         toast.error('Failed to delete the thread: ' + error.message);
       }
     }
-  }
+  };
 
   const openModal = () => {
     setShowModal(true);

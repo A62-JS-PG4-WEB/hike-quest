@@ -57,7 +57,7 @@ export default function Header() {
                     <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
                 </div>
                 <label>Total hikers {usersCount}, Join us too!</label>
-                {!user && <label> Don't miss our pertinent {count} threads! </label>}
+                {!user && <label> Don't miss our amazing {count} threads! </label>}
                 {user && (<>
                     <NavLink to="/threads">All Threads</NavLink>
                     {!userData?.isBlocked && (

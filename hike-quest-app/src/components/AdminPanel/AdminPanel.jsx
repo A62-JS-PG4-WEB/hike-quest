@@ -4,6 +4,8 @@ import { getAllThreads, deleteThread } from '../../services/threads.service';
 import { AppContext } from '../../state/app.context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
@@ -63,20 +65,36 @@ const AdminPanel = () => {
             toast.error('Error updating user status:', error);
         }
     };
-    //TODO confirm
-    const handleDeleteThread = async (threadId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
 
-        if (confirmDelete) {
+    const handleDeleteThread = async (threadId) => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(99, 236, 112)',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        });
+
+        if (result.isConfirmed) {
             try {
                 await deleteThread(threadId);
                 setThreads(threads.filter(thread => thread.id !== threadId));
                 toast.success('Thread deleted successfully.');
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Your thread has been deleted.',
+                    icon: 'success',
+                    confirmButtonColor: 'rgb(99, 236, 112)',
+                });
             } catch (error) {
-                toast.error('Error deleting thread:', error);
+                toast.error('Error deleting thread:', error.message || error);
             }
         }
-    }
+    };
+
     if (!userData) {
         return <p>Loading...</p>;
     }

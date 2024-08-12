@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { AppContext } from "../../state/app.context";
 import { createThread } from "../../services/threads.service";
-import { MAX_THREAD_CONTENT, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_TITLE } from "../../common/constants";
+import { MAX_THREAD_CONTENT, MAX_THREAD_LOCATION, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_LOCATION, MIN_THREAD_TITLE } from "../../common/constants";
 import { useNavigate } from "react-router-dom";
 import '../../views/SingleThread/SingleThread.css'
 import { ToastContainer, toast } from 'react-toastify';
@@ -69,6 +69,13 @@ export default function CreateThread() {
 
     if (thread.content.length > MAX_THREAD_CONTENT) {
       return toast.error('Content too long!');
+    }
+
+    if (thread.location.length < MIN_THREAD_LOCATION) {
+      return toast.error('Location name too short!');
+    }
+    if (thread.location.length > MAX_THREAD_LOCATION) {
+      return toast.error('Location name too short!');
     }
 
     try {

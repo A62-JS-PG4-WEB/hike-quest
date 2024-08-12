@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Picker from '@emoji-mart/react';
+import Swal from 'sweetalert2';
 
 
 export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked, isAdmin }) {
@@ -21,13 +22,30 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
         setNewText(comment.text);
         setIsEditing(false);
     };
-    //TODO confirm
-    const handleDelete = () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-        if (confirmDelete) {
+
+    const handleDelete = async () => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(99, 236, 112)',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        });
+
+        if (result.isConfirmed) {
             onDeleteComment(comment.id);
+            Swal.fire({
+                title: 'Deleted!',
+                text: 'Your comment has been deleted.',
+                icon: 'success',
+                confirmButtonColor: 'rgb(99, 236, 112)',
+            });
         }
     };
+
     const addEmoji = (emoji) => {
         setNewText((prevText) => prevText + emoji.native);
     };
