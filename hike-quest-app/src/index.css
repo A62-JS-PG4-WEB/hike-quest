@@ -9,6 +9,19 @@ button{
   border-radius: 20px;
   justify-content: flex-end;
   transition: all 0.3s ease-in-out;
+  cursor: pointer; 
+}
+
+.threadButtonsCancel{
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin: 0 auto; 
+  padding: 10px 20px; 
+  background-color:#afc6a0;
+  color:  rgb(26, 25, 25); 
+  border: none; 
+  cursor: pointer; 
 }
 
 button:hover {
@@ -16,6 +29,12 @@ button:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
+}
+
+.deleteTagButton{
+  padding: 2px 4px; 
+  background-color: transparent;
+  margin-left: 1px;
 }
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

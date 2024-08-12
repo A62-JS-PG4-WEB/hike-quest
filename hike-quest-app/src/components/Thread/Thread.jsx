@@ -83,7 +83,6 @@ export default function Thread({ thread }) {
       content: currentThread.content,
 
 
-
       // location: currentThread.location,
 
     }).then(() => {
@@ -123,8 +122,11 @@ export default function Thread({ thread }) {
           {(thread.author === userData?.handle || userData?.isAdmin) && (
             <button className="threadButtons" onClick={handleDeleteThread}>Delete</button>
           )}
-          {thread.author === userData?.handle && <button className="threadButtons" onClick={openModal}>Edit</button>}
+          {(thread.author === userData?.handle && !userData.isBlocked) && 
+           (<button className="threadButtons" onClick={openModal}>Edit</button>
 
+           )}
+          
         </div>
       </div>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
@@ -154,9 +156,6 @@ export default function Thread({ thread }) {
         </div>
 
       )}
-
-      {/* <p className='threadDate'> {thread.hashtag}</p> */}
-
 
       <div className='buttonContainer'>
         <button className={`threadButtons ${thread.likedBy.includes(userData?.handle) ? 'like1' : 'like0'}`} style={{ display: 'flex', alignItems: 'center' }} onClick={toggleLike}>{thread.likedBy.includes(userData?.handle) ? <ThumbsUpFilled /> : <ThumbsUp />} {thread.likedBy.length}</button>
