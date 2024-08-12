@@ -36,7 +36,7 @@ export default function Tags({ thread }) {
         onChange={(e) => setTagInput(e.target.value)}
       />
       <small>Separate Hashtags by comma</small> <br />
-      <button onClick={handleCreateTags}>Add Tag</button>
+      <button onClick={handleCreateTags}>Update</button>
     </>
   );
 }
