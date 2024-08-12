@@ -40,50 +40,50 @@ export default function SingleThread() {
     }, [id]);
 
     const handleDeleteTag = async (tagName) => {
-       
+
         try {
-       await deleteTag(thread.id, tagName);
-        const updatedTags = tags.filter(tag => tag !== tagName);
-        setTags(updatedTags);
+            await deleteTag(thread.id, tagName);
+            const updatedTags = tags.filter(tag => tag !== tagName);
+            setTags(updatedTags);
         } catch (error) {
-          alert(error.message);
+            toast(error.message);
         }
-      };
+    };
 
     const handleDeleteClick = (e, tag) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         e.preventDefault();
         handleDeleteTag(tag);
-      };
+    };
 
     return (
         <div>
             {thread && <Thread thread={thread} />}
             <div className="tags">
-            {tags.length > 0 ? (
-                tags.map((tag) => (
-                    <Link
-                        key={tag.id}
-                        state={{ tagName: tag.name }}
-                        to={`/tag-posts/${tag.id}`}
-                    >
-                        #{tag.name}
-                      { userData.handle === thread.author &&
-                        ( <button
-                            className="deleteTagButton"
-                           onClick={(e) => handleDeleteClick(e, tag.id)}
+                {tags.length > 0 ? (
+                    tags.map((tag) => (
+                        <Link
+                            key={tag.id}
+                            state={{ tagName: tag.name }}
+                            to={`/tag-posts/${tag.id}`}
                         >
-                            X
-                        </button>)
+                            #{tag.name}
+                            {userData.handle === thread.author &&
+                                (<button
+                                    className="deleteTagButton"
+                                    onClick={(e) => handleDeleteClick(e, tag.id)}
+                                >
+                                    X
+                                </button>)
 
-                      } 
-                    </Link>
-                ))
-            ) : (
-                <p>No tags added</p>
-            )}
+                            }
+                        </Link>
+                    ))
+                ) : (
+                    <p>No tags added</p>
+                )}
             </div>
-           
+
             {thread && <Comments threadId={id} />}
         </div>
     )

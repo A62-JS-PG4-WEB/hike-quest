@@ -36,20 +36,21 @@ export default function Thread({ thread }) {
   const [showModal, setShowModal] = useState(false);
   const [weatherData, setWeatherData] = useState({})
   const [currentThread, setCurrentThread] = useState(thread);
-const [authorType, setAuthorType] = useState()
+  const [authorType, setAuthorType] = useState()
 
-useEffect(() => {
+  useEffect(() => {
 
     const userType = async () => {
       try {
-    const authorInfo = await getUserByHandle(thread.author);
-    setAuthorType(authorInfo.isAdmin);
+        const authorInfo = await getUserByHandle(thread.author);
+        setAuthorType(authorInfo.isAdmin);
 
-  } catch(e) {
+      } catch (e) {
 
-  }}
-  userType()
-}, [])
+      }
+    }
+    userType()
+  }, [])
 
   const toggleLike = async () => {
     const isLiked = thread.likedBy.includes(userData.handle);
@@ -91,7 +92,7 @@ useEffect(() => {
     }
   };
 
-  
+
 
   const openModal = () => {
     setShowModal(true);
@@ -141,23 +142,23 @@ useEffect(() => {
             className="profilePic"
           />
           <div>
-          <p className='userName'>{thread.author}</p>
-          {(authorType) ? 
-             <p className='userType'> user type: alpine hiker  </p>
-           : 
-            <p className='userType'> user type: hiker</p>
-          }
+            <p className='userName'>{thread.author}</p>
+            {(authorType) ?
+              <p className='userType'> user type: alpine hiker  </p>
+              :
+              <p className='userType'> user type: hiker</p>
+            }
           </div>
         </div>
         <div>
           {(thread.author === userData?.handle || userData?.isAdmin) && (
             <button className="threadButtons" onClick={handleDeleteThread}>Delete</button>
           )}
-          {(thread.author === userData?.handle && !userData.isBlocked) && 
-           (<button className="threadButtons" onClick={openModal}>Edit</button>
+          {(thread.author === userData?.handle && !userData.isBlocked) &&
+            (<button className="threadButtons" onClick={openModal}>Edit</button>
 
-           )}
-          
+            )}
+
         </div>
       </div>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
@@ -209,5 +210,5 @@ Thread.propTypes = {
     createdOn: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    };
+  }).isRequired,
+};

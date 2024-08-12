@@ -16,7 +16,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
         const userType = async () => {
             try {
                 const authorInfo = await getUserByHandle(comment.author);
-                console.log();
+
                 setAuthorType(authorInfo.isAdmin);
 
             } catch (e) {

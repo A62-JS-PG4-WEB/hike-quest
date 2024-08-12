@@ -20,7 +20,6 @@ import AdminPanel from './components/AdminPanel/AdminPanel';
 import NotAuthorized from './views/NotAuthorized/NotAuthorized';
 import Terms from './views/Terms/Terms';
 import TagPosts from './views/TagPosts/TagPosts';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import About from './views/About/About';

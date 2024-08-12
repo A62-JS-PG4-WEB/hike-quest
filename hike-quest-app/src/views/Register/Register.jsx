@@ -135,4 +135,4 @@ export default function Register() {
             <button onClick={register}>Register</button>
         </>
     );
-};
+}
