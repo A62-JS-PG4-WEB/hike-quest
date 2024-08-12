@@ -41,10 +41,14 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
-         <Tags thread={thread}/>
-          <button className="threadButtons" onClick={handleClose}>Cancel</button>
-          <button className="threadButtons" type="submit">Update</button>
-
+            <button className="threadButtons" type="submit">Update</button>
+            <div>
+            <Tags thread={thread}/>
+            </div>
+        
+           <button className="threadButtonsCancel" onClick={handleClose}>Cancel</button>
+                        
+         
         </form>
       </div>
     </div>
