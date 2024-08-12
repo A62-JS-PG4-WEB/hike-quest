@@ -159,7 +159,6 @@ export default function Comments({ threadId }) {
 
 Comments.propTypes = {
   threadId: PropTypes.string.isRequired,
-
 };
 
 

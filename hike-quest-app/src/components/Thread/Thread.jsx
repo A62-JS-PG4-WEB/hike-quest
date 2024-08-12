@@ -98,10 +98,6 @@ useEffect(() => {
     update(ref(db, `threads/${updatedThread.id}`, updatedThread), {
       title: currentThread.title,
       content: currentThread.content,
-
-
-      // location: currentThread.location,
-
     }).then(() => {
       closeModal();
     }).catch((error) => {
@@ -153,11 +149,6 @@ useEffect(() => {
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
       <h2 className='threadTitle'>{thread.title}</h2>
       <hr></hr>
-
-
-      {/* <p className='hashtag'> {thread.hashtag}</p> */}
-
-
       <p className='actualThread'>{thread.content}</p>
       <hr></hr>
       {(weatherData?.cod === 200) && (
@@ -204,6 +195,5 @@ Thread.propTypes = {
     createdOn: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // authorType: PropTypes.bool.isRequired,
-  }).isRequired,
-};
+    }).isRequired,
+    };

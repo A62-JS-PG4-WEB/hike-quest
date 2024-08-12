@@ -22,19 +22,21 @@ export default function Footer() {
    *
    * @function
    */
-  const handleNavigate = () => {
-    navigate('/terms');
+  const handleNavigate = (path) => {
+    navigate(path);
   };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.topRow}>
         <p className={styles.terms}>
-          <button onClick={handleNavigate}> Terms of use</button>
+          <button onClick={() => handleNavigate('/terms')}>Terms of Use</button>
         </p>
-        <p className={styles.about}>About</p>
+        <p className={styles.about}>
+          <button onClick={() => handleNavigate('/about')}>About</button>
+        </p>
       </div>
       <p className={styles.rights}>© 2024 Hike Quest. All rights reserved.</p>
     </footer>
   );
-};
-
+}
