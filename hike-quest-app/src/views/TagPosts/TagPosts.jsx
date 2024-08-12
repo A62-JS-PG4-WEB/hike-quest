@@ -1,10 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { fetchPostsByTag, getAllThreads } from "../../services/threads.service";
-import AllThreads from "../AllThreads/AllThreads";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import { AppContext } from "../../state/app.context";
 
+/**
+ * TagPosts component fetches and displays all threads associated with a specific tag
+ * and displays them in a list.
+ *
+ * @component
+ * @example
+ * return (
+ *   <TagPosts />
+ * )
+ */
 export default function TagPosts() {
   const { id } = useParams();
   const location = useLocation();
@@ -13,8 +22,11 @@ export default function TagPosts() {
   const { userData } = useContext(AppContext);
   const navigate = useNavigate();
 
-
   useEffect(() => {
+    /**
+     * Fetches all threads and filters them by the specified tag.
+     * The filtered threads are then set to the state for rendering.
+     */
     const fetchThreads = async () => {
       try {
         const allposts = await getAllThreads();
@@ -25,8 +37,6 @@ export default function TagPosts() {
 
         const results = await Promise.all(filteredPromises);
         const filteredThreads = results.filter(thread => thread !== null);
-
-        console.log('Filtered threads:', filteredThreads);
         setPosts(filteredThreads);
       } catch (error) {
         console.error('Error fetching posts:', error);

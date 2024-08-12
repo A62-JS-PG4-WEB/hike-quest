@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
  * links to the Terms of Use and About pages, as well as a copyright notice.
  *
  * @component
- * @example
+ * 
  * return (
  *   <Footer />
  * )
@@ -19,7 +19,7 @@ export default function Footer() {
 
   /**
    * Handles navigation to the Terms of Use page.
-   *
+   * Handles navigation to About page.
    * @function
    */
   const handleNavigate = (path) => {
