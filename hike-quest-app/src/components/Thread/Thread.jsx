@@ -9,7 +9,11 @@ import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 import { weatherAPI } from '../../common/constants.js'
 import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
 import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 import { getUserByHandle } from '../../services/users.service.js';
+
 
 
 
@@ -56,26 +60,36 @@ useEffect(() => {
         await likeThread(userData.handle, thread.id);
       }
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
-      return alert('Not authorised!');
+      return toast.error('Not authorised!');
     }
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
-    if (confirmDelete) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(99, 236, 112)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteThread(thread.id);
-        alert('Thread deleted successfully.');
+        toast.success('Thread deleted successfully.');
         navigate('/threads');
       } catch (error) {
-        alert('Failed to delete the thread: ' + error.message);
+        toast.error('Failed to delete the thread: ' + error.message);
       }
     }
-  }
+  };
 
   
 
@@ -101,7 +115,7 @@ useEffect(() => {
     }).then(() => {
       closeModal();
     }).catch((error) => {
-      console.error("Error updating thread: ", error);
+      toast.error("Error updating thread: ", error);
     });
   };
 

@@ -3,6 +3,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { fetchPostsByTag, getAllThreads } from "../../services/threads.service";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import { AppContext } from "../../state/app.context";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 /**
  * TagPosts component fetches and displays all threads associated with a specific tag
@@ -39,7 +42,7 @@ export default function TagPosts() {
         const filteredThreads = results.filter(thread => thread !== null);
         setPosts(filteredThreads);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        toast.error('Error fetching posts:', error);
       }
     };
 

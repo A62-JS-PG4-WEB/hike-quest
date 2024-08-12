@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/app.context';
 import { logoutUser } from '../../services/auth.service';
 import { getThreadsCount, getUsersCount, subscribeToThreadChanges } from '../../services/threads.service';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
@@ -29,7 +31,7 @@ export default function Header() {
                 const countNew = await getThreadsCount();
                 setCount(countNew);
             } catch (error) {
-                alert(error.message);
+                toast.error(error.message);
             }
         };
         fetchCounts();
@@ -55,7 +57,7 @@ export default function Header() {
                     <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
                 </div>
                 <label>Total hikers {usersCount}, Join us too!</label>
-                {!user && <label> Don't miss our pertinent {count} threads! </label>}
+                {!user && <label> Don't miss our amazing {count} threads! </label>}
                 {user && (<>
                     <NavLink to="/threads">All Threads</NavLink>
                     {!userData?.isBlocked && (

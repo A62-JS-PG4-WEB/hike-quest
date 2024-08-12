@@ -3,7 +3,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { deleteThread, getAllThreads } from "../../services/threads.service";
 import { AppContext } from "../../state/app.context";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
-import styles from './AllThreads.module.css'; // Import CSS module
+import styles from './AllThreads.module.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 
 /**
  * Component that displays a list of all threads. 
@@ -30,7 +34,7 @@ export default function AllThreads() {
                 const threads = await getAllThreads(search, sort, userFilter);
                 setThreads(threads);
             } catch (error) {
-                alert(error.message);
+                toast.error(error.message);
             }
         };
 
@@ -42,14 +46,25 @@ export default function AllThreads() {
      *
      * @param {string} threadId - The ID of the thread to delete.
      */
+
     const handleDeleteThread = async (threadId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
-        if (confirmDelete) {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(99, 236, 112)',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        });
+
+        if (result.isConfirmed) {
             try {
                 await deleteThread(threadId);
                 setThreads(threads.filter(thread => thread.id !== threadId));
             } catch (error) {
-                console.error('Error deleting thread:', error);
+                toast.error('Error deleting thread: ' + error.message || error);
             }
         }
     };
@@ -83,9 +98,9 @@ export default function AllThreads() {
                 threads.map(t => (
                     <div key={t.id} className={styles.threadItem}>
                         <p className={styles.threadHeader}>
-                            <strong>{t.title}</strong> <br/>
-                </p> by <label className="authorThread"> {t.author} </label>
-                <p className='threadDate'> {new Date(t.createdOn).toDateString()}</p>                        <p className={styles.threadContent}>
+                            <strong>{t.title}</strong> <br />
+                        </p> by <label className="authorThread"> {t.author} </label>
+                        <p className='threadDate'> {new Date(t.createdOn).toDateString()}</p>                        <p className={styles.threadContent}>
                             {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
                         </p>
                         <p className={styles.threadStats}>
