@@ -1,5 +1,72 @@
-button{
-  background-color:  #afc6a0;
+:root {
+  --toastify-color-light: #fff;
+  --toastify-color-dark: #121212;
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #07bc0c;
+  --toastify-color-warning: #f1c40f;
+  --toastify-color-error: #e74c3c;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
+  --toastify-toast-width: 320px;
+  --toastify-toast-background: #fff;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-font-family: sans-serif;
+  --toastify-z-index: 9999;
+
+  --toastify-text-color-light: #146e04;
+  --toastify-text-color-dark: #057928;
+
+  /* Used only for colored theme */
+  --toastify-text-color-info: #fff;
+  --toastify-text-color-success: #fff;
+  --toastify-text-color-warning: #fff;
+  --toastify-text-color-error: #fff;
+
+  --toastify-spinner-color: #616161;
+  --toastify-spinner-color-empty-area: #e0e0e0;
+
+  /*  Used when no type is provided */
+
+  --toastify-color-progress-light: linear-gradient(to right,
+      #055d14,
+      #00c22d,
+      #1fe847,
+      #09950e,
+      #14be5b,
+      #77f3a4);
+  /* // Used when no type is provided */
+  --toastify-color-progress-dark: #105d09;
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-success: var(--toastify-color-success);
+  --toastify-color-progress-warning: var(--toastify-color-warning);
+  --toastify-color-progress-error: var(--toastify-color-error);
+
+  /* // used to control the opacity of the progress trail */
+  --toastify-color-progress-bgo: .2;
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: white;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+button {
+  background-color: rgb(99, 236, 112);
   border: 3px solid transparent;
   color: rgb(26, 25, 25);
   border-color: transparent;
@@ -8,60 +75,42 @@ button{
   padding-block: 10px;
   border-radius: 20px;
   justify-content: flex-end;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover {
   background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
   transform: scale(1.05);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
-}
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #756f6f;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  transition: all 0.2s ease-in-out;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+
+.threadButtons {
+  background-color: rgb(99, 236, 112);
+  border: 3px solid transparent;
+  color: rgb(26, 25, 25);
+  border-color: transparent;
+  margin: 5px;
+  padding-inline: 20px;
+  padding-block: 10px;
+  border-radius: 20px;
+  justify-content: flex-end;
+  transition: all 0.2s ease-in-out;
 }
 
-button:hover {
-  border-color: wheat;
+.threadButtons svg {
+  margin-right: 4px;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.threadButtons.like0 {
+  background-color: transparent;
+  border: 3px solid rgb(99, 236, 112);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-
-} */
-
+.threadButtons:hover {
+  background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}

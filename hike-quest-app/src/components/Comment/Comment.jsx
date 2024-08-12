@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Picker from '@emoji-mart/react';
 
+
 export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked, isAdmin }) {
     const [isEditing, setIsEditing] = useState(false);
     const [newText, setNewText] = useState(comment.text);
@@ -20,6 +21,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
         setNewText(comment.text);
         setIsEditing(false);
     };
+    //TODO confirm
     const handleDelete = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
         if (confirmDelete) {

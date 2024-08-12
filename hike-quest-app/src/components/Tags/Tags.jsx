@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 import { createTag } from "../../services/threads.service";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Tags({ thread }) {
   const [tagInput, setTagInput] = useState('');
@@ -9,18 +11,17 @@ export default function Tags({ thread }) {
 
   const handleCreateTags = async () => {
     if (!tagInput.trim()) {
-      alert('Please enter your tag');
+      toast.warning('Please enter your tag');
       return;
     }
 
     const tagsArr = tagInput.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
-    console.log(tagsArr);
+
     for (const t of tagsArr) {
-      console.log(t);
       try {
         await createTag(thread.id, t.trim());
       } catch (error) {
-        alert(error.message);
+        toast.error(error.message);
         return;
       }
     }

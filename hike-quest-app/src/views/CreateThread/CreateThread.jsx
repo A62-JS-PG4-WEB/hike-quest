@@ -4,8 +4,8 @@ import { createThread } from "../../services/threads.service";
 import { MAX_THREAD_CONTENT, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_TITLE } from "../../common/constants";
 import { useNavigate } from "react-router-dom";
 import '../../views/SingleThread/SingleThread.css'
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 /**
  * CreateThread component allows users to create a new discussion thread by entering
  * a title and content. The component validates the input before submitting the thread.
@@ -58,27 +58,27 @@ export default function CreateThread() {
 
   const handleCreateThread = async () => {
     if (thread.title.length < MIN_THREAD_TITLE) {
-      return alert('Title too short!');
+      return toast.error('Title too short!');
     }
     if (thread.title.length > MAX_THREAD_TITLE) {
-      return alert('Title too long!');
+      return toast.error('Title too long!');
     }
     if (thread.content.length < MIN_THREAD_CONTENT) {
-      return alert('Content too short!');
+      return toast.error('Content too short!');
     }
 
     if (thread.content.length > MAX_THREAD_CONTENT) {
-      return alert('Content too long!');
+      return toast.error('Content too long!');
     }
 
     try {
       await createThread(userData.handle, thread.title.trim(), thread.content.trim(), thread.location.trim());
       setThread({ title: '', content: '', location: '' });
-      alert('Thanks for your contribution!');
+      toast.info('Thanks for your contribution!');
       navigate('/threads')
 
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

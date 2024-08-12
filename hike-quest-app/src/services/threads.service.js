@@ -1,5 +1,7 @@
 import { ref, push, get, set, update, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
   const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
@@ -96,9 +98,9 @@ export const deleteThread = async (threadId) => {
   try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
-    console.log(`Thread with ID ${threadId} removed successfully.`);
+
   } catch (error) {
-    console.error('Error deleting thread:', error);
+    toast.error('Error deleting thread:', error);
     throw error;
   }
 }
@@ -129,9 +131,8 @@ export const addCommentToThread = async (threadId, comment) => {
 
     await set(commentsRef, commentData);
 
-    console.log("Comment added successfully");
   } catch (error) {
-    console.error('Error adding comment:', error);
+    t.error('Error adding comment:', error);
   }
 }
 
@@ -146,7 +147,7 @@ export const getCommentsByThread = async (threadId) => {
 
     return comments;
   } catch (error) {
-    console.error(`Error getting comments for ${threadId} :`, error);
+    toast.error(`Error getting comments for ${threadId} :`, error);
   }
 
 }
@@ -156,27 +157,23 @@ export const createTag = async (threadId, tag) => {
     return;
   }
   const allTags = await fetchAllTags();
-  console.log("all tags", allTags);
 
   const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
   const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
-  console.log('Existing tag:', existingTagEntry);
 
   if (existingTagId) {
     const allPosts = await fetchAllPosts(threadId);
-    console.log('All posts:', allPosts);
 
     const existingTagPost = allPosts.includes(existingTagId);
-    console.log('Tag exists in post:', existingTagPost);
 
     if (existingTagPost) {
-      console.log('Tag already exists in the post.');
+
       return;
     } else {
       await update(ref(db), {
         [`posts/${threadId}/${existingTagId}`]: true,
       });
-      console.log('Tag exists, added to the post.');
+
     }
 
   } else {
@@ -188,10 +185,10 @@ export const createTag = async (threadId, tag) => {
         [`posts/${threadId}/${tagId}`]: true,
       });
 
-      console.log('Created new tag and added to the post.');
+
       return tagId;
     } catch (error) {
-      console.error("Error creating tag:", error);
+      toast.error("Error creating tag:", error);
       throw error;
     }
   }

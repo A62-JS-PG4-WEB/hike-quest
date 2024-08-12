@@ -5,6 +5,9 @@ import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import Comments from "../../components/Comments/Comments";
 import { fetchTagsForPost } from "../../services/threads.service";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function SingleThread() {
     const [thread, setThread] = useState(null);
@@ -25,10 +28,9 @@ export default function SingleThread() {
                 });
 
                 const tags = await fetchTagsForPost(id);
-                console.log("tags use eff", tags);
                 setTags(tags);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast.error('Error fetching data:', error);
             }
         };
 

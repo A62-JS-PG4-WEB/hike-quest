@@ -13,7 +13,6 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
     setThread({ ...thread, [e.target.name]: e.target.value });
   };
 
-  console.log(thread);
 
   return (
     <div className="modal">
@@ -41,7 +40,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
-         <Tags thread={thread}/>
+          <Tags thread={thread} />
           <button className="threadButtons" onClick={handleClose}>Cancel</button>
           <button className="threadButtons" type="submit">Update</button>
 

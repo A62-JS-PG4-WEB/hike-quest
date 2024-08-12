@@ -4,7 +4,8 @@ import { AppContext } from "../../state/app.context"
 import { useNavigate } from "react-router-dom"
 import { createUserHandle, getUserByEmail, getUserByHandle } from "../../services/users.service"
 import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 /**
  * Register component handles user registration by validating user input, 
@@ -39,7 +40,7 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: '', 
+        confirmPassword: '',
         isAdmin: false,
         isBlocked: false
     });
@@ -69,44 +70,44 @@ export default function Register() {
      */
 
     const register = async () => {
-        
+
         if (!user.email.trim() || !user.password) {
-            return alert('No credentials provided!');
+            return toast.error('No credentials provided!');
         }
         if (user.password !== user.confirmPassword) {
-            alert("Passwords do not match!");
+            toast.info("Passwords do not match!");
             return;
         }
 
         if (user.firstName.length < MIN_FIRSTNAME) {
-            return alert('First name too short!');
+            return toast.error('First name too short!');
         }
         if (user.firstName.length > MAX_FIRSTNAME) {
-            return alert('First name too long!');
+            return toast.error('First name too long!');
         }
         if (user.lastName.length < MIN_LASTNAME) {
-            return alert('Last name too short!');
+            return toast.error('Last name too short!');
         }
 
         if (user.lastName.length > MAX_LASTNAME) {
-            return alert('Last name too long!');
+            return toast.error('Last name too long!');
         }
         try {
             const userDB = await getUserByEmail(user.email.trim());
             if (userDB) {
-                return alert(`User {${user.email}} already exists!`);
+                return toast.error(`User {${user.email}} already exists!`);
             }
 
             const userFromDB = await getUserByHandle(user.handle);
             if (userFromDB) {
-                return alert(`User {${user.handle}} already exists!`);
+                return toast.error(`User {${user.handle}} already exists!`);
             }
             const credential = await registerUser(user.email.trim(), user.password.trim());
             await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email, user.isAdmin, user.isBlocked);
             setAppState({ user: credential.user, userData: null });
             navigate('/');
         } catch (error) {
-            alert(error.message);
+            toast.error(error.message);
         }
     };
 

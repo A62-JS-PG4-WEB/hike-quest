@@ -4,6 +4,9 @@ import { fetchPostsByTag, getAllThreads } from "../../services/threads.service";
 import AllThreads from "../AllThreads/AllThreads";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import { AppContext } from "../../state/app.context";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function TagPosts() {
   const { id } = useParams();
@@ -26,10 +29,9 @@ export default function TagPosts() {
         const results = await Promise.all(filteredPromises);
         const filteredThreads = results.filter(thread => thread !== null);
 
-        console.log('Filtered threads:', filteredThreads);
         setPosts(filteredThreads);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        toast.error('Error fetching posts:', error);
       }
     };
 
