@@ -20,6 +20,7 @@ import AdminPanel from './components/AdminPanel/AdminPanel';
 import NotAuthorized from './views/NotAuthorized/NotAuthorized';
 import Terms from './views/Terms/Terms';
 import TagPosts from './views/TagPosts/TagPosts';
+import About from './views/About/About';
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           <Route path='/terms' element={<Terms />} />
+          <Route path='/about' element={<About />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />

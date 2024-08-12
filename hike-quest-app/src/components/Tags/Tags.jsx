@@ -5,15 +5,10 @@ import { createTag } from "../../services/threads.service";
 export default function Tags({ thread }) {
   const [tagInput, setTagInput] = useState('');
 
-
-
   const handleCreateTags = async () => {
-  
-
     const tagsArr = tagInput.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
-    console.log(tagsArr);
+
     for (const t of tagsArr) {
-      console.log(t);
       try {
         await createTag(thread.id, t.trim());
       } catch (error) {

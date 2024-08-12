@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Picker from '@emoji-mart/react';
+import { getUserByHandle } from '../../services/users.service';
 
 export default function Comment({ comment, onUpdateComment, onDeleteComment, currentUser, isBlocked, isAdmin }) {
     const [isEditing, setIsEditing] = useState(false);
     const [newText, setNewText] = useState(comment.text);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [authorType, setAuthorType] = useState()
+
+    useEffect(() => {
+
+        const userType = async () => {
+            try {
+                const authorInfo = await getUserByHandle(comment.author);
+                console.log();
+                setAuthorType(authorInfo.isAdmin);
+
+            } catch (e) {
+
+            }
+        }
+        userType()
+    }, [])
+
 
     const handleUpdate = () => {
         setIsEditing(true);
@@ -60,7 +78,11 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                             />
                             <div>
                                 <h3 className="userNameComment">{comment.author}</h3>
-                                <p className="userTypeComment">User type: { }</p>
+                                {(authorType) ?
+                                    <p className='userTypeComment'> user type: alpine hiker  </p>
+                                    :
+                                    <p className='userTypeComment'> user type: hiker</p>
+                                }
                             </div>
                         </div>
                         <div>

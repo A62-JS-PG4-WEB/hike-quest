@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import Comments from "../../components/Comments/Comments";
 import { deleteTag, fetchTagsForPost } from "../../services/threads.service";
+import { AppContext } from "../../state/app.context";
 
 export default function SingleThread() {
     const [thread, setThread] = useState(null);
     const [tags, setTags] = useState([])
     const { id } = useParams();
-  
+    const { userData } = useContext(AppContext);
+
     useEffect(() => {
 
         const fetchThreadData = async () => {
@@ -63,12 +65,15 @@ export default function SingleThread() {
                         to={`/tag-posts/${tag.id}`}
                     >
                         #{tag.name}
-                        <button
+                      { userData.handle === thread.author &&
+                        ( <button
                             className="deleteTagButton"
                            onClick={(e) => handleDeleteClick(e, tag.id)}
                         >
                             X
-                        </button>
+                        </button>)
+
+                      } 
                     </Link>
                 ))
             ) : (

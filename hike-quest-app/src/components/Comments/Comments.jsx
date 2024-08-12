@@ -8,96 +8,96 @@ import Picker from '@emoji-mart/react';
 
 
 export default function Comments({ threadId }) {
-    const { userData } = useContext(AppContext);
-    const [comment, setComment] = useState('');
-    const [comments, setComments] = useState([]);
-    const [sortOrder, setSortOrder] = useState('newest');
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const { userData } = useContext(AppContext);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [sortOrder, setSortOrder] = useState('newest');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-    useEffect(() => {
-        const fetchComments = async () => {
-            const fetchedComments = await getCommentsByThread(threadId);
-            setComments(sortComments(fetchedComments, sortOrder));
-        };
-
-        fetchComments();
-    }, [threadId, sortOrder]);
-
-    const sortComments = (comments, order) => {
-        return comments.sort((a, b) => {
-            if (order === 'newest') {
-                return new Date(b.createdOn) - new Date(a.createdOn);
-            } else {
-                return new Date(a.createdOn) - new Date(b.createdOn);
-            }
-        });
+  useEffect(() => {
+    const fetchComments = async () => {
+      const fetchedComments = await getCommentsByThread(threadId);
+      setComments(sortComments(fetchedComments, sortOrder));
     };
 
-    const handleCommentChange = (e) => {
-        setComment(e.target.value);
-    };
+    fetchComments();
+  }, [threadId, sortOrder]);
 
-    const addEmoji = (emoji) => {
-        setComment((prevComment) => prevComment + emoji.native);
-    };
+  const sortComments = (comments, order) => {
+    return comments.sort((a, b) => {
+      if (order === 'newest') {
+        return new Date(b.createdOn) - new Date(a.createdOn);
+      } else {
+        return new Date(a.createdOn) - new Date(b.createdOn);
+      }
+    });
+  };
 
-    const handleCreateComment = async () => {
-        if (!comment.trim()) {
-            return alert("Comment cannot be empty.");
-        }
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
 
-        try {
-            const newComment = {
-                text: comment,
-                author: userData?.handle,
-                createdOn: new Date().toISOString(),
-            };
-            await addCommentToThread(threadId, newComment);
-            setComment('');
-            const fetchedComments = await getCommentsByThread(threadId);
-            setComments(sortComments(fetchedComments, sortOrder));
-            alert("Comment added successfully.");
-        } catch (error) {
-            console.error("Error adding comment:", error);
-            alert("Failed to add comment.");
-        }
-    };
+  const addEmoji = (emoji) => {
+    setComment((prevComment) => prevComment + emoji.native);
+  };
 
-    const handleUpdateComment = async (commentId, updatedText) => {
-        try {
-            await updateCommentInThread(threadId, commentId, updatedText);
-            alert("Comment updated successfully.");
-            const fetchedComments = await getCommentsByThread(threadId);
-            setComments(sortComments(fetchedComments, sortOrder));
-        } catch (error) {
-            console.error("Error updating comment:", error);
-            alert("Failed to update comment.");
-        }
-    };
-
-    const handleDeleteComment = async (commentId) => {
-        try {
-            await deleteCommentFromThread(threadId, commentId);
-            const fetchedComments = await getCommentsByThread(threadId);
-            setComments(sortComments(fetchedComments, sortOrder));
-            alert("Comment deleted successfully.");
-        } catch (error) {
-            console.error("Error deleting comment:", error);
-            alert("Failed to delete comment.");
-        }
-    };
-
-    const handleSortChange = (e) => {
-        setSortOrder(e.target.value);
-    };
-
-    if (!userData) {
-
-        return <p>Loading...</p>;
-
+  const handleCreateComment = async () => {
+    if (!comment.trim()) {
+      return alert("Comment cannot be empty.");
     }
-console.log(comments.length);
-return (
+
+    try {
+      const newComment = {
+        text: comment,
+        author: userData?.handle,
+        createdOn: new Date().toISOString(),
+      };
+      await addCommentToThread(threadId, newComment);
+      setComment('');
+      const fetchedComments = await getCommentsByThread(threadId);
+      setComments(sortComments(fetchedComments, sortOrder));
+      alert("Comment added successfully.");
+    } catch (error) {
+      console.error("Error adding comment:", error);
+      alert("Failed to add comment.");
+    }
+  };
+
+  const handleUpdateComment = async (commentId, updatedText) => {
+    try {
+      await updateCommentInThread(threadId, commentId, updatedText);
+      alert("Comment updated successfully.");
+      const fetchedComments = await getCommentsByThread(threadId);
+      setComments(sortComments(fetchedComments, sortOrder));
+    } catch (error) {
+      console.error("Error updating comment:", error);
+      alert("Failed to update comment.");
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await deleteCommentFromThread(threadId, commentId);
+      const fetchedComments = await getCommentsByThread(threadId);
+      setComments(sortComments(fetchedComments, sortOrder));
+      alert("Comment deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      alert("Failed to delete comment.");
+    }
+  };
+
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+  };
+
+  if (!userData) {
+
+    return <p>Loading...</p>;
+
+  }
+
+  return (
     <div>
       {!userData.isBlocked && (
         <div className="commentSection">
@@ -114,8 +114,8 @@ return (
               Comment
             </button>
             <div>
-              <button 
-                className="threadButtons" 
+              <button
+                className="threadButtons"
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
               >
                 {showEmojiPicker ? "😜" : "😜"}
@@ -158,8 +158,7 @@ return (
 };
 
 Comments.propTypes = {
-    threadId: PropTypes.string.isRequired,
-
+  threadId: PropTypes.string.isRequired,
 };
 
 
