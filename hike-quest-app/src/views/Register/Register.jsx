@@ -106,6 +106,7 @@ export default function Register() {
             await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email, user.isAdmin, user.isBlocked);
             setAppState({ user: credential.user, userData: null });
             navigate('/');
+            toast.success('Successfully registered');
         } catch (error) {
             toast.error(error.message);
         }

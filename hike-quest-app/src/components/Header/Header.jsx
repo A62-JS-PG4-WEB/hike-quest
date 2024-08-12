@@ -45,6 +45,7 @@ export default function Header() {
     const logout = async () => {
         await logoutUser();
         setAppState({ user: null, userData: null });
+        toast.success('Successfully logged out');
         navigate('/login');
     };
 

@@ -80,7 +80,7 @@ export const likeThread = (handle, threadId) => {
     [`threads/${threadId}/likedBy/${handle}`]: true,
     [`users/${handle}/likedThreads/${threadId}`]: true,
   };
-
+  toast.success('Liked');
   return update(ref(db), updateObject);
 };
 
@@ -181,7 +181,7 @@ export const createTag = async (threadId, tag) => {
       await update(ref(db), {
         [`posts/${threadId}/${tagId}`]: true,
       });
-      
+
       return tagId;
     } catch (error) {
       toast.error("Error creating tag:", error);

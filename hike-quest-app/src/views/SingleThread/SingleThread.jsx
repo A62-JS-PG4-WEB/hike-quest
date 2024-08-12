@@ -4,7 +4,6 @@ import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import Comments from "../../components/Comments/Comments";
-import { fetchTagsForPost } from "../../services/threads.service";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteTag, fetchTagsForPost } from "../../services/threads.service";

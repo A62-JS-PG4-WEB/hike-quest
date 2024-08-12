@@ -36,6 +36,8 @@ export default function Login() {
                 userData: null,
             });
             navigate(location.state?.from.pathname ?? '/');
+            toast.success('Successfully logged in');
+
         } catch (error) {
             toast.error(error.message);
         }
