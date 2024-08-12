@@ -13,7 +13,7 @@ export default function SingleThread() {
     const [thread, setThread] = useState(null);
     const [tags, setTags] = useState([])
     const { id } = useParams();
-
+  
     useEffect(() => {
 
         const fetchThreadData = async () => {
@@ -37,6 +37,22 @@ export default function SingleThread() {
         fetchThreadData();
     }, [id]);
 
+    const handleDeleteTag = async (tagName) => {
+        try {
+        //   await deleteTag(thread.id, tagName);
+        const updatedTags = tags.filter(tag => tag !== tagName);
+        setTags(updatedTags);
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+
+    const handleDeleteClick = (e, tag) => {
+        e.stopPropagation(); 
+        e.preventDefault();
+        handleDeleteTag(tag);
+      };
+
     return (
         <div>
             {thread && <Thread thread={thread} />}
@@ -48,6 +64,12 @@ export default function SingleThread() {
                         to={`/tag-posts/${tag.id}`}
                     >
                         #{tag.name}
+                        <button
+                            className="deleteTagButton"
+                           onClick={(e) => handleDeleteClick(e, tag)}
+                        >
+                            X
+                        </button>
                     </Link>
                 ))
             ) : (

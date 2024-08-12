@@ -75,14 +75,48 @@ button {
   padding-block: 10px;
   border-radius: 20px;
   justify-content: flex-end;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.threadButtonsCancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: #afc6a0;
+  color: rgb(26, 25, 25);
+  border: none;
+  cursor: pointer;
 }
 
 button:hover {
   background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
   transform: scale(1.05);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.deleteTagButton {
+  padding: 2px 4px;
+  background-color: transparent;
+  margin-left: 1px;
+}
+
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #756f6f;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
