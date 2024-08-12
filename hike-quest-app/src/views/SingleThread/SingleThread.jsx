@@ -25,7 +25,6 @@ export default function SingleThread() {
                 });
 
                 const tags = await fetchTagsForPost(id);
-                console.log("tags use eff", tags);
                 setTags(tags);
             } catch (error) {
                 console.error('Error fetching data:', error);

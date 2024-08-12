@@ -33,18 +33,6 @@ function App() {
     setAppState({ ...appState, user });
   }
 
-  // useEffect(() => {
-  //   if (appState.user !== user) {
-  //     setAppState(prevState => ({ ...prevState, user }));
-  //   }
-  // }, [user]);
-
-  // useEffect(() => {
-  //   if (appState.user !== user) {
-  //     setAppState(prevState => ({ ...prevState, user }));
-  //   }
-  // }, [user, appState]);
-
   useEffect(() => {
     if (!user) return;
 
@@ -100,15 +88,3 @@ function App() {
 }
 
 export default App;
-
-
-// <Routes>
-// <Route index element={<Navigate to='/threads' />} />
-// <Route path='/account-user' element={<Authenticated><Account /></Authenticated>} />
-// <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
-// <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
-// <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
-// <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
-// <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
-// <Route path='*' element={<NotFound />} />
-// </Routes>
