@@ -5,6 +5,13 @@ import { AppContext } from "../../state/app.context";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import styles from './AllThreads.module.css'; // Import CSS module
 
+/**
+ * Component that displays a list of all threads. 
+ * Users can sort threads by date or title, filter them by author, 
+ * and delete threads if they are the author or an admin.
+ *
+ * @component
+ */
 export default function AllThreads() {
     const [threads, setThreads] = useState([]);
     const navigate = useNavigate();
@@ -14,6 +21,9 @@ export default function AllThreads() {
     const [userFilter, setUserFilter] = useState('');
     const { userData } = useContext(AppContext);
 
+    /**
+     * Loads threads based on search, sort, and user filter criteria.
+     */
     useEffect(() => {
         const loadThreads = async () => {
             try {
@@ -27,6 +37,11 @@ export default function AllThreads() {
         loadThreads();
     }, [search, sort, userFilter]);
 
+    /**
+     * Deletes a thread.
+     *
+     * @param {string} threadId - The ID of the thread to delete.
+     */
     const handleDeleteThread = async (threadId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
         if (confirmDelete) {
