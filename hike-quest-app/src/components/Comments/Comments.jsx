@@ -9,29 +9,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Comments({ threadId }) {
-    const { userData } = useContext(AppContext);
-    const [comment, setComment] = useState('');
-    const [comments, setComments] = useState([]);
-    const [sortOrder, setSortOrder] = useState('newest');
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const { userData } = useContext(AppContext);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [sortOrder, setSortOrder] = useState('newest');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-    useEffect(() => {
-        const fetchComments = async () => {
-            const fetchedComments = await getCommentsByThread(threadId);
-            setComments(sortComments(fetchedComments, sortOrder));
-        };
-
-        fetchComments();
-    }, [threadId, sortOrder]);
-
-    const sortComments = (comments, order) => {
-        return comments.sort((a, b) => {
-            if (order === 'newest') {
-                return new Date(b.createdOn) - new Date(a.createdOn);
-            } else {
-                return new Date(a.createdOn) - new Date(b.createdOn);
-            }
-        });
+  useEffect(() => {
+    const fetchComments = async () => {
+      const fetchedComments = await getCommentsByThread(threadId);
+      setComments(sortComments(fetchedComments, sortOrder));
     };
 
     const handleCommentChange = (e) => {
@@ -86,16 +73,29 @@ export default function Comments({ threadId }) {
         }
     };
 
-    const handleSortChange = (e) => {
-        setSortOrder(e.target.value);
-    };
+    fetchComments();
+  }, [threadId, sortOrder]);
 
-    if (!userData) {
+  const sortComments = (comments, order) => {
+    return comments.sort((a, b) => {
+      if (order === 'newest') {
+        return new Date(b.createdOn) - new Date(a.createdOn);
+      } else {
+        return new Date(a.createdOn) - new Date(b.createdOn);
+      }
+    });
+  };
 
-        return <p>Loading...</p>;
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+  };
 
+
+  if (!userData) {
+
+    return <p>Loading...</p>;
+  }
     }
-    console.log(comments.length);
     return (
         <div>
             {!userData.isBlocked && (
@@ -140,6 +140,7 @@ export default function Comments({ threadId }) {
                     <option value="newest">Newest First</option>
                     <option value="oldest">Oldest First</option>
                 </select>
+
             </div>
             {comments.map(c => (
                 <Comment
@@ -157,8 +158,7 @@ export default function Comments({ threadId }) {
 }
 
 Comments.propTypes = {
-    threadId: PropTypes.string.isRequired,
-
+  threadId: PropTypes.string.isRequired,
 };
 
 

@@ -9,6 +9,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 
 
+/**
+ * Component that displays a list of all threads. 
+ * Users can sort threads by date or title, filter them by author, 
+ * and delete threads if they are the author or an admin.
+ *
+ * @component
+ */
 export default function AllThreads() {
     const [threads, setThreads] = useState([]);
     const navigate = useNavigate();
@@ -18,6 +25,9 @@ export default function AllThreads() {
     const [userFilter, setUserFilter] = useState('');
     const { userData } = useContext(AppContext);
 
+    /**
+     * Loads threads based on search, sort, and user filter criteria.
+     */
     useEffect(() => {
         const loadThreads = async () => {
             try {
@@ -31,7 +41,11 @@ export default function AllThreads() {
         loadThreads();
     }, [search, sort, userFilter]);
 
-    //TODO confirm window
+    /**
+     * Deletes a thread.
+     *
+     * @param {string} threadId - The ID of the thread to delete.
+     */
 
     const handleDeleteThread = async (threadId) => {
         const result = await Swal.fire({

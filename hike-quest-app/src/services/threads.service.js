@@ -130,7 +130,6 @@ export const addCommentToThread = async (threadId, comment) => {
     };
 
     await set(commentsRef, commentData);
-
   } catch (error) {
     toast.error('Error adding comment:', error);
   }
@@ -167,13 +166,11 @@ export const createTag = async (threadId, tag) => {
     const existingTagPost = allPosts.includes(existingTagId);
 
     if (existingTagPost) {
-
       return;
     } else {
       await update(ref(db), {
         [`posts/${threadId}/${existingTagId}`]: true,
       });
-
     }
 
   } else {
@@ -184,8 +181,7 @@ export const createTag = async (threadId, tag) => {
       await update(ref(db), {
         [`posts/${threadId}/${tagId}`]: true,
       });
-
-
+      
       return tagId;
     } catch (error) {
       toast.error("Error creating tag:", error);
@@ -237,3 +233,9 @@ export const fetchPostsByTag = async (threadId, tagId) => {
 
   return result;
 };
+
+
+export const deleteTag = async (threadId, tagId) => {
+  const tagRef = ref(db, `posts/${threadId}/${tagId}`);
+  await remove(tagRef);
+}

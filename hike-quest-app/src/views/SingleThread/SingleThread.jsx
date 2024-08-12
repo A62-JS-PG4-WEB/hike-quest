@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
@@ -7,13 +7,15 @@ import Comments from "../../components/Comments/Comments";
 import { fetchTagsForPost } from "../../services/threads.service";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { deleteTag, fetchTagsForPost } from "../../services/threads.service";
+import { AppContext } from "../../state/app.context";
 
 export default function SingleThread() {
     const [thread, setThread] = useState(null);
     const [tags, setTags] = useState([])
     const { id } = useParams();
-  
+    const { userData } = useContext(AppContext);
+
     useEffect(() => {
 
         const fetchThreadData = async () => {
@@ -38,8 +40,9 @@ export default function SingleThread() {
     }, [id]);
 
     const handleDeleteTag = async (tagName) => {
+       
         try {
-        //   await deleteTag(thread.id, tagName);
+       await deleteTag(thread.id, tagName);
         const updatedTags = tags.filter(tag => tag !== tagName);
         setTags(updatedTags);
         } catch (error) {
@@ -56,6 +59,7 @@ export default function SingleThread() {
     return (
         <div>
             {thread && <Thread thread={thread} />}
+            <div className="tags">
             {tags.length > 0 ? (
                 tags.map((tag) => (
                     <Link
@@ -64,17 +68,22 @@ export default function SingleThread() {
                         to={`/tag-posts/${tag.id}`}
                     >
                         #{tag.name}
-                        <button
+                      { userData.handle === thread.author &&
+                        ( <button
                             className="deleteTagButton"
-                           onClick={(e) => handleDeleteClick(e, tag)}
+                           onClick={(e) => handleDeleteClick(e, tag.id)}
                         >
                             X
-                        </button>
+                        </button>)
+
+                      } 
                     </Link>
                 ))
             ) : (
                 <p>No tags added</p>
             )}
+            </div>
+           
             {thread && <Comments threadId={id} />}
         </div>
     )

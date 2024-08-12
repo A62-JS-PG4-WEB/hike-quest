@@ -7,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Tags({ thread }) {
   const [tagInput, setTagInput] = useState('');
 
-
-
   const handleCreateTags = async () => {
     if (!tagInput.trim()) {
       toast.warning('Please enter your tag');
@@ -40,7 +38,7 @@ export default function Tags({ thread }) {
         onChange={(e) => setTagInput(e.target.value)}
       />
       <small>Separate Hashtags by comma</small> <br />
-      <button onClick={handleCreateTags}>Add Tag</button>
+      <button onClick={handleCreateTags}>Update</button>
     </>
   );
 }

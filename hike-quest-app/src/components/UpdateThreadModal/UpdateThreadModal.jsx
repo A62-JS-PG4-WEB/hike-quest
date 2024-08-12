@@ -48,6 +48,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
           <button className="threadButtonsCancel" onClick={handleClose}>Cancel</button>
 
 
+
         </form>
       </div>
     </div>

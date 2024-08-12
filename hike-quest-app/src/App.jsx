@@ -20,8 +20,11 @@ import AdminPanel from './components/AdminPanel/AdminPanel';
 import NotAuthorized from './views/NotAuthorized/NotAuthorized';
 import Terms from './views/Terms/Terms';
 import TagPosts from './views/TagPosts/TagPosts';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import About from './views/About/About';
+
 
 function App() {
   const [appState, setAppState] = useState({
@@ -82,6 +85,7 @@ function App() {
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           <Route path='/terms' element={<Terms />} />
+          <Route path='/about' element={<About />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
@@ -91,15 +95,3 @@ function App() {
 }
 
 export default App;
-
-
-// <Routes>
-// <Route index element={<Navigate to='/threads' />} />
-// <Route path='/account-user' element={<Authenticated><Account /></Authenticated>} />
-// <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
-// <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
-// <Route path='/create-thread' element={<Authenticated><CreateThread /></Authenticated>} />
-// <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
-// <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
-// <Route path='*' element={<NotFound />} />
-// </Routes>
