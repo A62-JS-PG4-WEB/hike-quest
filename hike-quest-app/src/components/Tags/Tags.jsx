@@ -8,10 +8,7 @@ export default function Tags({ thread }) {
 
 
   const handleCreateTags = async () => {
-    if (!tagInput.trim()) {
-      alert('Please enter your tag');
-      return;
-    }
+  
 
     const tagsArr = tagInput.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
     console.log(tagsArr);
