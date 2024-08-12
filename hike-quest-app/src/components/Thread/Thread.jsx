@@ -9,6 +9,7 @@ import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 import { weatherAPI } from '../../common/constants.js'
 import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
 import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
+import { getUserByHandle } from '../../services/users.service.js';
 
 
 
@@ -31,6 +32,20 @@ export default function Thread({ thread }) {
   const [showModal, setShowModal] = useState(false);
   const [weatherData, setWeatherData] = useState({})
   const [currentThread, setCurrentThread] = useState(thread);
+const [authorType, setAuthorType] = useState()
+
+useEffect(() => {
+
+    const userType = async () => {
+      try {
+    const authorInfo = await getUserByHandle(thread.author);
+    setAuthorType(authorInfo.isAdmin);
+
+  } catch(e) {
+
+  }}
+  userType()
+}, [])
 
   const toggleLike = async () => {
     const isLiked = thread.likedBy.includes(userData.handle);
@@ -61,6 +76,8 @@ export default function Thread({ thread }) {
       }
     }
   }
+
+  
 
   const openModal = () => {
     setShowModal(true);
@@ -114,7 +131,8 @@ export default function Thread({ thread }) {
             className="profilePic"
           />
           <div>
-          {( userData?.isAdmin) ? 
+          <p className='userName'>{thread.author}</p>
+          {(authorType) ? 
              <p className='userType'> user type: alpine hiker  </p>
            : 
             <p className='userType'> user type: hiker</p>
@@ -186,5 +204,6 @@ Thread.propTypes = {
     createdOn: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // authorType: PropTypes.bool.isRequired,
   }).isRequired,
 };
