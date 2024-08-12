@@ -72,12 +72,13 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                     </div>
                     <p className="actualComment">{comment.text}</p>
                     <>
-                        {(isAdmin || (comment.author === currentUser && !isBlocked)) && (
-                            <button className="threadButtons" onClick={handleDelete}>Delete</button>
-                        )}
                         {comment.author === currentUser && !isBlocked && (
                             <button className="threadButtons" onClick={handleUpdate}>Edit</button>
                         )}
+                        {(isAdmin || (comment.author === currentUser && !isBlocked)) && (
+                            <button className="threadButtons" onClick={handleDelete}>Delete</button>
+                        )}
+
                     </>
                 </>
             )}

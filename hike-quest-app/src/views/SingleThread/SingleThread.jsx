@@ -4,7 +4,7 @@ import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import Comments from "../../components/Comments/Comments";
-import { fetchTagsForPost } from "../../services/threads.service";
+import { deleteTag, fetchTagsForPost } from "../../services/threads.service";
 
 export default function SingleThread() {
     const [thread, setThread] = useState(null);
@@ -35,8 +35,9 @@ export default function SingleThread() {
     }, [id]);
 
     const handleDeleteTag = async (tagName) => {
+       
         try {
-        //   await deleteTag(thread.id, tagName);
+       await deleteTag(thread.id, tagName);
         const updatedTags = tags.filter(tag => tag !== tagName);
         setTags(updatedTags);
         } catch (error) {
@@ -53,6 +54,7 @@ export default function SingleThread() {
     return (
         <div>
             {thread && <Thread thread={thread} />}
+            <div className="tags">
             {tags.length > 0 ? (
                 tags.map((tag) => (
                     <Link
@@ -63,7 +65,7 @@ export default function SingleThread() {
                         #{tag.name}
                         <button
                             className="deleteTagButton"
-                           onClick={(e) => handleDeleteClick(e, tag)}
+                           onClick={(e) => handleDeleteClick(e, tag.id)}
                         >
                             X
                         </button>
@@ -72,6 +74,8 @@ export default function SingleThread() {
             ) : (
                 <p>No tags added</p>
             )}
+            </div>
+           
             {thread && <Comments threadId={id} />}
         </div>
     )

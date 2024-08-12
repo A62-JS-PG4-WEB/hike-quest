@@ -114,8 +114,11 @@ export default function Thread({ thread }) {
             className="profilePic"
           />
           <div>
-            <p className='userName'>{thread.author}</p>
-            <p className='userType'> User type: { }</p>
+          {( userData?.isAdmin) ? 
+             <p className='userType'> user type: alpine hiker  </p>
+           : 
+            <p className='userType'> user type: hiker</p>
+          }
           </div>
         </div>
         <div>

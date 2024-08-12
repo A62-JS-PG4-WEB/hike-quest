@@ -41,7 +41,7 @@ const UpdateThreadModal = ({ show, handleClose, handleSubmit, thread, setThread 
             onChange={onChange}
             required
           />
-            <button className="threadButtons" type="submit">Update</button>
+            {/* <button className="threadButtons" type="submit">Update</button> */}
             <div>
             <Tags thread={thread}/>
             </div>
