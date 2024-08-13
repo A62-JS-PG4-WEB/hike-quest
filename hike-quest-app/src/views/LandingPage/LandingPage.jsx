@@ -30,7 +30,7 @@ export default function LandingPage() {
             {threads.length > 0 ? (
                 <>
                     <div>
-                        <h1 className={styles.title}>Our most pertinent Threads</h1>
+                        <h1 className={styles.title}>Our most popular Threads</h1>
                         {sortedThreads.slice(0, COUNT_THREADS_LANDINGPAGE).map(t => (
                             <div key={t.id} className={styles.threadItem}>
                                 <p className={styles.threadHeader}>
@@ -49,7 +49,7 @@ export default function LandingPage() {
                     </div>
 
                     <div>
-                        <h1 className={styles.title}>Newest Threads</h1>
+                        <h1 className={styles.title}>Most recent Threads</h1>
                         {threads.slice(0, COUNT_THREADS_LANDINGPAGE).map(t => (
                             <div key={t.id} className={styles.threadItem}>
                                 <p className={styles.threadHeader}>

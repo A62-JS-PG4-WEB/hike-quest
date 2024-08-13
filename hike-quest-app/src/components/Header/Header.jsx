@@ -62,19 +62,19 @@ export default function Header() {
             </div>
 
             <nav >
-                <div className="searchContainer">
-                    <label htmlFor="search"></label>
-                    <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
-                </div>
+               
+                    {/* <label htmlFor="search"></label> */}
+                    <input className="searchContainer" value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" placeholder="Search threads"  /><br /><br />
+               
                 {!user ? (<>
-                    <label> Don't miss our pertinent {count} threads! </label>
-                    <label>Total hikers {usersCount}, Join us too!</label>
+                    <label> Don't miss our {count} threads! </label>
+                    <label>Total hikers {usersCount}, join us too!</label>
                 </>
                 )
                     :
                     (<>
                         <label>Total hikers {usersCount}!</label>
-                        <label> Thanks for contributing threads {count}! </label>
+                        <label> Threads in forum {count}! </label>
                     </>
                     )}
                 {user && (<>

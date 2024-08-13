@@ -85,11 +85,12 @@ export default function AllThreads() {
                 </select>
             </div>
             <div className={styles.filters}>
-                <label htmlFor="filter" className={styles.label}>Filter by user:</label>
+                <label htmlFor="filter" className={styles.label}>Filter:</label>
                 <input
                     id="filter"
                     type="text"
                     value={userFilter}
+                    placeholder="by user name" 
                     onChange={(e) => setUserFilter(e.target.value)}
                     className={styles.input}
                 />
