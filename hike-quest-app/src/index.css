@@ -57,7 +57,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgba(0, 0, 0, 0.87);
+  color: #273f17;
   background-color: white;
 
   font-synthesis: none;
@@ -192,7 +192,7 @@ button:hover {
 .threadsCountText,
 .accountCountText {
   font-size: 16px;
-  color: #000000;
+  color:  #273f17;
   margin-bottom: 5px;
   text-align: center;
 }

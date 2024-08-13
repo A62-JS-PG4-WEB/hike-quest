@@ -11,7 +11,7 @@
 .title {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #000000;
+  color:  #273f17;
   text-align: center;
 }
 
@@ -27,7 +27,7 @@
 
 .label {
   font-weight: bold;
-  color: #000000;
+  color:  #273f17;
   font-size: 1rem;
 }
 
@@ -44,7 +44,7 @@
   margin-top: 5px;
   border-radius: 5px;
   border: 1px solid #afc6a0;
-  color: black;
+  color:  #273f17;
   font-size: 1rem;
   box-sizing: border-box;
 }
