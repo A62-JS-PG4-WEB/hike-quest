@@ -1,5 +1,5 @@
 import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
-import styles from './Header.module.css'
+import './Header.module.css'
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/app.context';
 import { logoutUser } from '../../services/auth.service';
@@ -46,12 +46,21 @@ export default function Header() {
         await logoutUser();
         setAppState({ user: null, userData: null });
         toast.success('Successfully logged out');
-        navigate('/login');
+        navigate('/');
     };
 
     return (
         <header>
-            <h1>Hike Quest Forum</h1>
+            <div className='logoContainer'>
+                <a className='aLogo' href="/">
+                    <img
+                        src="https://cdn.discordapp.com/attachments/1260151938750742622/1272199714909065216/9_-removebg-preview_3.png?ex=66bb6d50&is=66ba1bd0&hm=98f03080f4a466d39920b2a41d292a189aa68e9e797dcfaa9ea3f117522693cb&"
+                        alt="Logo"
+                        className="logoPicture"
+                    />
+                </a>
+            </div>
+
             <nav >
                 <div className="searchContainer">
                     <label htmlFor="search"></label>
