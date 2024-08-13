@@ -2,6 +2,7 @@ import { ref, push, get, set, update, remove, onValue } from 'firebase/database'
 import { db } from '../config/firebase-config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MAX_TAGS_COUNT } from '../common/constants';
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
   const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
@@ -151,8 +152,20 @@ export const getCommentsByThread = async (threadId) => {
 
 }
 
+export const getTagCount = async (threadId) => {
+  const snapshot = await get(ref(db, `posts/${threadId}`));
+
+  const tagCount = Object.values(snapshot.val());
+  return tagCount.length;
+};
+
 export const createTag = async (threadId, tag) => {
   if (!tag.trim()) {
+    return;
+  }
+  const count = await getTagCount(threadId);
+  if (count > MAX_TAGS_COUNT) {
+    toast.warning('Tag limit exceeded (10)!');
     return;
   }
   const allTags = await fetchAllTags();
@@ -239,3 +252,5 @@ export const deleteTag = async (threadId, tagId) => {
   const tagRef = ref(db, `posts/${threadId}/${tagId}`);
   await remove(tagRef);
 }
+
+
