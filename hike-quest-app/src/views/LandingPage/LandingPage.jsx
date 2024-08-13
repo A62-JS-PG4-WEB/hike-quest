@@ -53,7 +53,7 @@ export default function LandingPage() {
                                     <p className={styles.threadTitle}><strong>{t.title}</strong></p>
                                     <p className={styles.threadDate}>{new Date(t.createdOn).toDateString()}</p>
                                     <p className={styles.threadExcerpt}>
-                                        {t.content.slice(0, 300)}...
+                                        {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
                                     </p>
                                     <div className={styles.threadActions}>
                                         <button className={styles.viewMoreButton} onClick={() => navigate(`/login`)}>See More</button>

@@ -142,8 +142,8 @@ a.navlink:hover {
   align-items: center;
   margin: 0 auto;
   padding: 10px 20px;
-  background-color: #677f58;
-  color: rgb(146, 140, 140);
+  background-color: var(--war-green-color);
+  color:white;
   border: none;
   cursor: pointer;
 }
