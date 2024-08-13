@@ -50,62 +50,86 @@ export default function Account() {
 
     return (
         <>
-            <div className={styles.name}>My account</div>
-            <div className={styles.content}>
-                <p>User name: {userData.handle}</p>
-                <p>First name: {editing ? (
-                    <input
-                        type="text"
-                        value={newFirstName}
-                        onChange={handleFirstNameChange}
-                    />
-                ) : (
-                    userData.firstName
-                )}</p>
-                <p>Last name: {editing ? (
-                    <input
-                        type="text"
-                        value={newLastName}
-                        onChange={handleLastNameChange}
-                    />
-                ) : (
-                    userData.lastName
-                )}</p>
-                <p>Email: {editing ? (
-                    <>
-                        <input
-                            type="email"
-                            value={newEmail}
-                            onChange={handleEmailChange}
-                        />
-                        <br />
-                        <input
-                            type="password"
-                            placeholder="Current password"
-                            value={currentPassword}
-                            onChange={handlePasswordChange}
-                        />
-                    </>
-                ) : (
-                    userData.email
-                )}
-                </p>
-                <button
-                    className={styles.button}
-                    onClick={() => setEditing(!editing)}
-                >
-                    {editing ? 'Cancel' : 'Edit'}
-                </button>
-                {editing && (
-                    <button
-                        className={styles.button}
-                        onClick={saveChanges}
-                    >
-                        Save
-                    </button>
-                )}
+            <div className={styles.container}>
+                <h1 className={styles.title}>My Account</h1>
+                <div className={styles.content}>
+                    <div className={styles.infoGroup}>
+                        <p className={styles.label}>Username:</p>
+                        <p className={styles.value}>{userData.handle}</p>
+                    </div>
+                    <div className={styles.infoGroup}>
+                        <p className={styles.label}>First Name:</p>
+                        <p className={styles.value}>
+                            {editing ? (
+                                <input
+                                    type="text"
+                                    value={newFirstName}
+                                    onChange={handleFirstNameChange}
+                                    className={styles.input}
+                                />
+                            ) : (
+                                userData.firstName
+                            )}
+                        </p>
+                    </div>
+                    <div className={styles.infoGroup}>
+                        <p className={styles.label}>Last Name:</p>
+                        <p className={styles.value}>
+                            {editing ? (
+                                <input
+                                    type="text"
+                                    value={newLastName}
+                                    onChange={handleLastNameChange}
+                                    className={styles.input}
+                                />
+                            ) : (
+                                userData.lastName
+                            )}
+                        </p>
+                    </div>
+                    <div className={styles.infoGroup}>
+                        <p className={styles.label}>Email:</p>
+                        <p className={styles.value}>
+                            {editing ? (
+                                <>
+                                    <input
+                                        type="email"
+                                        value={newEmail}
+                                        onChange={handleEmailChange}
+                                        className={styles.input}
+                                    />
+                                    <input
+                                        type="password"
+                                        placeholder="Current password"
+                                        value={currentPassword}
+                                        onChange={handlePasswordChange}
+                                        className={styles.input}
+                                    />
+                                </>
+                            ) : (
+                                userData.email
+                            )}
+                        </p>
+                    </div>
+                    <div className={styles.buttons}>
+                        <button
+                            className={styles.button}
+                            onClick={() => setEditing(!editing)}
+                        >
+                            {editing ? 'Cancel' : 'Edit'}
+                        </button>
+                        {editing && (
+                            <button
+                                className={styles.button}
+                                onClick={saveChanges}
+                            >
+                                Save
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
             <ToastContainer />
         </>
-    );
+    )
 }

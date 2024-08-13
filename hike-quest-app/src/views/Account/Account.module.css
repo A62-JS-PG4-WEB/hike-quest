@@ -1,45 +1,78 @@
- .content p {
-   font-size: 16px;
-   margin: 10px 0;
-   text-align: center;
-   color: #273f17;
- }
+/* Container for the My Account page */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
- .button {
-   padding: 4px 9px;
-   border: none;
-   border-radius: 5px;
-   background-color: #afc6a0;
-   color: #273f17;
-   font-size: 14px;
-   cursor: pointer;
-   margin: 10px;
-   transition: background-color 0.3s, color 0.3s;
- }
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #000000;
+  text-align: center;
+}
 
- .description {
-   display: flex;
-   flex-direction: column;
- }
+.content {
+  padding: 20px;
+}
 
- .header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
- }
+.infoGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
- .about {
-   margin: 10px;
-   color: #273f17;
- }
+.label {
+  font-weight: bold;
+  color: #000000;
+  font-size: 1rem;
+}
 
- .input {
-   margin-top: 2px;
-   margin-bottom: 10px;
-   width: 100%;
-   padding: 8px;
-   box-sizing: border-box;
-   border-radius: 5px;
-   border-color: #afc6a0;
-   color: #273f17;
- }
+.value {
+  font-size: 1rem;
+  color: #555;
+
+}
+
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #afc6a0;
+  color: black;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--war-green-color);
+  color: #273f17;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: #98b78a;
+}
+
+.Toastify__toast-container {
+  font-size: 1rem;
+}

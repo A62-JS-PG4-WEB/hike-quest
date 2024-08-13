@@ -88,7 +88,7 @@ a.navlink {
   background-color: var(--war-green-color);
   border: 1px solid transparent;
   font-size: small;
-  color: rgb(250, 250, 250);
+  color: rgb(255, 255, 255);
   border-color: transparent;
   margin: 5px;
   padding-inline: 15px;
@@ -98,6 +98,20 @@ a.navlink {
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   text-decoration: none;
+}
+
+._navButton_2lmmo_136 {
+  color: white;
+}
+
+._profilePopup_2lmmo_89 button {
+  color: white;
+  border-radius: 20px;
+}
+
+._button_17ehg_53 {
+  color: white;
+  border-radius: 20px;
 }
 
 a.navlink:hover {
@@ -129,8 +143,8 @@ a.navlink:hover {
   align-items: center;
   margin: 0 auto;
   padding: 10px 20px;
-  background-color: #afc6a0;
-  color: rgb(26, 25, 25);
+  background-color: #677f58;
+  color: rgb(146, 140, 140);
   border: none;
   cursor: pointer;
 }
