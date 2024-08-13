@@ -1,27 +1,88 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom"
 import Thread from '../../components/Thread/Thread';
 import { onValue, ref } from "firebase/database";
 import { db } from "../../config/firebase-config";
 import Comments from "../../components/Comments/Comments";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { deleteTag, fetchTagsForPost } from "../../services/threads.service";
+import { AppContext } from "../../state/app.context";
 
 export default function SingleThread() {
     const [thread, setThread] = useState(null);
+    const [tags, setTags] = useState([])
     const { id } = useParams();
+    const { userData } = useContext(AppContext);
 
     useEffect(() => {
-        return onValue(ref(db, `threads/${id}`), snapshot => {
-            const updatedThread = snapshot.val();
-            setThread({
-                ...updatedThread,
-                likedBy: Object.keys(updatedThread.likedBy ?? {}),
-            });
-        })
+
+        const fetchThreadData = async () => {
+            try {
+                const threadRef = ref(db, `threads/${id}`);
+                onValue(threadRef, (snapshot) => {
+                    const updatedThread = snapshot.val();
+                    setThread({
+                        ...updatedThread,
+                        likedBy: Object.keys(updatedThread.likedBy ?? {}),
+                    });
+                });
+
+                const tags = await fetchTagsForPost(id);
+                setTags(tags);
+            } catch (error) {
+                toast.error('Error fetching data:', error);
+            }
+        };
+
+        fetchThreadData();
     }, [id]);
+
+    const handleDeleteTag = async (tagName) => {
+
+        try {
+            await deleteTag(thread.id, tagName);
+            const updatedTags = tags.filter(tag => tag !== tagName);
+            setTags(updatedTags);
+        } catch (error) {
+            toast(error.message);
+        }
+    };
+
+    const handleDeleteClick = (e, tag) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleDeleteTag(tag);
+    };
 
     return (
         <div>
             {thread && <Thread thread={thread} />}
+            <div className="tags">
+                {tags.length > 0 ? (
+                    tags.map((tag) => (
+                        <Link
+                            key={tag.id}
+                            state={{ tagName: tag.name }}
+                            to={`/tag-posts/${tag.id}`}
+                        >
+                            #{tag.name}
+                            {userData.handle === thread.author &&
+                                (<button
+                                    className="deleteTagButton"
+                                    onClick={(e) => handleDeleteClick(e, tag.id)}
+                                >
+                                    X
+                                </button>)
+
+                            }
+                        </Link>
+                    ))
+                ) : (
+                    <p>No tags added</p>
+                )}
+            </div>
+
             {thread && <Comments threadId={id} />}
         </div>
     )
@@ -39,89 +100,4 @@ export default function SingleThread() {
 
 
 
-
-
-
-// import React, { useState, useEffect, useContext } from "react"
-// import { useParams } from "react-router-dom"
-// import { AppContext } from '../../state/app.context';
-// import Comment from "../../components/Comment/Comment"
-// import { getThreadById, likeThread, dislikeThread } from "../../services/threads.service"
-// import "./SingleThread.css"
-
-
-// const SingleThread = () => {
-//     const [thread, setThread] = useState(null);
-//     const [likedBy, setLikedBy] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const { threadId } = useParams();
-
-//     const { userData } = useContext(AppContext);
-
-//     useEffect(() => {
-//         getThreadById(threadId)
-//             .then((res) => {
-//                 setLikedBy(res.likedBy);
-//                 setThread(res);
-//                 setLoading(false);
-//             });
-//     }, [threadId])
-
-//     const like = async () => {
-//         if (!userData) return;
-
-//         if (likedBy.includes(userData.handle)) {
-//             await dislikeThread(userData.handle, thread.id)
-//             setLikedBy([...likedBy.filter(l => l !== userData.handle)]);
-//         } else {
-//             await likeThread(userData.handle, thread.id);
-//             setLikedBy([...likedBy, userData.handle]);
-//         }
-//     }
-
-//     if (loading) return;
-
-//     return (
-//         <>
-//             <div className="threadContainer">
-//                 <div className="userContainer">
-//                     <img
-//                         src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-//                         alt="profile-pic"
-//                         className="profilePic"
-//                     />
-//                     <div className="userInfo">
-//                         <h3 className="userName">{thread.handle}</h3>
-//                         {/* <p className="userType">User type: user { }</p> */}
-//                     </div>
-//                 </div>
-//                 <p className="actualThread">{thread.content}</p>
-//                 <div className="buttonContainer">
-//                     <button className="threadButtons" onClick={like} disabled={!userData}>{userData && likedBy.includes(userData.handle) ? "Liked" : "Like"}</button>
-//                     <p>Likes: ({likedBy.length})</p>
-//                 </div>
-
-//             </div >
-
-//             <div className="commentSection">
-//                 <h2 className="commentsHeader">Comments</h2>
-//                 <hr />
-//                 <Comment />
-//                 <Comment />
-//                 <Comment />
-//                 <Comment />
-
-//             </div>
-
-//         </>
-//     )
-
-// }
-
-
-
-
-
-
-// export default SingleThread;
 

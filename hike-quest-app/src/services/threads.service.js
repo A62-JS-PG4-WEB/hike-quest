@@ -1,5 +1,7 @@
-import { getDatabase, ref, push, get, set, update, query, equalTo, orderByChild, orderByKey, remove, onValue } from 'firebase/database';
+import { ref, push, get, set, update, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
   const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
@@ -36,7 +38,6 @@ export const getUsersCount = async () => {
 
 //TODO Fix filtering
 export const getAllThreads = async (search = '', sort = '', userFilter = '') => {
-
   const snapshot = await get(ref(db, 'threads'));
   if (!snapshot.exists()) return [];
 
@@ -44,8 +45,8 @@ export const getAllThreads = async (search = '', sort = '', userFilter = '') => 
     .map(thread => ({
       ...thread,
       commentCount: thread.comments ? Object.keys(thread.comments).length : 0,
+      likeCount: thread.likedBy ? Object.keys(thread.likedBy).length : 0,
     }));
-
 
   if (search) {
     return threads.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
@@ -79,7 +80,7 @@ export const likeThread = (handle, threadId) => {
     [`threads/${threadId}/likedBy/${handle}`]: true,
     [`users/${handle}/likedThreads/${threadId}`]: true,
   };
-
+  toast.success('Liked');
   return update(ref(db), updateObject);
 };
 
@@ -97,9 +98,9 @@ export const deleteThread = async (threadId) => {
   try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
-    console.log(`Thread with ID ${threadId} removed successfully.`);
+    toast.success('Thread deleted successfully.');
   } catch (error) {
-    console.error('Error deleting thread:', error);
+    toast.error('Error deleting thread: ' + error.message || error);
     throw error;
   }
 }
@@ -129,10 +130,8 @@ export const addCommentToThread = async (threadId, comment) => {
     };
 
     await set(commentsRef, commentData);
-
-    console.log("Comment added successfully");
   } catch (error) {
-    console.error('Error adding comment:', error);
+    toast.error('Error adding comment:', error);
   }
 }
 
@@ -147,46 +146,96 @@ export const getCommentsByThread = async (threadId) => {
 
     return comments;
   } catch (error) {
-    console.error(`Error getting comments for ${threadId} :`, error);
+    toast.error(`Error getting comments for ${threadId} :`, error);
   }
 
 }
 
-export const createTag = async ( threadId, tags) => {
-  console.log(tags);
-  console.log(threadId);
+export const createTag = async (threadId, tag) => {
+  if (!tag.trim()) {
+    return;
+  }
+  const allTags = await fetchAllTags();
 
-  const tag = { tags };
-  const result = await push(ref(db, 'tags'), tag);
-  const id = result.key;
-  await update(ref(db), {
-    [`tags/${id}/id`]: id,
-   
-  });
-  const resultPost = await push(ref(db, 'posts'), threadId);
-  const idTag = resultPost.key;
-  await update(ref(db), {
-    [`/posts/${threadId}`]:idTag
-   
-  });
+  const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
+  const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
 
+  if (existingTagId) {
+    const allPosts = await fetchAllPosts(threadId);
 
-   // [`/posts/${threadId}`]:id
+    const existingTagPost = allPosts.includes(existingTagId);
+
+    if (existingTagPost) {
+      return;
+    } else {
+      await update(ref(db), {
+        [`posts/${threadId}/${existingTagId}`]: true,
+      });
+    }
+
+  } else {
+    try {
+      const tagRef = push(ref(db, 'tags'), tag.trim());
+      const tagId = tagRef.key;
+
+      await update(ref(db), {
+        [`posts/${threadId}/${tagId}`]: true,
+      });
+
+      return tagId;
+    } catch (error) {
+      toast.error("Error creating tag:", error);
+      throw error;
+    }
+  }
 };
 
-// export const createTag = async (threadId, tag, post) => {
-//   // Generating a unique ID for the tag
-//   const tagId = new Date().getTime().toString(); 
+const fetchAllTags = async () => {
+  const snapshot = await get(ref(db, 'tags'));
+  return snapshot.exists() ? snapshot.val() : {};
+}
 
-//   // Firebase update object
-//   const updates = {};
+const fetchAllPosts = async (threadId) => {
+  const snapshot = await get(ref(db, `posts/${threadId}`));
+  return snapshot.exists() ? Object.keys(snapshot.val()) : [];
+}
 
-//   // Updating the tags collection with the new tag
-//   updates[`/tags/${tag}`] = tagId;
 
-//   // Updating the posts collection with the postId as key and tagId as value
-//   updates[`/posts/${threadId}`] = tagId;
+export const fetchTagsForPost = async (threadId) => {
+  const postSnapshot = await get(ref(db, `posts/${threadId}`));
 
-//   // Committing the updates to Firebase
-//   await update(ref(db), updates);
-// };
+  if (!postSnapshot.exists()) {
+    return [];
+  }
+
+  const tagIds = Object.keys(postSnapshot.val());
+
+  const tagsSnapshot = await get(ref(db, 'tags'));
+
+  if (!tagsSnapshot.exists()) {
+    return [];
+  }
+
+  const allTags = tagsSnapshot.val();
+
+  const tagsForPost = tagIds.map(tagId => ({
+    id: tagId,
+    name: allTags[tagId]
+  }));
+
+  return tagsForPost;
+};
+
+export const fetchPostsByTag = async (threadId, tagId) => {
+  const postRef = ref(db, `posts/${threadId}/${tagId}`);
+  const snapshot = await get(postRef);
+  const result = snapshot.val();
+
+  return result;
+};
+
+
+export const deleteTag = async (threadId, tagId) => {
+  const tagRef = ref(db, `posts/${threadId}/${tagId}`);
+  await remove(tagRef);
+}
