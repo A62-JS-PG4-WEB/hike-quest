@@ -99,7 +99,7 @@ export default function Comment({ comment, onUpdateComment, onDeleteComment, cur
                             <div>
                                 <h3 className="userNameComment">{comment.author}</h3>
                                 {(authorType) ?
-                                    <p className='userTypeComment'> user type: alpine hiker  </p>
+                                    <p className='userTypeComment'> user type: pro hiker  </p>
                                     :
                                     <p className='userTypeComment'> user type: hiker</p>
                                 }

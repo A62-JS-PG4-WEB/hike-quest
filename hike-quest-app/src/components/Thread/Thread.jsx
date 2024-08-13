@@ -144,7 +144,7 @@ export default function Thread({ thread }) {
           <div>
             <p className='userName'>{thread.author}</p>
             {(authorType) ?
-              <p className='userType'> user type: alpine hiker  </p>
+              <p className='userType'> user type: pro hiker  </p>
               :
               <p className='userType'> user type: hiker</p>
             }

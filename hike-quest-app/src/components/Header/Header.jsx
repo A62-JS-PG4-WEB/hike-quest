@@ -114,16 +114,16 @@ export default function Header() {
                         {!userData?.isBlocked && (
                             <NavLink className="navlink" to="/create-thread">Create Thread</NavLink>
                         )}
+                        <button
+                            onClick={toggleProfilePopup}
+                            className={styles.navButton}
+                        >
+                            <ProfileIcon /> {userData?.firstName}
+                        </button>
                     </>
                 )}
                 {!user && <NavLink className="navlink" to="/login">Log in</NavLink>}
                 {!user && <NavLink className="navlink" to="/register">Sign up</NavLink>}
-                <button
-                    onClick={toggleProfilePopup}
-                    className={styles.navButton}
-                >
-                    <ProfileIcon /> {userData?.firstName}
-                </button>
                 {user && (
                     <>
                         {showProfilePopup && (
