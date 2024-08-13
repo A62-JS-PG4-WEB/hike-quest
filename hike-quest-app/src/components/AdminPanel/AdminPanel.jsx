@@ -5,15 +5,18 @@ import { AppContext } from '../../state/app.context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [threads, setThreads] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchBy, setSearchBy] = useState('handle');
+    const [searchBy, setSearchBy] = useState('user');
     const [filteredUsers, setFilteredUsers] = useState([]);
     const { userData } = useContext(AppContext);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -103,9 +106,9 @@ const AdminPanel = () => {
         <div>
             <h1>Admin Panel</h1>
             <select value={searchBy} onChange={(e) => setSearchBy(e.target.value)}>
-                <option value="handle">Handle</option>
+               <option value="handle">User Name</option>
                 <option value="email">Email</option>
-                <option value="displayName">Display Name</option>
+                <option value="firstName">First Name</option>
             </select>
 
             <input
@@ -119,7 +122,8 @@ const AdminPanel = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>Handle</th>
+                     <th>First name</th>
+                        <th>User name</th>
                         <th>Email</th>
                         <th>Block</th>
                         <th>Admin</th>
@@ -130,6 +134,7 @@ const AdminPanel = () => {
                         .filter(user => user.handle !== userData.handle)
                         .map(user => (
                             <tr key={user.id}>
+                                 <td>{user.firstName}</td>
                                 <td>{user.handle}</td>
                                 <td>{user.email}</td>
                                 <td>
@@ -156,6 +161,7 @@ const AdminPanel = () => {
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
+                        <th>Details</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -164,6 +170,9 @@ const AdminPanel = () => {
                         <tr key={thread.id}>
                             <td>{thread.title}</td>
                             <td>{thread.author}</td>
+                            <td>
+                            <button className="button" onClick={() => navigate(`/threads/${thread.id}`)}>See more</button>
+                            </td>
                             <td>
                                 <button onClick={() => handleDeleteThread(thread.id)}>Delete</button>
                             </td>
