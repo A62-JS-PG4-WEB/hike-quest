@@ -1,5 +1,7 @@
 import { ref, push, get, set, update, remove, onValue } from 'firebase/database';
 import { db } from '../config/firebase-config'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
   const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
@@ -78,7 +80,7 @@ export const likeThread = (handle, threadId) => {
     [`threads/${threadId}/likedBy/${handle}`]: true,
     [`users/${handle}/likedThreads/${threadId}`]: true,
   };
-
+  toast.success('Liked');
   return update(ref(db), updateObject);
 };
 
@@ -96,8 +98,9 @@ export const deleteThread = async (threadId) => {
   try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
+    toast.success('Thread deleted successfully.');
   } catch (error) {
-    console.error('Error deleting thread:', error);
+    toast.error('Error deleting thread: ' + error.message || error);
     throw error;
   }
 }
@@ -128,7 +131,7 @@ export const addCommentToThread = async (threadId, comment) => {
 
     await set(commentsRef, commentData);
   } catch (error) {
-    console.error('Error adding comment:', error);
+    toast.error('Error adding comment:', error);
   }
 }
 
@@ -143,7 +146,7 @@ export const getCommentsByThread = async (threadId) => {
 
     return comments;
   } catch (error) {
-    console.error(`Error getting comments for ${threadId} :`, error);
+    toast.error(`Error getting comments for ${threadId} :`, error);
   }
 
 }
@@ -181,7 +184,7 @@ export const createTag = async (threadId, tag) => {
 
       return tagId;
     } catch (error) {
-      console.error("Error creating tag:", error);
+      toast.error("Error creating tag:", error);
       throw error;
     }
   }

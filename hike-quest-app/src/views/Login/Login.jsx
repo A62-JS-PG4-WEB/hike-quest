@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase-config";
 import { AppContext } from "../../state/app.context";
 import { loginUser } from "../../services/auth.service";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
     const [user, setUser] = useState({
@@ -25,7 +26,7 @@ export default function Login() {
 
     const login = async () => {
         if (!user.email || !user.password) {
-            return alert('No credentials provided!');
+            return toast.error('No credentials provided!');
         }
 
         try {
@@ -35,8 +36,10 @@ export default function Login() {
                 userData: null,
             });
             navigate(location.state?.from.pathname ?? '/');
+            toast.success('Successfully logged in');
+
         } catch (error) {
-            alert(error.message);
+            toast.error(error.message);
         }
     }
 

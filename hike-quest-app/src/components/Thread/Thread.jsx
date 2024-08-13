@@ -9,7 +9,11 @@ import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 import { weatherAPI } from '../../common/constants.js'
 import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
 import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 import { getUserByHandle } from '../../services/users.service.js';
+
 
 
 
@@ -32,20 +36,21 @@ export default function Thread({ thread }) {
   const [showModal, setShowModal] = useState(false);
   const [weatherData, setWeatherData] = useState({})
   const [currentThread, setCurrentThread] = useState(thread);
-const [authorType, setAuthorType] = useState()
+  const [authorType, setAuthorType] = useState()
 
-useEffect(() => {
+  useEffect(() => {
 
     const userType = async () => {
       try {
-    const authorInfo = await getUserByHandle(thread.author);
-    setAuthorType(authorInfo.isAdmin);
+        const authorInfo = await getUserByHandle(thread.author);
+        setAuthorType(authorInfo.isAdmin);
 
-  } catch(e) {
+      } catch (e) {
 
-  }}
-  userType()
-}, [])
+      }
+    }
+    userType()
+  }, [])
 
   const toggleLike = async () => {
     const isLiked = thread.likedBy.includes(userData.handle);
@@ -56,28 +61,38 @@ useEffect(() => {
         await likeThread(userData.handle, thread.id);
       }
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
   const handleDeleteThread = async () => {
     if (thread.author !== userData.handle && !userData.isAdmin) {
-      return alert('Not authorised!');
+      return toast.error('Not authorised!');
     }
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
-    if (confirmDelete) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(99, 236, 112)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteThread(thread.id);
-        alert('Thread deleted successfully.');
+        toast.success('Thread deleted successfully.');
         navigate('/threads');
       } catch (error) {
-        alert('Failed to delete the thread: ' + error.message);
+        toast.error('Failed to delete the thread: ' + error.message);
       }
     }
-  }
+  };
 
-  
+
 
   const openModal = () => {
     setShowModal(true);
@@ -101,7 +116,7 @@ useEffect(() => {
     }).then(() => {
       closeModal();
     }).catch((error) => {
-      console.error("Error updating thread: ", error);
+      toast.error("Error updating thread: ", error);
     });
   };
 
@@ -127,23 +142,23 @@ useEffect(() => {
             className="profilePic"
           />
           <div>
-          <p className='userName'>{thread.author}</p>
-          {(authorType) ? 
-             <p className='userType'> user type: alpine hiker  </p>
-           : 
-            <p className='userType'> user type: hiker</p>
-          }
+            <p className='userName'>{thread.author}</p>
+            {(authorType) ?
+              <p className='userType'> user type: alpine hiker  </p>
+              :
+              <p className='userType'> user type: hiker</p>
+            }
           </div>
         </div>
         <div>
           {(thread.author === userData?.handle || userData?.isAdmin) && (
             <button className="threadButtons" onClick={handleDeleteThread}>Delete</button>
           )}
-          {(thread.author === userData?.handle && !userData.isBlocked) && 
-           (<button className="threadButtons" onClick={openModal}>Edit</button>
+          {(thread.author === userData?.handle && !userData.isBlocked) &&
+            (<button className="threadButtons" onClick={openModal}>Edit</button>
 
-           )}
-          
+            )}
+
         </div>
       </div>
       <p className='threadDate'> {new Date(thread.createdOn).toDateString()}</p>
@@ -195,5 +210,5 @@ Thread.propTypes = {
     createdOn: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    };
+  }).isRequired,
+};

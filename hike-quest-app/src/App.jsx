@@ -20,6 +20,8 @@ import AdminPanel from './components/AdminPanel/AdminPanel';
 import NotAuthorized from './views/NotAuthorized/NotAuthorized';
 import Terms from './views/Terms/Terms';
 import TagPosts from './views/TagPosts/TagPosts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import About from './views/About/About';
 
 
@@ -43,7 +45,7 @@ function App() {
         const userData = data[Object.keys(data)[0]];
         setAppState(prevState => ({ ...prevState, userData }));
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        toast.error('Error fetching user data:', error);
       }
     };
 
@@ -62,9 +64,11 @@ function App() {
     <BrowserRouter>
       <AppContext.Provider value={{ ...appState, setAppState }}>
         <Header />
+        <ToastContainer stacked closeOnClick />
 
-        <Routes> 
-            <Route path='/'>
+
+        <Routes>
+          <Route path='/'>
             {user ? (
               <Route path='/' element={<Authenticated><AllThreads /></Authenticated>} />
             ) : (
@@ -76,7 +80,8 @@ function App() {
           <Route path='/threads' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
           <Route path='/tag-posts/:id' element={<Authenticated><TagPosts /></Authenticated>} />
-          <Route path='/create-thread' element={<Authenticated>{!appState.userData?.isBlocked ?<CreateThread /> :<NotAuthorized />}</Authenticated>} />
+          <Route path='/create-thread' element={<Authenticated>{!appState.userData?.isBlocked ? <CreateThread /> : <NotAuthorized />}</Authenticated>} />
+          <Route path='/search-results' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           <Route path='/terms' element={<Terms />} />
