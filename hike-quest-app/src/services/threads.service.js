@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { MAX_TAGS_COUNT } from '../common/constants';
 
+
 /**
  * Deletes a comment from a specific thread.
  * 
@@ -263,18 +264,22 @@ export const getTagCount = async (threadId) => {
  * @param {string} tag - The name of the tag to create.
  * @returns {Promise<string|undefined>} The ID of the newly created tag, or undefined if no tag was created.
  */
+export const getTagCount = async (threadId) => {
+  const snapshot = await get(ref(db, `posts/${threadId}`));
+
+  const tagCount = Object.values(snapshot.val());
+  return tagCount.length;
+};
+
 export const createTag = async (threadId, tag) => {
   if (!tag.trim()) {
     return;
   }
-
   const count = await getTagCount(threadId);
-
   if (count > MAX_TAGS_COUNT) {
     toast.warning('Tag limit exceeded (10)!');
     return;
   }
-
   const allTags = await fetchAllTags();
   const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
   const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
@@ -383,3 +388,4 @@ export const deleteTag = async (threadId, tagId) => {
   const tagRef = ref(db, `posts/${threadId}/${tagId}`);
   await remove(tagRef);
 };
+
