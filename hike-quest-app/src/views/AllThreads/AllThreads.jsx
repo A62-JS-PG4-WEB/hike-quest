@@ -8,6 +8,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import '../../views/SingleThread/SingleThread.css'
+import ThumbsUpOutline from "../../components/icons/ThumbsUpOutline";
+import CommentsIcon from '../../components/icons/CommentsIcon';
+
 
 
 /**
@@ -102,8 +105,13 @@ export default function AllThreads() {
                         <p className={styles.threadHeader}>
                             <strong>{t.title}</strong> <br />
                         </p>
+
                         <p className={styles.threadContent}>
                             {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW_LOGGED)}...
+
+                        <p className={styles.threadStats}>
+                        <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
+
                         </p>
                         <div className={styles.threadSmallInfo}>
                             <p className={styles.threadStats}>

@@ -100,7 +100,7 @@
 
 .commentButtons {
     display: flex;
-    text-align: right;
+    text-align: left;
     width: 100%;
 }
 

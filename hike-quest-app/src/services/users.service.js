@@ -5,6 +5,25 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'fire
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+export const updateUserEmail = async (newEmail, currentPassword) => {
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error('User is not authenticated');
+        }
+
+        await reauthenticateUser(currentPassword);
+
+        await updateEmail(user, newEmail);
+
+        toast.success('Email updated successfully.');
+    } catch (error) {
+        toast.error('Error updating email: ' + error.message);
+        throw new Error(error.message);
+    }
+};
+
 const reauthenticateUser = async (password) => {
     const user = auth.currentUser;
     if (!user) {

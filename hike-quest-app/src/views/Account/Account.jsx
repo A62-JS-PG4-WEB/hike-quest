@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styles from './Account.module.css';
 import { AppContext } from '../../state/app.context';
-import { updateAccountInfoDB } from '../../services/users.service';
+import { updateAccountInfoDB, updateUserEmail } from '../../services/users.service';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,6 +11,7 @@ export default function Account() {
     const [newEmail, setNewEmail] = useState(userData ? userData.email : '');
     const [newFirstName, setNewFirstName] = useState(userData ? userData.firstName : '');
     const [newLastName, setNewLastName] = useState(userData ? userData.lastName : '');
+    const [currentPassword, setCurrentPassword] = useState('');
 
     if (!user || !userData) {
         return <p>Loading...</p>;
@@ -19,11 +20,17 @@ export default function Account() {
     const handleEmailChange = (e) => setNewEmail(e.target.value);
     const handleFirstNameChange = (e) => setNewFirstName(e.target.value);
     const handleLastNameChange = (e) => setNewLastName(e.target.value);
+    const handlePasswordChange = (e) => setCurrentPassword(e.target.value);
 
     const saveChanges = async () => {
         try {
-
             await updateAccountInfoDB(userData.handle, newEmail, newFirstName, newLastName);
+
+            if (newEmail !== userData.email) {
+                await updateUserEmail(newEmail, currentPassword);
+            }
+
+
             setAppState((prevState) => ({
                 ...prevState,
                 userData: {
@@ -36,6 +43,7 @@ export default function Account() {
             setEditing(false);
             toast.success('Account details updated successfully.');
         } catch (error) {
+            console.error('Failed to update account details:', error);
             toast.error('Failed to update account details: ' + error.message);
         }
     };
@@ -64,11 +72,20 @@ export default function Account() {
                     userData.lastName
                 )}</p>
                 <p>Email: {editing ? (
-                    <input
-                        type="email"
-                        value={newEmail}
-                        onChange={handleEmailChange}
-                    />
+                    <>
+                        <input
+                            type="email"
+                            value={newEmail}
+                            onChange={handleEmailChange}
+                        />
+                        <br />
+                        <input
+                            type="password"
+                            placeholder="Current password"
+                            value={currentPassword}
+                            onChange={handlePasswordChange}
+                        />
+                    </>
                 ) : (
                     userData.email
                 )}
@@ -88,6 +105,7 @@ export default function Account() {
                     </button>
                 )}
             </div>
+            <ToastContainer />
         </>
     );
 }
