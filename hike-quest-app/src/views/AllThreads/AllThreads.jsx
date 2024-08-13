@@ -76,64 +76,60 @@ export default function AllThreads() {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Our Threads</h1>
-            <div className={styles.filters}>
-                <label htmlFor="sort" className={styles.label}>Sort by:</label>
-                <select
-                    id="sort"
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value)}
-
-                >
-                    <option value="date">Date</option>
-                    <option value="title">Title</option>
-                </select>
-            </div>
-            <div className={styles.filters}>
-                <label htmlFor="filter" className={styles.label}>Filter:</label>
-                <input
-                    id="filter"
-                    type="text"
-                    value={userFilter}
-                    placeholder="Search by username"
-                    onChange={(e) => setUserFilter(e.target.value)}
-                    className={styles.input}
-                />
+            <div className={styles.filtersContainer}>
+                <div className={styles.filter}>
+                    <label htmlFor="sort" className={styles.label}>Sort by:</label>
+                    <select
+                        id="sort"
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                        className={styles.select}
+                    >
+                        <option value="date">Date</option>
+                        <option value="title">Title</option>
+                    </select>
+                </div>
+                <div className={styles.filter}>
+                    <label htmlFor="filter" className={styles.label}>Filter:</label>
+                    <input
+                        id="filter"
+                        type="text"
+                        value={userFilter}
+                        placeholder="Search by username"
+                        onChange={(e) => setUserFilter(e.target.value)}
+                        className={styles.input}
+                    />
+                </div>
             </div>
             {threads.length > 0 ? (
                 threads.map(t => (
                     <div key={t.id} className={styles.threadItem}>
-                        <p className={styles.threadHeader}>
-                            <strong>{t.title}</strong> <br />
-                        </p>
-
+                        <h2 className={styles.threadHeader}>{t.title}</h2>
                         <p className={styles.threadContent}>
                             {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW_LOGGED)}...
                         </p>
-                        <p className={styles.threadStats}>
-                            <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
-
-                        </p>
-                        <div className={styles.threadSmallInfo}>
+                        <div className={styles.threadStatsContainer}>
                             <p className={styles.threadStats}>
-                                Likes: {t.likeCount} | Comments: {t.commentCount}
+                                <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
                             </p>
-
-                            <div className={styles.threadButtons}>
-                                <label className="authorThread"> Created by: {t.author} </label>
-                                <p> {new Date(t.createdOn).toDateString()}</p>
-                                <button className={styles.button} onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
-                                {(t.author === userData?.handle || userData?.isAdmin) && (
-                                    <button className={styles.button} onClick={() => handleDeleteThread(t.id)}>Delete</button>
-                                )}
+                            <div className={styles.threadSmallInfo}>
+                                <p className={styles.threadMeta}>
+                                    Created by: {t.author} | {new Date(t.createdOn).toDateString()}
+                                </p>
+                                <div className={styles.threadButtons}>
+                                    <button className={styles.button} onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
+                                    {(t.author === userData?.handle || userData?.isAdmin) && (
+                                        <button className={styles.button} onClick={() => handleDeleteThread(t.id)}>Delete</button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <hr />
-
+                        <hr className={styles.separator} />
                     </div>
                 ))
             ) : (
-                <p>No threads</p>
+                <p className={styles.noThreads}>No threads available</p>
             )}
         </div>
-    );
+    )
 }
