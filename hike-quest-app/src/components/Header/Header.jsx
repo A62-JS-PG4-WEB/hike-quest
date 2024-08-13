@@ -59,21 +59,20 @@ export default function Header() {
 
     return (
         <header className={styles.header}>
-            <div className='logoContainer'>
-                <a className='aLogo' href="/">
+            <div className={styles.logoContainer}>
+                <a className={styles.aLogo} href="/">
                     <img
                         src="https://cdn.discordapp.com/attachments/1260151938750742622/1272199714909065216/9_-removebg-preview_3.png?ex=66bb6d50&is=66ba1bd0&hm=98f03080f4a466d39920b2a41d292a189aa68e9e797dcfaa9ea3f117522693cb&"
                         alt="Logo"
-                        className="logoPicture"
+                        className={styles.logoPicture}
                     />
                 </a>
             </div>
-
-            <nav>
+            <nav className={styles.nav}>
                 <input
-                    className="searchContainer"
+                    className={styles.searchInput}
                     value={search}
-                    onChange={e => setSearch(e.target.value)}
+                    onChange={(e) => setSearch(e.target.value)}
                     type="text"
                     name="search"
                     id="search"
@@ -81,33 +80,36 @@ export default function Header() {
                 />
                 <br />
                 <br />
-                {!user ? (<>
-                    <div className='navLabels'>
-                        <div className='navThreadsCount'>
-                            <p className='threadsCountText'>Don't miss our interesting threads! </p>
-                            <p className='threadsCount'>{count}</p>
-                        </div>
-                        <div className='navAccountCount'>
-                            <p className='accountCountText'>Total hikers active</p>
-                            <p className='accountUserCount'>{usersCount}</p>
-                        </div>
-                    </div>
-                </>
-                )
-                    :
-                    (<>
+
+                {
+                    !user ? (<>
                         <div className='navLabels'>
                             <div className='navThreadsCount'>
-                                <p className='threadsCountText'>Threads published </p>
+                                <p className='threadsCountText'>Don't miss our interesting threads! </p>
                                 <p className='threadsCount'>{count}</p>
                             </div>
                             <div className='navAccountCount'>
-                                <p className='accountCountText'>Active hikers</p>
+                                <p className='accountCountText'>Total hikers active</p>
                                 <p className='accountUserCount'>{usersCount}</p>
                             </div>
                         </div>
                     </>
-                    )}
+                    )
+                        :
+                        (<>
+                            <div className='navLabels'>
+                                <div className='navThreadsCount'>
+                                    <p className='threadsCountText'>Threads published </p>
+                                    <p className='threadsCount'>{count}</p>
+                                </div>
+                                <div className='navAccountCount'>
+                                    <p className='accountCountText'>Active hikers</p>
+                                    <p className='accountUserCount'>{usersCount}</p>
+                                </div>
+                            </div>
+                        </>
+                        )
+                }
                 {user && (
                     <>
                         <NavLink className="navlink" to="/threads">All Threads</NavLink>
@@ -121,7 +123,8 @@ export default function Header() {
                             <ProfileIcon /> {userData?.firstName}
                         </button>
                     </>
-                )}
+                )
+                }
                 {!user && <NavLink className="navlink" to="/login">Log in</NavLink>}
                 {!user && <NavLink className="navlink" to="/register">Sign up</NavLink>}
                 {user && (
@@ -157,10 +160,11 @@ export default function Header() {
                             </div>
                         )}
                     </>
-                )}
+                )
+                }
 
-            </nav>
-        </header>
+            </nav >
+        </header >
     );
 }
 
