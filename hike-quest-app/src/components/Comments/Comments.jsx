@@ -5,8 +5,7 @@ import { addCommentToThread, getCommentsByThread, updateCommentInThread, deleteC
 import Comment from "../Comment/Comment";
 import '../../views/SingleThread/SingleThread.css'
 import Picker from '@emoji-mart/react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Comments({ threadId }) {
   const { userData } = useContext(AppContext);
@@ -44,7 +43,7 @@ export default function Comments({ threadId }) {
 
   const handleCreateComment = async () => {
     if (!comment.trim()) {
-      return toast.error("Comment cannot be empty.");
+      return alert("Comment cannot be empty.");
     }
 
     try {
@@ -57,21 +56,22 @@ export default function Comments({ threadId }) {
       setComment('');
       const fetchedComments = await getCommentsByThread(threadId);
       setComments(sortComments(fetchedComments, sortOrder));
-      toast.success("Comment added successfully.");
+      alert("Comment added successfully.");
     } catch (error) {
-      toast.error("Error adding comment:", error);
+      console.error("Error adding comment:", error);
+      alert("Failed to add comment.");
     }
   };
 
   const handleUpdateComment = async (commentId, updatedText) => {
     try {
       await updateCommentInThread(threadId, commentId, updatedText);
-      toast.success("Comment updated successfully.");
+      alert("Comment updated successfully.");
       const fetchedComments = await getCommentsByThread(threadId);
       setComments(sortComments(fetchedComments, sortOrder));
     } catch (error) {
-      toast.error("Error updating comment:", error);
-
+      console.error("Error updating comment:", error);
+      alert("Failed to update comment.");
     }
   };
 
@@ -80,9 +80,10 @@ export default function Comments({ threadId }) {
       await deleteCommentFromThread(threadId, commentId);
       const fetchedComments = await getCommentsByThread(threadId);
       setComments(sortComments(fetchedComments, sortOrder));
-      toast.success("Comment deleted successfully.");
+      alert("Comment deleted successfully.");
     } catch (error) {
-      toast.error("Error deleting comment:", error);
+      console.error("Error deleting comment:", error);
+      alert("Failed to delete comment.");
     }
   };
 

@@ -1,10 +1,55 @@
+/* .header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #afc6a0;
+  border-radius: 10px;
+  color: #273f17;
+  justify-content: space-between;
+}
+
+.heading {
+  margin: 0;
+  font-size: 30px;
+}
+
+.navOptions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  color: #273f17;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: #d8e2dc;
+  color: #273f17;
+}
+
+.button.active {
+  background-color: #273f17;
+  color: white;
+  font-weight: bold;
+} */
+
+
 h1 {
   align-items: left;
   display: flex;
 }
 
 a {
-  color: #273f17;
+  color: #53882f;
   ;
   align-items: right;
   gap: 2px;
@@ -26,14 +71,117 @@ nav {
   text-align: right;
 }
 
-.logoPicture {
-  width: 70px;
-  height: auto;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
 }
 
-.logoContainer {
-  border: 1px solid #ccc;
-  border-radius: 10px;
+.searchContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchContainer input {
   padding: 5px;
-  /* Add some padding to space the logo from the border */
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 300px;
+}
+
+.profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profilePic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profilePopup {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.profilePopup h3 {
+  margin-top: 0;
+}
+
+.profilePopup input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.profilePopup button {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  background-color: #90ee90; 
+  color: black; 
+  cursor: pointer;
+}
+
+.profilePopup button:last-child {
+  background-color: #90ee90; 
+  color: rgb(0, 0, 0);
+}
+
+.closeButton {
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+}
+
+.closeButton:hover {
+  color: red; 
+}
+
+.profilePopup {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.profilePicPopup {
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  display: block;
+  margin: 0 auto; 
 }
