@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import { useContext, useState, useEffect } from 'react';
 import { AppContext } from "../../state/app.context"
@@ -8,7 +7,7 @@ import { getDatabase, ref, update } from 'firebase/database';
 import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 import { weatherAPI } from '../../common/constants.js'
 import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
-import ThumbsUpFilled from '../icons/ThumbsUpFilled.jsx';
+import ThumbsUpOutline from "../../components/icons/ThumbsUpOutline";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';

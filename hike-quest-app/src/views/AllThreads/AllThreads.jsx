@@ -7,6 +7,8 @@ import styles from './AllThreads.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import ThumbsUpOutline from "../../components/icons/ThumbsUpOutline";
+import CommentsIcon from '../../components/icons/CommentsIcon';
 
 
 /**
@@ -105,7 +107,7 @@ export default function AllThreads() {
                             {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
                         </p>
                         <p className={styles.threadStats}>
-                            Likes: {t.likeCount} | Comments: {t.commentCount}
+                        <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
                         </p>
                         <div className={styles.threadButtons}>
                             <button className={styles.button} onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
