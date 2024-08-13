@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
 import Account from './views/Account/Account';
@@ -24,7 +24,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import About from './views/About/About';
 
-
+/**
+ * Main application component that handles routing and authentication.
+ *
+ * @component
+ * @description 
+ * The `App` component is the root of the application. It uses `react-router-dom` to define various routes for the application. 
+ * It manages user authentication state with Firebase and provides context for user data throughout the application.
+ * 
+ * It includes:
+ * - Header and Footer components
+ * - Routes for different pages including account management, threads, and authentication
+ * - Conditional rendering based on user authentication status
+ * 
+ * @returns {JSX.Element} The root component of the application with routing and context provider.
+ */
 function App() {
   const [appState, setAppState] = useState({
     user: null,
@@ -36,7 +50,15 @@ function App() {
     setAppState({ ...appState, user });
   }
 
-  useEffect(() => {
+  /**
+   * Effect hook that updates `appState`.
+   * 
+   * @async
+   * @function
+   * @name useEffect
+   * @param {Array} dependencies - List of dependencies that trigger the effect. In this case, `[user]`.
+   */
+    useEffect(() => {
     if (!user) return;
 
     const fetchUserData = async () => {

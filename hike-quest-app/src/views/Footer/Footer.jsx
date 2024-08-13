@@ -28,15 +28,12 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.topRow}>
-        <p className={styles.terms}>
-          <button onClick={() => handleNavigate('/terms')}>Terms of Use</button>
-        </p>
-        <p className={styles.about}>
-          <button onClick={() => handleNavigate('/about')}>About</button>
-        </p>
+      <div className={styles.footerContent}>
+        <button className={styles.footerButton} onClick={() => handleNavigate('/terms')}>Terms of Use</button>
+        <p className={styles.rights}>© 2024 Hike Quest. All rights reserved.</p>
+        <button className={styles.footerButton} onClick={() => handleNavigate('/about')}>About</button>
       </div>
-      <p className={styles.rights}>© 2024 Hike Quest. All rights reserved.</p>
     </footer>
+
   );
 }

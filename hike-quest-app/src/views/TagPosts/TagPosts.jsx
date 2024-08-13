@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { fetchPostsByTag, getAllThreads } from "../../services/threads.service";
+import { deleteThread, fetchPostsByTag, getAllThreads } from "../../services/threads.service";
 import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import { AppContext } from "../../state/app.context";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Swal from 'sweetalert2';
+import '../../views/SingleThread/SingleThread.css'
 
 /**
  * TagPosts component fetches and displays all threads associated with a specific tag
@@ -49,6 +50,33 @@ export default function TagPosts() {
     fetchThreads();
   }, [id]);
 
+  /**
+  * Handles the deletion of a thread after user confirmation.
+  * Uses SweetAlert2 for confirmation dialog and deletes the thread if confirmed.
+  *
+  * @param {string} threadId - The ID of the thread to delete.
+  */
+  const handleDeleteThread = async (threadId) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(99, 236, 112)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteThread(threadId);
+        setPosts(posts.filter(thread => thread.id !== threadId));
+      } catch (error) {
+        toast.error('Error deleting thread: ' + error.message || error);
+      }
+    }
+  };
   return (
     <div>
       <h1>All Threads for #{tagName}</h1>

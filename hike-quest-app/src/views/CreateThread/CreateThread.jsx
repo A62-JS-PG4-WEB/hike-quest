@@ -4,8 +4,9 @@ import { createThread } from "../../services/threads.service";
 import { MAX_THREAD_CONTENT, MAX_THREAD_LOCATION, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_LOCATION, MIN_THREAD_TITLE } from "../../common/constants";
 import { useNavigate } from "react-router-dom";
 import '../../views/SingleThread/SingleThread.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 /**
  * CreateThread component allows users to create a new discussion thread by entering
  * a title and content. The component validates the input before submitting the thread.
@@ -90,15 +91,20 @@ export default function CreateThread() {
   };
 
   return (
-    <div>
-      <h1>Create thread</h1>
-      <label className="createTitle" htmlFor="title">Title: </label>
-      <input className="commentBox" placeholder="Add a title..." value={thread.title} onChange={e => updateThread('title', e.target.value)} type="text" name="title" id="title" /><br />
-      <label className="createContent" htmlFor="content">Content: </label>
-      <textarea className="commentBox" placeholder="Add content..." value={thread.content} onChange={e => updateThread('content', e.target.value)} name="content" id="content" /><br /><br />
-      <label className="createTitle" htmlFor="location">Hike location: </label>
-      <textarea className="locationBox" placeholder="Add a location..." value={thread.location} onChange={e => updateThread('location', e.target.value)} name="location" id="location" /><br /><br />
-      <button className="threadButtons" onClick={handleCreateThread}>Create</button>
+    <div className="createThreadContainer">
+      <h1 className="createThreadTitle">Create Thread</h1>
+
+      <label className="createThreadLabel" htmlFor="title">Title:</label>
+      <input className="createThreadInput" placeholder="Add a title..." value={thread.title} onChange={e => updateThread('title', e.target.value)} type="text" name="title" id="title" />
+
+      <label className="createThreadLabel" htmlFor="content">Content:</label>
+      <textarea className="createThreadTextarea" placeholder="Add content..." value={thread.content} onChange={e => updateThread('content', e.target.value)} name="content" id="content"></textarea>
+
+      <label className="createLocationLabel" htmlFor="location">Hike Location:</label>
+      <input className="createLocationInput" placeholder="Enter location..." value={thread.location} onChange={e => updateThread('location', e.target.value)} name="location" id="location" />
+
+      <button className="createThreadButton" onClick={handleCreateThread}>Create</button>
     </div>
+
   )
 }

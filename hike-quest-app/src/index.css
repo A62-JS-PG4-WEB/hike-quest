@@ -1,4 +1,7 @@
 :root {
+  --war-green-color: #4CAF50;
+
+
   --toastify-color-light: #fff;
   --toastify-color-dark: #121212;
   --toastify-color-info: #3498db;
@@ -54,8 +57,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(0, 0, 0, 0.87);
+  color: #273f17;
   background-color: white;
 
   font-synthesis: none;
@@ -66,18 +68,72 @@
 
 
 button {
-  background-color: rgb(99, 236, 112);
-  border: 3px solid transparent;
-  color: rgb(26, 25, 25);
+  background-color: var(--war-green-color);
+  font-size: small;
+  border: 1px solid transparent;
+  color: rgb(250, 250, 250);
   border-color: transparent;
   margin: 5px;
-  padding-inline: 20px;
+  padding-inline: 15px;
   padding-block: 10px;
   border-radius: 20px;
   justify-content: flex-end;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-  
+
+}
+
+a.navlink {
+  background-color: var(--war-green-color);
+  border: 1px solid transparent;
+  font-size: small;
+  color: rgb(255, 255, 255);
+  border-color: transparent;
+  margin: 5px;
+  padding-inline: 15px;
+  padding-block: 10px;
+  border-radius: 20px;
+  justify-content: flex-end;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+._navButton_2lmmo_136 {
+  color: white;
+}
+
+._profilePopup_2lmmo_89 button {
+  color: white;
+  border-radius: 20px;
+}
+
+._button_17ehg_53 {
+  color: white;
+  border-radius: 20px;
+}
+
+a.navlink:hover {
+  background-image: linear-gradient(rgba(195, 191, 191, 0.2) 0 0);
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+
+}
+
+.navButton {
+  background-color: var(--war-green-color);
+  border: 3px solid transparent;
+  color: rgb(240, 233, 233);
+  border-color: transparent;
+  margin: 5px;
+  padding-inline: 10px;
+  padding-block: 5px;
+  border-radius: 20px;
+  justify-content: flex-end;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .threadButtonsCancel {
@@ -86,14 +142,14 @@ button {
   align-items: center;
   margin: 0 auto;
   padding: 10px 20px;
-  background-color: #afc6a0;
-  color: rgb(26, 25, 25);
+  background-color: var(--war-green-color);
+  color:white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
+  background-image: linear-gradient(rgba(195, 191, 191, 0.2) 0 0);
   transform: scale(1.05);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
@@ -102,13 +158,14 @@ button:hover {
 .deleteTagButton {
   padding: 2px 4px;
   background-color: transparent;
+  color:  #273f17;
   margin-left: 1px;
 }
 
 .searchContainer {
   resize: none;
   font-size: 14px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--war-green-color);
   border-radius: 10px;
   box-sizing: border-box;
   font-family: monospace;
@@ -116,71 +173,130 @@ button:hover {
   text-align: center;
 }
 
-input {
-  margin-left: 5px;
-  resize: none;
-font-size: 12px;
-border: 1px solid #ccc;
-border-radius: 10px;
-box-sizing: border-box;
-font-family: monospace;
-height: 20px;
-text-align: center;
+.navLabels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  cursor: default;
+  user-select: none;
+  gap: 20px;
 }
 
-select{
-  margin-left: 5px;
-  resize: none;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
-  font-family: monospace;
-  height: 15px;
+.navThreadsCount,
+.navAccountCount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.threadsCountText,
+.accountCountText {
+  font-size: 16px;
+  color:  #273f17;
+  margin-bottom: 5px;
   text-align: center;
 }
 
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #756f6f;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.threadsCount,
+.accountUserCount {
+  font-size: 18px;
+  color: #fff;
+  background-color: var(--war-green-color);
+  padding: 5px;
+  border-radius: 50%;
+  font-weight: bold;
+  text-align: center;
+  min-width: 50px;
+  min-height: 50px;
+  line-height: 1.2;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
-.threadButtons {
-  background-color: rgb(99, 236, 112);
-  border: 3px solid transparent;
-  color: rgb(26, 25, 25);
-  border-color: transparent;
-  margin: 5px;
-  padding-inline: 20px;
-  padding-block: 10px;
+
+
+input {
+  margin-left: 8px;
+  margin-top: 5px;
+  resize: none;
+  font-size: 15px;
+  border: 1px solid var(--war-green-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-family: monospace;
+  height: 25px;
+  width: auto;
+  text-align: center;
+}
+
+select {
+  margin-left: 20px;
+  resize: none;
+  font-size: 15px;
+  border: 1px solid var(--war-green-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-family: monospace;
+  height: 25px;
+  width: auto;
+  text-align: center;
+}
+
+.loginContainer {
+  border: 1px solid #000;
   border-radius: 20px;
-  justify-content: flex-end;
-  transition: all 0.2s ease-in-out;
+  margin: 20px auto;
+  padding: 20px;
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.threadButtons svg {
-  margin-right: 4px;
+.loginItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.threadButtons.like0 {
-  background-color: transparent;
-  border: 3px solid rgb(99, 236, 112);
+.loginTitle {
+  text-align: center;
+  margin: 0 auto 20px;
+  width: auto;
 }
 
-.threadButtons:hover {
-  background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
-  transform: scale(1.05);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease-in-out;
+.loginLabel {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+  width: 100%;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.loginInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.loginButton {
+  padding: 10px 20px;
+  background-color: var(--war-green-color);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.loginButton:hover {
+  background-color: var(--war-green-color);
 }

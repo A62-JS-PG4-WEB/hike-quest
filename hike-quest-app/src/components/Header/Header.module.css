@@ -1,39 +1,121 @@
-h1 {
-  align-items: left;
+.header {
   display: flex;
-}
-
-a {
-  color: #273f17;
-  ;
-  align-items: right;
-  gap: 2px;
-  margin-right: 20px;
-}
-
-a:hover {
-  background-color: #d8e2dc;
-  color: #273f17;
-}
-
-a.active {
-  background-color: magenta;
-  color: white;
-  font-weight: bold;
-}
-
-nav {
-  text-align: right;
-}
-
-.logoPicture {
-  width: 70px;
-  height: auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 2px solid #53882f;
 }
 
 .logoContainer {
-  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  padding: 35px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.logoPicture {
+  width: 150px;
+  height: auto;
+  transform: scale(3);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.searchInput {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 20px;
+  border: 2px solid #ccc;
+  width: 300px;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #53882f;
+  outline: none;
+}
+
+a {
+  color: #53882f;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 20px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+a.active {
+  background-color: #53882f;
+  color: white;
+  font-weight: bold;
+  padding: 10px 10px;
   border-radius: 10px;
-  padding: 5px;
-  /* Add some padding to space the logo from the border */
+}
+
+.profilePopup {
+  position: relative;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 100;
+  /* Ensure it's on top of other elements */
+}
+
+.profilePopup button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  background-color: var(--war-green-color);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.profilePopup button:hover {
+  opacity: 0.9;
+}
+
+.editButton {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.editButton:hover {
+  background-color: #e0e0e0;
+}
+
+.navButton {
+  background-color: var(--war-green-color);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  margin: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navButton:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }

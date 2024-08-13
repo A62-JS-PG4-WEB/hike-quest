@@ -1,9 +1,9 @@
-.threadContent{
+.threadContent {
     display: flex;
     text-align: center;
     justify-content: center;
-    margin: 20px;
-    padding: 20px;
+    margin: 0;
+    padding: 1px;
     font-size: larger;
     border-style: hidden;
     border-radius: 10px;
@@ -12,7 +12,7 @@
     overflow-wrap: break-word;
 }
 
-.threadHeader{
+.threadHeader {
     width: 100%;
     font-size: medium;
     display: flex;
@@ -23,32 +23,131 @@
     text-transform: uppercase;
 }
 
-.authorThread{
+.threadSmallInfo {
+    font-size: small;
+    text-align: center;
+}
+
+.authorThread {
     margin: 0;
     font-size: medium;
 }
 
-.input {
-    margin-left: 5px;
-    resize: none;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
-  font-family: monospace;
-  height: 20px;
-  text-align: center;
+.threadItem {
+    margin-bottom: 100px;
+    text-align: end;
 }
 
-.select{
-    margin-left: 5px;
-    resize: none;
-    font-size: 12px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-family: monospace;
-    height: 15px;
+.container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Title styling */
+.title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #273f17;
     text-align: center;
 }
 
+.filtersContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.label {
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+.select {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.threadItem {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.threadHeader {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #273f17;
+}
+
+.threadContent {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.threadStatsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.threadStats {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.threadSmallInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.threadMeta {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.button {
+    background-color: var(--war-green-color);
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #4a6d40;
+}
+
+.separator {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 0px 0;
+}
+
+.noThreads {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+}

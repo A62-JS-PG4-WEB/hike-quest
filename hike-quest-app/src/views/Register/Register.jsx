@@ -4,8 +4,9 @@ import { AppContext } from "../../state/app.context"
 import { useNavigate } from "react-router-dom"
 import { createUserHandle, getUserByEmail, getUserByHandle } from "../../services/users.service"
 import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Register.css'
 
 /**
  * Register component handles user registration by validating user input, 
@@ -115,25 +116,30 @@ export default function Register() {
 
     return (
         <>
-            <h1>Register</h1>
-            <label htmlFor="handle">Username: </label>
-            <input value={user.handle} onChange={updateUser('handle')} type="text" name="handle" id="handle" /><br /><br />
-            <label htmlFor="firstName">First name: </label>
-            <input value={user.firstName} onChange={updateUser('firstName')} type="text" name="firstName" id="firstName" /><br /><br />
-            <label htmlFor="lastName">Last name: </label>
-            <input value={user.lastName} onChange={updateUser('lastName')} type="text" name="lastName" id="lastName" /><br /><br />
-            <label htmlFor="email">Email: </label>
-            <input value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /> <br /><br />
-            <label htmlFor="password">Password: </label>
-            <input value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /> <br />
-            <label htmlFor="confirmPassword">Confirm Password: </label>
-            <input value={user.confirmPassword}
-                onChange={updateUser('confirmPassword')}
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-            /> <br />
-            <button onClick={register}>Register</button>
+            <div className="registerContainer">
+                <h1 className="registerTitle">Register</h1>
+
+                <label className="registerLabel" htmlFor="handle">Username: </label>
+                <input className="registerInput" placeholder='Create a username...' value={user.handle} onChange={updateUser('handle')} type="text" name="handle" id="handle" /><br />
+
+                <label className="registerLabel" htmlFor="firstName">First name: </label>
+                <input className="registerInput" placeholder='Create a first name...' value={user.firstName} onChange={updateUser('firstName')} type="text" name="firstName" id="firstName" /><br />
+
+                <label className="registerLabel" htmlFor="lastName">Last name: </label>
+                <input className="registerInput" placeholder='Create a last name...' value={user.lastName} onChange={updateUser('lastName')} type="text" name="lastName" id="lastName" /><br />
+
+                <label className="registerLabel" htmlFor="email">Email: </label>
+                <input className="registerInput" placeholder='Create email...' value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /><br />
+
+                <label className="registerLabel" htmlFor="password">Password: </label>
+                <input className="registerInput" placeholder='Create a password...' value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /><br />
+
+                <label className="registerLabel" htmlFor="confirmPassword">Confirm Password: </label>
+                <input className="registerInput" placeholder='Confirm the password...' value={user.confirmPassword} onChange={updateUser('confirmPassword')} type="password" name="confirmPassword" id="confirmPassword" /><br />
+
+                <button className="registerButton" onClick={register}>Register</button>
+            </div>
         </>
+
     );
 }
