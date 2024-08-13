@@ -8,6 +8,7 @@ import UpdateThreadModal from '../UpdateThreadModal/UpdateThreadModal';
 import { weatherAPI } from '../../common/constants.js'
 import ThumbsUp from '../icons/ThumbsUpOutline.jsx';
 import ThumbsUpOutline from "../../components/icons/ThumbsUpOutline";
+import ThumbsUpFilled from "../../components/icons/ThumbsUpFilled.jsx"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
