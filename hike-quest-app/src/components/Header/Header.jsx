@@ -116,8 +116,8 @@ export default function Header() {
                         )}
                     </>
                 )}
-                {!user && <NavLink className="navlink" to="/login">Login to access</NavLink>}
-                {!user && <NavLink className="navlink" to="/register">Register</NavLink>}
+                {!user && <NavLink className="navlink" to="/login">Log in</NavLink>}
+                {!user && <NavLink className="navlink" to="/register">Sign up</NavLink>}
                 <button
                     onClick={toggleProfilePopup}
                     className={styles.navButton}
