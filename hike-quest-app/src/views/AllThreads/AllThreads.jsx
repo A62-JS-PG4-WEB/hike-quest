@@ -108,9 +108,9 @@ export default function AllThreads() {
 
                         <p className={styles.threadContent}>
                             {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW_LOGGED)}...
-
+                        </p>
                         <p className={styles.threadStats}>
-                        <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
+                            <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
 
                         </p>
                         <div className={styles.threadSmallInfo}>

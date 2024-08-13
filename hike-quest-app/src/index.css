@@ -189,13 +189,16 @@ button:hover {
   font-size: 18px;
   color: #fff;
   background-color: var(--war-green-color);
-  padding: 10px 20px;
-  border-radius: 50px;
-
+  padding: 5px;
+  border-radius: 50%;
   font-weight: bold;
   text-align: center;
   min-width: 50px;
+  min-height: 50px;
   line-height: 1.2;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

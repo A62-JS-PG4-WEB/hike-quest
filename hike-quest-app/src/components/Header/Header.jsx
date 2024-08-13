@@ -1,5 +1,5 @@
 import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
-import styles from'./Header.module.css';
+import styles from './Header.module.css';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/app.context';
 import { logoutUser } from '../../services/auth.service';
@@ -84,7 +84,7 @@ export default function Header() {
                 {!user ? (<>
                     <div className='navLabels'>
                         <div className='navThreadsCount'>
-                            <p className='threadsCountText'>Don't miss our threads! </p>
+                            <p className='threadsCountText'>Don't miss our interesting threads! </p>
                             <p className='threadsCount'>{count}</p>
                         </div>
                         <div className='navAccountCount'>
@@ -108,21 +108,24 @@ export default function Header() {
                         </div>
                     </>
                     )}
-                {!user && <NavLink className="navlink" to="/login">Login to access</NavLink>}
-                {!user && <NavLink className="navlink" to="/register">Register</NavLink>}
-
-                {user && <p>Welcome, {userData?.firstName}</p>}
-                <button 
-                            onClick={toggleProfilePopup}
-                            className={styles.navButton}
-                        >
-                          <ProfileIcon />
-                        </button>
-//                 {{user && <button onClick={logout}>Logout</button>}}
-
                 {user && (
                     <>
-                        
+                        <NavLink className="navlink" to="/threads">All Threads</NavLink>
+                        {!userData?.isBlocked && (
+                            <NavLink className="navlink" to="/create-thread">Create Thread</NavLink>
+                        )}
+                    </>
+                )}
+                {!user && <NavLink className="navlink" to="/login">Login to access</NavLink>}
+                {!user && <NavLink className="navlink" to="/register">Register</NavLink>}
+                <button
+                    onClick={toggleProfilePopup}
+                    className={styles.navButton}
+                >
+                    <ProfileIcon /> {userData?.firstName}
+                </button>
+                {user && (
+                    <>
                         {showProfilePopup && (
                             <div className={styles.profilePopup}>
                                 <button
@@ -155,8 +158,9 @@ export default function Header() {
                         )}
                     </>
                 )}
+
             </nav>
         </header>
     );
-};
+}
 

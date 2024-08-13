@@ -33,7 +33,7 @@ nav {
 }
 
 .logoContainer {
-  border: 1px solid #ccc;
+  border: 1px solid #851010;
   border-radius: 10px;
   padding: 5px;
 }
@@ -88,14 +88,14 @@ a.active {
 
 .profilePopup {
   position: absolute;
-  right: 0; 
+  right: 0;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
   border-radius: 6px;
   z-index: 10;
-  min-width: 150px; 
+  min-width: 150px;
   max-width: 200px
 }
 
@@ -104,13 +104,13 @@ a.active {
   display: inline-block;
   margin-bottom: 10px;
   padding: 8px;
-  width: calc(100% - 16px); 
+  width: calc(100% - 16px);
   box-sizing: border-box;
   font-size: 14px;
   border-radius: 4px;
   border: none;
-  background-color: #90ee90; 
-  color: black; 
+  background-color: var(--war-green-color);
+  color: black;
   cursor: pointer;
 }
 
@@ -118,7 +118,6 @@ a.active {
 .profilePopup button:hover {
   opacity: 0.9;
 }
-
 
 .editButton {
   background-color: #f0f0f0;
@@ -135,15 +134,16 @@ a.active {
 
 
 .navButton {
-  background: transparent;
-  border: none;
-  padding: 5px; 
-  border-radius: 50%; 
+  background-color: var(--war-green-color);
+  border: 3px solid transparent;
+  color: rgb(240, 233, 233);
+  border-color: transparent;
+  margin: 5px;
+  padding-inline: 10px;
+  padding-block: 5px;
+  border-radius: 20px;
+  justify-content: flex-end;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  background-color: #90ee90; 
-  width: 40px; 
-  height: 40px; 
+  text-decoration: none;
 }
-
