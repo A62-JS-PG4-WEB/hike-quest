@@ -166,8 +166,7 @@ export const getTagCount = async (threadId) => {
     const tagCount = Object.values(tags).length;
     return tagCount;
   } catch (error) {
-    console.error('Error fetching tag count:', error);
-    throw new Error('Failed to retrieve tag count');
+    toast.error("Error creating tag:", error);
   }
 };
 
@@ -176,7 +175,6 @@ export const createTag = async (threadId, tag) => {
     return;
   }
   const count = await getTagCount(threadId);
-  console.log(count);
 
   if (count > MAX_TAGS_COUNT) {
     toast.warning('Tag limit exceeded (10)!');

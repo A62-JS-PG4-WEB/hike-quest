@@ -4,7 +4,6 @@ import { createTag } from "../../services/threads.service";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 /**
  * Tags component allows users to add tags to a thread. Tags are entered as a comma-separated list.
  * 
@@ -34,7 +33,6 @@ export default function Tags({ thread }) {
     for (const t of tagsArr) {
       try {
         const addedTag = await createTag(thread.id, t.trim());
-        console.log(addedTag);
         if (addedTag) {
           toast.success('Tag added successfully.');
         }

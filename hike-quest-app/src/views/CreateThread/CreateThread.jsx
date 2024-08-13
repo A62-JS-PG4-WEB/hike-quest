@@ -4,8 +4,9 @@ import { createThread } from "../../services/threads.service";
 import { MAX_THREAD_CONTENT, MAX_THREAD_LOCATION, MAX_THREAD_TITLE, MIN_THREAD_CONTENT, MIN_THREAD_LOCATION, MIN_THREAD_TITLE } from "../../common/constants";
 import { useNavigate } from "react-router-dom";
 import '../../views/SingleThread/SingleThread.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 /**
  * CreateThread component allows users to create a new discussion thread by entering
  * a title and content. The component validates the input before submitting the thread.

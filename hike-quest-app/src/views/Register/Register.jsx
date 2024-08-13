@@ -4,7 +4,7 @@ import { AppContext } from "../../state/app.context"
 import { useNavigate } from "react-router-dom"
 import { createUserHandle, getUserByEmail, getUserByHandle } from "../../services/users.service"
 import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Register.css'
 

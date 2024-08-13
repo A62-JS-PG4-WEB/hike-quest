@@ -3,13 +3,34 @@ import { getAllThreads } from "../../services/threads.service";
 import { useNavigate } from "react-router-dom";
 import { COUNT_THREADS_LANDINGPAGE, MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import styles from "./LandingPage.module.css"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * LandingPage component displays the most popular and most recent threads on the homepage 
+ * for not logged users.
+ *
+ * This component fetches all threads from the backend and displays them in two sections:
+ * - "Our Most Popular Threads" based on comment count.
+ * - "Most Recent Threads" based on the date created.
+ *
+ * Users can view more details by clicking on the "See More" button, which redirects to the login page.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * // <LandingPage />
+ *
+ * @returns {JSX.Element} The LandingPage component
+ */
 export default function LandingPage() {
     const [threads, setThreads] = useState([]);
     const navigate = useNavigate();
 
+/**
+* Fetches all threads from the backend and updates the state.
+* Handles errors by displaying a toast message.
+*/
     useEffect(() => {
         const loadThreads = async () => {
             try {

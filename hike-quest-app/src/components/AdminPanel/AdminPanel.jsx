@@ -7,7 +7,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-
+/**
+ * AdminPanel component for managing users and threads. It allows administrators to:
+ * - View and search users.
+ * - Block or unblock users.
+ * - Grant or revoke admin rights.
+ * - View and delete threads.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The AdminPanel component
+ */
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [threads, setThreads] = useState([]);
@@ -18,6 +28,10 @@ const AdminPanel = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        /**
+         * Fetches all users and sets the state with the user data.
+         * Updates the filteredUsers state to include all users initially.
+         */
         const fetchUsers = async () => {
             try {
                 const allUsers = await getAllUsers();
@@ -29,6 +43,9 @@ const AdminPanel = () => {
             }
         };
 
+        /**
+         * Fetches all threads and sets the state with the thread data.
+         */
         const fetchThreads = async () => {
             try {
                 const allThreads = await getAllThreads();
@@ -43,6 +60,9 @@ const AdminPanel = () => {
     }, []);
 
     useEffect(() => {
+        /**
+         * Filters users based on the current search query and search criteria.
+         */
         setFilteredUsers(
             users.filter(user => {
                 const value = user[searchBy]?.toLowerCase() || '';
@@ -51,6 +71,12 @@ const AdminPanel = () => {
         );
     }, [searchQuery, searchBy, users]);
 
+    /**
+     * Handles blocking or unblocking a user.
+     * 
+     * @param {string} handle - The handle of the user to be blocked or unblocked.
+     * @param {boolean} isBlocked - The new blocked status of the user.
+     */
     const handleBlockUser = async (handle, isBlocked) => {
         try {
             await updateUserStatus(handle, { isBlocked });
@@ -60,6 +86,12 @@ const AdminPanel = () => {
         }
     };
 
+    /**
+     * Handles granting or revoking admin rights for a user.
+     * 
+     * @param {string} handle - The handle of the user to be updated.
+     * @param {boolean} isAdmin - The new admin status of the user.
+     */
     const handleAdminRights = async (handle, isAdmin) => {
         try {
             await updateUserStatus(handle, { isAdmin });
@@ -69,6 +101,11 @@ const AdminPanel = () => {
         }
     };
 
+    /**
+     * Handles the deletion of a thread with confirmation dialog.
+     * 
+     * @param {string} threadId - The ID of the thread to be deleted.
+     */
     const handleDeleteThread = async (threadId) => {
         const result = await Swal.fire({
             title: 'Are you sure?',
@@ -106,7 +143,7 @@ const AdminPanel = () => {
         <div>
             <h1>Admin Panel</h1>
             <select value={searchBy} onChange={(e) => setSearchBy(e.target.value)}>
-               <option value="handle">User Name</option>
+                <option value="handle">User Name</option>
                 <option value="email">Email</option>
                 <option value="firstName">First Name</option>
             </select>
@@ -122,7 +159,7 @@ const AdminPanel = () => {
             <table>
                 <thead>
                     <tr>
-                     <th>First name</th>
+                        <th>First name</th>
                         <th>User name</th>
                         <th>Email</th>
                         <th>Block</th>
@@ -134,7 +171,7 @@ const AdminPanel = () => {
                         .filter(user => user.handle !== userData.handle)
                         .map(user => (
                             <tr key={user.id}>
-                                 <td>{user.firstName}</td>
+                                <td>{user.firstName}</td>
                                 <td>{user.handle}</td>
                                 <td>{user.email}</td>
                                 <td>
@@ -148,7 +185,6 @@ const AdminPanel = () => {
                                             {user.isAdmin ? 'Yes' : 'No'}
                                         </button>
                                     )}
-
                                 </td>
                             </tr>
                         ))}
@@ -171,7 +207,7 @@ const AdminPanel = () => {
                             <td>{thread.title}</td>
                             <td>{thread.author}</td>
                             <td>
-                            <button className="button" onClick={() => navigate(`/threads/${thread.id}`)}>See more</button>
+                                <button className="button" onClick={() => navigate(`/threads/${thread.id}`)}>See more</button>
                             </td>
                             <td>
                                 <button onClick={() => handleDeleteThread(thread.id)}>Delete</button>

@@ -1,5 +1,18 @@
 import React from 'react';
 
+/**
+ * About component provides information about the Hike Quest platform.
+ * 
+ * This component introduces users to the features of Hike Quest, a platform for hiking enthusiasts,
+ * and provides details about the development team and their other projects.
+ * 
+ * @component
+ * @example
+ * // Example usage:
+ * // <About />
+ * 
+ * @returns {JSX.Element} The About component
+ */
 export default function About() {
   return (
     <div>

@@ -1,12 +1,24 @@
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useContext, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebase-config";
 import { AppContext } from "../../state/app.context";
 import { loginUser } from "../../services/auth.service";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * Login component handles user authentication.
+ *
+ * This component provides a login form where users can enter their email and password.
+ * If successful, it updates the application state with the user's information and navigates
+ * the user to the previous page or the homepage.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * // <Login />
+ *
+ * @returns {JSX.Element} The Login component
+ */
 export default function Login() {
     const [user, setUser] = useState({
         email: '',
@@ -16,14 +28,22 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    /**
+     * Handles input changes and updates the user state.
+     *
+     * @param {string} prop - The property of the user object to update (e.g., 'email', 'password').
+     * @returns {function} A function that updates the user state based on the input value.
+     */
     const updateUser = prop => e => {
         setUser({
             ...user,
             [prop]: e.target.value,
-        })
+        });
     };
 
-
+    /**
+     * Handles the login process by validating the user's credentials and updating the app state.
+     */
     const login = async () => {
         if (!user.email || !user.password) {
             return toast.error('No credentials provided!');
