@@ -66,8 +66,17 @@ export default function Header() {
                     <label htmlFor="search"></label>
                     <input value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" /><br /><br />
                 </div>
-                <label>Total hikers {usersCount}, Join us too!</label>
-                {!user && <label> Don't miss our amazing {count} threads! </label>}
+                {!user ? (<>
+                    <label> Don't miss our pertinent {count} threads! </label>
+                    <label>Total hikers {usersCount}, Join us too!</label>
+                </>
+                )
+                    :
+                    (<>
+                        <label>Total hikers {usersCount}!</label>
+                        <label> Thanks for contributing threads {count}! </label>
+                    </>
+                    )}
                 {user && (<>
                     <NavLink to="/threads">All Threads</NavLink>
                     {!userData?.isBlocked && (
@@ -77,8 +86,7 @@ export default function Header() {
                 {!user && <NavLink to="/login">Login to access</NavLink>}
                 {!user && <NavLink to="/register">Register</NavLink>}
                 {user && <button onClick={logout}>Logout</button>}
-                {userData && <p>Welcome, {userData.firstName}</p>}
-                {user && <label> Thanks for contributing threads {count} </label>}
+                {user && <p>Welcome, {userData?.firstName}</p>}
             </nav>
         </header>
     );

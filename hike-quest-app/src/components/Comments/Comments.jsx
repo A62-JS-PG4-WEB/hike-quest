@@ -98,60 +98,66 @@ export default function Comments({ threadId }) {
 
   return (
     <div>
-
-      <div className="commentSection">
-        <textarea
-          className="commentBox"
-          value={comment}
-          onChange={handleCommentChange}
-          name="comment"
-          id="comment"
-          placeholder="Add a comment..."
-        /><br /><br />
-        <div className="commentButtons">
-          <button className="threadButtons" onClick={handleCreateComment}>Comment</button>
-          <div>
-            <button className="threadButtons" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-              {showEmojiPicker ? "😜" : "😜"}
+      {!userData.isBlocked && (
+        <div className="commentSection">
+          <textarea
+            className="commentBox"
+            value={comment}
+            onChange={handleCommentChange}
+            name="comment"
+            id="comment"
+            placeholder="Add a comment..."
+          /><br /><br />
+          <div className="commentButtons">
+            <button className="threadButtons" onClick={handleCreateComment}>
+              Comment
             </button>
-            {showEmojiPicker && (
-              <Picker onEmojiSelect={addEmoji} />
-            )}
+            <div>
+              <button
+                className="threadButtons"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              >
+                {showEmojiPicker ? "😜" : "😜"}
+              </button>
+              {showEmojiPicker && (
+                <Picker onEmojiSelect={addEmoji} />
+              )}
+            </div>
+            <br />
           </div>
-          <br />
         </div>
-        <p className="commentsHeader">Comments</p>
-        <hr></hr>
-
-
-        <div>
-          <label htmlFor="sortOrder">Sort by:</label>
-          <select className="threadButtons" id="sortOrder" value={sortOrder} onChange={handleSortChange}>
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-          </select>
-
-        </div>
-
-        {comments.map(c => (
-          <Comment
-            key={c.id}
-            comment={c}
-            onUpdateComment={handleUpdateComment}
-            onDeleteComment={handleDeleteComment}
-            currentUser={userData.handle}
-            isBlocked={userData.isBlocked}
-            isAdmin={userData?.isAdmin}
-          />
-        ))}
+      )}
+      <p className="commentsHeader">Comments</p>
+      <hr />
+      <div>
+        <label htmlFor="sortOrder">Sort by:</label>
+        <select
+          className="threadButtons"
+          id="sortOrder"
+          value={sortOrder}
+          onChange={handleSortChange}
+        >
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
       </div>
-
+      {comments.map(c => (
+        <Comment
+          key={c.id}
+          comment={c}
+          onUpdateComment={handleUpdateComment}
+          onDeleteComment={handleDeleteComment}
+          currentUser={userData.handle}
+          isBlocked={userData.isBlocked}
+          isAdmin={userData?.isAdmin}
+        />
+      ))}
     </div>
-
   );
-}
+};
+
 Comments.propTypes = {
   threadId: PropTypes.string.isRequired,
-
 };
+
 
