@@ -64,31 +64,47 @@ export default function Header() {
             </div>
 
             <nav >
-               
-                    {/* <label htmlFor="search"></label> */}
-                    <input className="searchContainer" value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" placeholder="Search threads"  /><br /><br />
-               
+
+                {/* <label htmlFor="search"></label> */}
+                <input className="searchContainer" value={search} onChange={e => setSearch(e.target.value)} type="text" name="search" id="search" placeholder="Search threads" /><br /><br />
+
+                {user && (<>
+                    <NavLink className="navlink" to="/threads">All Threads</NavLink>
+                    {!userData?.isBlocked && (
+                        <NavLink className="navlink" to="/create-thread">Create Thread</NavLink>)
+                    }
+                </>)}
+                {!user && <NavLink className="navlink" to="/login">Login to access</NavLink>}
+                {!user && <NavLink className="navlink" to="/register">Register</NavLink>}
+                {user && <button onClick={logout}>Logout</button>}
                 {!user ? (<>
-                    <label> Don't miss our {count} threads! </label>
-                    <label>Total hikers {usersCount}, join us too!</label>
+                    <div className='navLabels'>
+                        <div className='navThreadsCount'>
+                            <p className='threadsCountText'>Don't miss our threads! </p>
+                            <p className='threadsCount'>{count}</p>
+                        </div>
+                        <div className='navAccountCount'>
+                            <p className='accountCountText'>Total hikers active</p>
+                            <p className='accountUserCount'>{usersCount}</p>
+                        </div>
+                    </div>
                 </>
                 )
                     :
                     (<>
-                        <label>Total hikers {usersCount}!</label>
-                        <label> Threads in forum {count}! </label>
+                        <div className='navLabels'>
+                            <div className='navThreadsCount'>
+                                <p className='threadsCountText'>Threads published </p>
+                                <p className='threadsCount'>{count}</p>
+                            </div>
+                            <div className='navAccountCount'>
+                                <p className='accountCountText'>Active hikers</p>
+                                <p className='accountUserCount'>{usersCount}</p>
+                            </div>
+                        </div>
                     </>
                     )}
-                {user && (<>
-                    <NavLink to="/threads">All Threads</NavLink>
-                    {!userData?.isBlocked && (
-                        <NavLink to="/create-thread">Create Thread</NavLink>)
-                    }
-                </>)}
-                {!user && <NavLink to="/login">Login to access</NavLink>}
-                {!user && <NavLink to="/register">Register</NavLink>}
-                {user && <button onClick={logout}>Logout</button>}
-                {user && <p>Welcome, {userData?.firstName}</p>}
+
             </nav>
         </header>
     );

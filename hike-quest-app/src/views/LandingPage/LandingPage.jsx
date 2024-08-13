@@ -42,7 +42,7 @@ export default function LandingPage() {
                                     {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
                                 </p>
                                 <div className={styles.threadButtons}>
-                                    <button className={styles.button} onClick={() => navigate(`/login`)}>See more</button>
+                                    <button className='button' onClick={() => navigate(`/login`)}>See more</button>
                                 </div>
                             </div>
                         ))}
@@ -70,7 +70,8 @@ export default function LandingPage() {
                 <p className={styles.threadStats}>
                     Join us to share your most awesome experience!
                 </p>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
