@@ -2,13 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { deleteThread, getAllThreads } from "../../services/threads.service";
 import { AppContext } from "../../state/app.context";
-import { MAX_CONTENT_TO_SHOW, MIN_CONTENT_TO_SHOW } from "../../common/constants";
+import { MAX_CONTENT_TO_SHOW_LOGGED, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import styles from './AllThreads.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import '../../views/SingleThread/SingleThread.css'
 import ThumbsUpOutline from "../../components/icons/ThumbsUpOutline";
 import CommentsIcon from '../../components/icons/CommentsIcon';
+
 
 
 /**
@@ -80,7 +82,7 @@ export default function AllThreads() {
                     id="sort"
                     value={sort}
                     onChange={(e) => setSort(e.target.value)}
-                    className={styles.select}
+
                 >
                     <option value="date">Date</option>
                     <option value="title">Title</option>
@@ -92,7 +94,7 @@ export default function AllThreads() {
                     id="filter"
                     type="text"
                     value={userFilter}
-                    placeholder="by user name" 
+                    placeholder="Search by username"
                     onChange={(e) => setUserFilter(e.target.value)}
                     className={styles.input}
                 />
@@ -102,19 +104,31 @@ export default function AllThreads() {
                     <div key={t.id} className={styles.threadItem}>
                         <p className={styles.threadHeader}>
                             <strong>{t.title}</strong> <br />
-                        </p> by <label className="authorThread"> {t.author} </label>
-                        <p className='threadDate'> {new Date(t.createdOn).toDateString()}</p>                        <p className={styles.threadContent}>
-                            {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW)}...
                         </p>
+
+                        <p className={styles.threadContent}>
+                            {t.content.slice(MIN_CONTENT_TO_SHOW, MAX_CONTENT_TO_SHOW_LOGGED)}...
+
                         <p className={styles.threadStats}>
                         <ThumbsUpOutline /> {t.likeCount} | <CommentsIcon /> {t.commentCount}
+
                         </p>
-                        <div className={styles.threadButtons}>
-                            <button className={styles.button} onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
-                            {(t.author === userData?.handle || userData?.isAdmin) && (
-                                <button className={styles.button} onClick={() => handleDeleteThread(t.id)}>Delete</button>
-                            )}
+                        <div className={styles.threadSmallInfo}>
+                            <p className={styles.threadStats}>
+                                Likes: {t.likeCount} | Comments: {t.commentCount}
+                            </p>
+
+                            <div className={styles.threadButtons}>
+                                <label className="authorThread"> Created by: {t.author} </label>
+                                <p> {new Date(t.createdOn).toDateString()}</p>
+                                <button className={styles.button} onClick={() => navigate(`/threads/${t.id}`)}>See more</button>
+                                {(t.author === userData?.handle || userData?.isAdmin) && (
+                                    <button className={styles.button} onClick={() => handleDeleteThread(t.id)}>Delete</button>
+                                )}
+                            </div>
                         </div>
+                        <hr />
+
                     </div>
                 ))
             ) : (

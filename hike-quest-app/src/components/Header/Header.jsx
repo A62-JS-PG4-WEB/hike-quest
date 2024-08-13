@@ -81,27 +81,36 @@ export default function Header() {
                 />
                 <br />
                 <br />
-                {!user ? (
-                    <>
-                        <label> Don't miss our {count} threads! </label>
-                        <label>Total hikers {usersCount}, join us too!</label>
+                {!user ? (<>
+                    <div className='navLabels'>
+                        <div className='navThreadsCount'>
+                            <p className='threadsCountText'>Don't miss our threads! </p>
+                            <p className='threadsCount'>{count}</p>
+                        </div>
+                        <div className='navAccountCount'>
+                            <p className='accountCountText'>Total hikers active</p>
+                            <p className='accountUserCount'>{usersCount}</p>
+                        </div>
+                    </div>
+                </>
+                )
+                    :
+                    (<>
+                        <div className='navLabels'>
+                            <div className='navThreadsCount'>
+                                <p className='threadsCountText'>Threads published </p>
+                                <p className='threadsCount'>{count}</p>
+                            </div>
+                            <div className='navAccountCount'>
+                                <p className='accountCountText'>Active hikers</p>
+                                <p className='accountUserCount'>{usersCount}</p>
+                            </div>
+                        </div>
                     </>
-                ) : (
-                    <>
-                        <label>Total hikers {usersCount}!</label>
-                        <label> Threads in forum {count}! </label>
-                    </>
-                )}
-                {user && (
-                    <>
-                        <NavLink to="/threads">All Threads</NavLink>
-                        {!userData?.isBlocked && (
-                            <NavLink to="/create-thread">Create Thread</NavLink>
-                        )}
-                    </>
-                )}
-                {!user && <NavLink to="/login">Login to access</NavLink>}
-                {!user && <NavLink to="/register">Register</NavLink>}
+                    )}
+                {!user && <NavLink className="navlink" to="/login">Login to access</NavLink>}
+                {!user && <NavLink className="navlink" to="/register">Register</NavLink>}
+
                 {user && <p>Welcome, {userData?.firstName}</p>}
                 <button 
                             onClick={toggleProfilePopup}
@@ -109,7 +118,7 @@ export default function Header() {
                         >
                           <ProfileIcon />
                         </button>
-                {/* {user && <button onClick={logout}>Logout</button>} */}
+//                 {{user && <button onClick={logout}>Logout</button>}}
 
                 {user && (
                     <>

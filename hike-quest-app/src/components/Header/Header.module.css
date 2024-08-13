@@ -24,6 +24,7 @@ a.active {
 
 nav {
   text-align: right;
+
 }
 
 .logoPicture {
@@ -35,7 +36,6 @@ nav {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 5px;
-  /* Add some padding to space the logo from the border */
 }
 
 
@@ -146,3 +146,4 @@ a.active {
   width: 40px; 
   height: 40px; 
 }
+

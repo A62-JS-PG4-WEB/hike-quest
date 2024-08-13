@@ -1,9 +1,9 @@
-.threadContent{
+.threadContent {
     display: flex;
     text-align: center;
     justify-content: center;
-    margin: 20px;
-    padding: 20px;
+    margin: 0;
+    padding: 1px;
     font-size: larger;
     border-style: hidden;
     border-radius: 10px;
@@ -12,7 +12,7 @@
     overflow-wrap: break-word;
 }
 
-.threadHeader{
+.threadHeader {
     width: 100%;
     font-size: medium;
     display: flex;
@@ -23,32 +23,19 @@
     text-transform: uppercase;
 }
 
-.authorThread{
+.threadSmallInfo {
+    font-size: small;
+    text-align: center;
+}
+
+.authorThread {
     margin: 0;
     font-size: medium;
 }
 
-.input {
-    margin-left: 5px;
-    resize: none;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
-  font-family: monospace;
-  height: 20px;
-  text-align: center;
+.threadItem {
+    margin-bottom: 100px;
+    text-align: end;
 }
 
-.select{
-    margin-left: 5px;
-    resize: none;
-    font-size: 12px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-family: monospace;
-    height: 15px;
-    text-align: center;
-}
-
+.threadStats {}
