@@ -13,3 +13,4 @@ export const weatherAPI = '8f29f8932929254a4175caae831a7b75';
 export const MIN_CONTENT_TO_SHOW = 0;
 export const MAX_CONTENT_TO_SHOW = 30;
 export const MAX_CONTENT_TO_SHOW_LOGGED = 100;
+export const MAX_TAGS_COUNT = 9;

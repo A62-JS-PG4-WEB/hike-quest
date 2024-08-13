@@ -2,6 +2,7 @@ import { ref, push, get, set, update, remove, onValue } from 'firebase/database'
 import { db } from '../config/firebase-config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MAX_TAGS_COUNT } from '../common/constants';
 
 export const deleteCommentFromThread = async (threadId, commentId) => {
   const commentRef = ref(db, `threads/${threadId}/comments/${commentId}`);
@@ -98,6 +99,7 @@ export const deleteThread = async (threadId) => {
   try {
     const threadRef = ref(db, `threads/${threadId}`);
     await remove(threadRef);
+    await remove(ref(db, `posts/${threadId}`));
     toast.success('Thread deleted successfully.');
   } catch (error) {
     toast.error('Error deleting thread: ' + error.message || error);
@@ -151,8 +153,33 @@ export const getCommentsByThread = async (threadId) => {
 
 }
 
+export const getTagCount = async (threadId) => {
+
+  try {
+    const snapshot = await get(ref(db, `posts/${threadId}`));
+    const tags = snapshot.val();
+
+    if (!tags) {
+      return 0;
+    }
+
+    const tagCount = Object.values(tags).length;
+    return tagCount;
+  } catch (error) {
+    console.error('Error fetching tag count:', error);
+    throw new Error('Failed to retrieve tag count');
+  }
+};
+
 export const createTag = async (threadId, tag) => {
   if (!tag.trim()) {
+    return;
+  }
+  const count = await getTagCount(threadId);
+  console.log(count);
+
+  if (count > MAX_TAGS_COUNT) {
+    toast.warning('Tag limit exceeded (10)!');
     return;
   }
   const allTags = await fetchAllTags();
