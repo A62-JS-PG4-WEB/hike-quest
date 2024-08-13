@@ -43,6 +43,7 @@ export default function SingleThread() {
         try {
             await deleteTag(thread.id, tagName);
             const updatedTags = tags.filter(tag => tag !== tagName);
+            toast.success('Tag removed')
             setTags(updatedTags);
         } catch (error) {
             toast(error.message);
