@@ -20,6 +20,8 @@ export default function Header() {
             search: value,
 
         });
+        navigate(`/search-results?search=${value}`);
+
     }
 
     useEffect(() => {

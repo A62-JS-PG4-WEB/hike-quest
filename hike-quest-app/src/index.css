@@ -115,6 +115,31 @@ button:hover {
   height: 25px;
   text-align: center;
 }
+
+input {
+  margin-left: 5px;
+  resize: none;
+font-size: 12px;
+border: 1px solid #ccc;
+border-radius: 10px;
+box-sizing: border-box;
+font-family: monospace;
+height: 20px;
+text-align: center;
+}
+
+select{
+  margin-left: 5px;
+  resize: none;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-family: monospace;
+  height: 15px;
+  text-align: center;
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -81,6 +81,7 @@ function App() {
           <Route path='/threads/:id' element={<Authenticated><SingleThread /></Authenticated>} />
           <Route path='/tag-posts/:id' element={<Authenticated><TagPosts /></Authenticated>} />
           <Route path='/create-thread' element={<Authenticated>{!appState.userData?.isBlocked ? <CreateThread /> : <NotAuthorized />}</Authenticated>} />
+          <Route path='/search-results' element={<Authenticated><AllThreads /></Authenticated>} />
           <Route path='/login' element={!user && <Login />} />
           <Route path='/register' element={!user && <Register />} />
           <Route path='/terms' element={<Terms />} />
