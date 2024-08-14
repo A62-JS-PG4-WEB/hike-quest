@@ -82,7 +82,7 @@ export default function Header() {
             <div className={styles.logoContainer}>
                 <a className={styles.aLogo} href="/">
                     <img
-                        src="https://cdn.discordapp.com/attachments/1260151938750742622/1272199714909065216/9_-removebg-preview_3.png?ex=66bcbed0&is=66bb6d50&hm=f73a06f63bd98e3c98e45ab36521af5a68f5c6848c4dfb8a1aa87ccd6fa173c3&"
+                        src="/src/components/icons/logo.png"
                         alt='logo'
                         className={styles.logoPicture}
                     />
