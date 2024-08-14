@@ -158,6 +158,7 @@ button:hover {
 .deleteTagButton {
   padding: 2px 4px;
   background-color: transparent;
+  color:  #273f17;
   margin-left: 1px;
 }
 

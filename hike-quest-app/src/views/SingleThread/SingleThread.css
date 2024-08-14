@@ -41,10 +41,6 @@
     font-weight: bold;
 }
 
-
-.threadContainer {}
-
-
 .threadCreatedOn {
     font-size: 12px;
 }
@@ -204,6 +200,7 @@ hr {
 
 .createThreadInput,
 .createThreadTextarea {
+    resize: none;
     width: 100%;
     max-width: 500px;
     padding: 10px;
@@ -216,7 +213,7 @@ hr {
 
 .createThreadTextarea {
     min-height: 100px;
-    resize: vertical;
+    resize: none;
 }
 
 .createThreadButton {

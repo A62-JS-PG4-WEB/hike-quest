@@ -5,6 +5,17 @@ import { updateAccountInfoDB, updateUserEmail } from '../../services/users.servi
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * Account component allows users to view and update their account details such as 
+ * email, first name, and last name. 
+ * 
+ * @component
+ * @example
+ * // Example usage:
+ * // <Account />
+ * 
+ * @returns {JSX.Element} The Account component
+ */
 export default function Account() {
     const { user, userData, setAppState } = useContext(AppContext);
     const [editing, setEditing] = useState(false);
@@ -17,11 +28,41 @@ export default function Account() {
         return <p>Loading...</p>;
     }
 
+    /**
+     * Handles changes to the email input field.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event
+     */
     const handleEmailChange = (e) => setNewEmail(e.target.value);
+
+    /**
+     * Handles changes to the first name input field.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event
+     */
     const handleFirstNameChange = (e) => setNewFirstName(e.target.value);
+
+    /**
+     * Handles changes to the last name input field.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event
+     */
     const handleLastNameChange = (e) => setNewLastName(e.target.value);
+
+    /**
+     * Handles changes to the current password input field.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event
+     */
     const handlePasswordChange = (e) => setCurrentPassword(e.target.value);
 
+    /**
+     * Saves the changes made to the account details. Updates the account information
+     * in the database and updates the user's state. If the email is changed, it also
+     * updates the user's email in the authentication service.
+     * 
+     * @async
+     */
     const saveChanges = async () => {
         try {
             await updateAccountInfoDB(userData.handle, newEmail, newFirstName, newLastName);
@@ -43,7 +84,6 @@ export default function Account() {
             setEditing(false);
             toast.success('Account details updated successfully.');
         } catch (error) {
-            console.error('Failed to update account details:', error);
             toast.error('Failed to update account details: ' + error.message);
         }
     };

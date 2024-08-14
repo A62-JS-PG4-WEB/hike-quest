@@ -8,25 +8,37 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileIcon from '../../components/icons/ProfileIcon';
 
+/**
+ * Header component displays navigation links, user-related actions, and counts of threads and users.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The Header component
+ */
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('search') ?? '';
     const [count, setCount] = useState(null);
-    const [usersCount, setUsersCount] = useState(null)
+    const [usersCount, setUsersCount] = useState(null);
     const [showProfilePopup, setShowProfilePopup] = useState(false);
 
+    /**
+     * Updates the search parameter and navigates to the search results page.
+     * 
+     * @param {string} value - The search query to set in the URL
+     */
     const setSearch = (value) => {
-        setSearchParams({
-            search: value,
-
-        });
+        setSearchParams({ search: value });
         navigate(`/search-results?search=${value}`);
-
-    }
+    };
 
     useEffect(() => {
+        /**
+         * Fetches the counts of threads and users, and sets up a subscription to thread changes.
+         * Displays error toast if fetching fails.
+         */
         const fetchCounts = async () => {
             try {
                 const users = await getUsersCount();
@@ -39,6 +51,7 @@ export default function Header() {
             }
         };
         fetchCounts();
+
         const unsubscribe = subscribeToThreadChanges(newCount => {
             setCount(newCount);
         });
@@ -46,6 +59,10 @@ export default function Header() {
         return () => unsubscribe();
     }, []);
 
+    /**
+     * Logs out the user, clears app state, and navigates to the home page.
+     * Displays success toast on successful logout.
+     */
     const logout = async () => {
         await logoutUser();
         setAppState({ user: null, userData: null });
@@ -53,6 +70,9 @@ export default function Header() {
         navigate('/');
     };
 
+    /**
+     * Toggles the visibility of the profile popup.
+     */
     const toggleProfilePopup = () => {
         setShowProfilePopup(!showProfilePopup);
     };
@@ -62,8 +82,8 @@ export default function Header() {
             <div className={styles.logoContainer}>
                 <a className={styles.aLogo} href="/">
                     <img
-                        src="https://cdn.discordapp.com/attachments/1260151938750742622/1272199714909065216/9_-removebg-preview_3.png?ex=66bb6d50&is=66ba1bd0&hm=98f03080f4a466d39920b2a41d292a189aa68e9e797dcfaa9ea3f117522693cb&"
-                        alt="Logo"
+                        src="/src/components/icons/logo.png"
+                        alt='logo'
                         className={styles.logoPicture}
                     />
                 </a>
@@ -82,10 +102,10 @@ export default function Header() {
                 <br />
 
                 {
-                    !user ? (<>
+                    !user ? (
                         <div className='navLabels'>
                             <div className='navThreadsCount'>
-                                <p className='threadsCountText'>Don't miss our interesting threads! </p>
+                                <p className='threadsCountText'>Don't miss our interesting threads!</p>
                                 <p className='threadsCount'>{count}</p>
                             </div>
                             <div className='navAccountCount'>
@@ -93,23 +113,20 @@ export default function Header() {
                                 <p className='accountUserCount'>{usersCount}</p>
                             </div>
                         </div>
-                    </>
-                    )
-                        :
-                        (<>
-                            <div className='navLabels'>
-                                <div className='navThreadsCount'>
-                                    <p className='threadsCountText'>Threads published </p>
-                                    <p className='threadsCount'>{count}</p>
-                                </div>
-                                <div className='navAccountCount'>
-                                    <p className='accountCountText'>Active hikers</p>
-                                    <p className='accountUserCount'>{usersCount}</p>
-                                </div>
+                    ) : (
+                        <div className='navLabels'>
+                            <div className='navThreadsCount'>
+                                <p className='threadsCountText'>Threads published</p>
+                                <p className='threadsCount'>{count}</p>
                             </div>
-                        </>
-                        )
+                            <div className='navAccountCount'>
+                                <p className='accountCountText'>Active hikers</p>
+                                <p className='accountUserCount'>{usersCount}</p>
+                            </div>
+                        </div>
+                    )
                 }
+
                 {user && (
                     <>
                         <NavLink className="navlink" to="/threads">All Threads</NavLink>
@@ -123,8 +140,7 @@ export default function Header() {
                             <ProfileIcon /> {userData?.firstName}
                         </button>
                     </>
-                )
-                }
+                )}
                 {!user && <NavLink className="navlink" to="/login">Log in</NavLink>}
                 {!user && <NavLink className="navlink" to="/register">Sign up</NavLink>}
                 {user && (
@@ -160,11 +176,10 @@ export default function Header() {
                             </div>
                         )}
                     </>
-                )
-                }
+                )}
 
-            </nav >
-        </header >
+            </nav>
+            <ToastContainer />
+        </header>
     );
 }
-

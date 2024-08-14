@@ -4,14 +4,12 @@ import { deleteThread, getAllThreads } from "../../services/threads.service";
 import { AppContext } from "../../state/app.context";
 import { MAX_CONTENT_TO_SHOW_LOGGED, MIN_CONTENT_TO_SHOW } from "../../common/constants";
 import styles from './AllThreads.module.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import '../../views/SingleThread/SingleThread.css'
 import ThumbsUpOutline from "../../components/icons/ThumbsUpOutline";
 import CommentsIcon from '../../components/icons/CommentsIcon';
-
-
 
 /**
  * Component that displays a list of all threads. 
