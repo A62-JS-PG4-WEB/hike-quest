@@ -274,7 +274,7 @@ export const createTag = async (threadId, tag) => {
     return;
   }
   const allTags = await fetchAllTags();
-  const existingTagEntry = Object.entries(allTags).find(([id, name]) => name === tag.trim());
+  const existingTagEntry = Object.entries(allTags).find(([name]) => name === tag.trim());
   const existingTagId = existingTagEntry ? existingTagEntry[0] : null;
 
   if (existingTagId) {
