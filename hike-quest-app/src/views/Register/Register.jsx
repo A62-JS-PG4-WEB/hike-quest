@@ -4,7 +4,9 @@ import { AppContext } from "../../state/app.context"
 import { useNavigate } from "react-router-dom"
 import { createUserHandle, getUserByEmail, getUserByHandle } from "../../services/users.service"
 import { MAX_FIRSTNAME, MAX_LASTNAME, MIN_FIRSTNAME, MIN_LASTNAME } from "../../common/constants"
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Register.css'
 
 /**
  * Register component handles user registration by validating user input, 
@@ -39,7 +41,7 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: '', 
+        confirmPassword: '',
         isAdmin: false,
         isBlocked: false
     });
@@ -69,71 +71,75 @@ export default function Register() {
      */
 
     const register = async () => {
-        
+
         if (!user.email.trim() || !user.password) {
-            return alert('No credentials provided!');
+            return toast.error('No credentials provided!');
         }
         if (user.password !== user.confirmPassword) {
-            alert("Passwords do not match!");
+            toast.info("Passwords do not match!");
             return;
         }
 
         if (user.firstName.length < MIN_FIRSTNAME) {
-            return alert('First name too short!');
+            return toast.error('First name too short!');
         }
         if (user.firstName.length > MAX_FIRSTNAME) {
-            return alert('First name too long!');
+            return toast.error('First name too long!');
         }
         if (user.lastName.length < MIN_LASTNAME) {
-            return alert('Last name too short!');
+            return toast.error('Last name too short!');
         }
 
         if (user.lastName.length > MAX_LASTNAME) {
-            return alert('Last name too long!');
+            return toast.error('Last name too long!');
         }
         try {
             const userDB = await getUserByEmail(user.email.trim());
             if (userDB) {
-                return alert(`User {${user.email}} already exists!`);
+                return toast.error(`User {${user.email}} already exists!`);
             }
 
             const userFromDB = await getUserByHandle(user.handle);
             if (userFromDB) {
-                return alert(`User {${user.handle}} already exists!`);
+                return toast.error(`User {${user.handle}} already exists!`);
             }
             const credential = await registerUser(user.email.trim(), user.password.trim());
             await createUserHandle(user.handle, user.firstName, user.lastName, credential.user.uid, user.email, user.isAdmin, user.isBlocked);
             setAppState({ user: credential.user, userData: null });
             navigate('/');
+            toast.success('Successfully registered');
         } catch (error) {
-            alert(error.message);
+            toast.error(error.message);
         }
     };
 
 
     return (
         <>
-            <h1>Register</h1>
-            <label htmlFor="handle">Username: </label>
-            <input value={user.handle} onChange={updateUser('handle')} type="text" name="handle" id="handle" /><br /><br />
-            <label htmlFor="firstName">First name: </label>
-            <input value={user.firstName} onChange={updateUser('firstName')} type="text" name="firstName" id="firstName" /><br /><br />
-            <label htmlFor="lastName">Last name: </label>
-            <input value={user.lastName} onChange={updateUser('lastName')} type="text" name="lastName" id="lastName" /><br /><br />
-            <label htmlFor="email">Email: </label>
-            <input value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /> <br /><br />
-            <label htmlFor="password">Password: </label>
-            <input value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /> <br />
-            <label htmlFor="confirmPassword">Confirm Password: </label>
-            <input value={user.confirmPassword}
-                onChange={updateUser('confirmPassword')}
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-            /> <br />
-            <button onClick={register}>Register</button>
+            <div className="registerContainer">
+                <h1 className="registerTitle">Register</h1>
+
+                <label className="registerLabel" htmlFor="handle">Username: </label>
+                <input className="registerInput" placeholder='Create a username...' value={user.handle} onChange={updateUser('handle')} type="text" name="handle" id="handle" /><br />
+
+                <label className="registerLabel" htmlFor="firstName">First name: </label>
+                <input className="registerInput" placeholder='Create a first name...' value={user.firstName} onChange={updateUser('firstName')} type="text" name="firstName" id="firstName" /><br />
+
+                <label className="registerLabel" htmlFor="lastName">Last name: </label>
+                <input className="registerInput" placeholder='Create a last name...' value={user.lastName} onChange={updateUser('lastName')} type="text" name="lastName" id="lastName" /><br />
+
+                <label className="registerLabel" htmlFor="email">Email: </label>
+                <input className="registerInput" placeholder='Create email...' value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" /><br />
+
+                <label className="registerLabel" htmlFor="password">Password: </label>
+                <input className="registerInput" placeholder='Create a password...' value={user.password} onChange={updateUser('password')} type="password" name="password" id="password" /><br />
+
+                <label className="registerLabel" htmlFor="confirmPassword">Confirm Password: </label>
+                <input className="registerInput" placeholder='Confirm the password...' value={user.confirmPassword} onChange={updateUser('confirmPassword')} type="password" name="confirmPassword" id="confirmPassword" /><br />
+
+                <button className="registerButton" onClick={register}>Register</button>
+            </div>
         </>
-    )
 
-
+    );
 }

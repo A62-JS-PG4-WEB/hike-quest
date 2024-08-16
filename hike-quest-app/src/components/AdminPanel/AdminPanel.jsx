@@ -2,15 +2,36 @@ import React, { useState, useEffect, useContext } from 'react';
 import { getAllUsers, updateUserStatus } from '../../services/users.service';
 import { getAllThreads, deleteThread } from '../../services/threads.service';
 import { AppContext } from '../../state/app.context';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
+/**
+ * AdminPanel component for managing users and threads. It allows administrators to:
+ * - View and search users.
+ * - Block or unblock users.
+ * - Grant or revoke admin rights.
+ * - View and delete threads.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The AdminPanel component
+ */
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [threads, setThreads] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchBy, setSearchBy] = useState('handle');
+    const [searchBy, setSearchBy] = useState('user');
     const [filteredUsers, setFilteredUsers] = useState([]);
     const { userData } = useContext(AppContext);
+    const navigate = useNavigate();
+
     useEffect(() => {
+        /**
+         * Fetches all users and sets the state with the user data.
+         * Updates the filteredUsers state to include all users initially.
+         */
         const fetchUsers = async () => {
             try {
                 const allUsers = await getAllUsers();
@@ -18,16 +39,19 @@ const AdminPanel = () => {
                 setUsers(usersArray);
                 setFilteredUsers(usersArray);
             } catch (error) {
-                console.error('Error fetching users:', error);
+                toast.error('Error fetching users:', error);
             }
         };
 
+        /**
+         * Fetches all threads and sets the state with the thread data.
+         */
         const fetchThreads = async () => {
             try {
                 const allThreads = await getAllThreads();
                 setThreads(allThreads);
             } catch (error) {
-                console.error('Error fetching threads:', error);
+                toast.error('Error fetching threads:', error);
             }
         };
 
@@ -36,6 +60,9 @@ const AdminPanel = () => {
     }, []);
 
     useEffect(() => {
+        /**
+         * Filters users based on the current search query and search criteria.
+         */
         setFilteredUsers(
             users.filter(user => {
                 const value = user[searchBy]?.toLowerCase() || '';
@@ -44,48 +71,81 @@ const AdminPanel = () => {
         );
     }, [searchQuery, searchBy, users]);
 
+    /**
+     * Handles blocking or unblocking a user.
+     * 
+     * @param {string} handle - The handle of the user to be blocked or unblocked.
+     * @param {boolean} isBlocked - The new blocked status of the user.
+     */
     const handleBlockUser = async (handle, isBlocked) => {
         try {
             await updateUserStatus(handle, { isBlocked });
             setUsers(users.map(user => user.handle === handle ? { ...user, isBlocked } : user));
         } catch (error) {
-            console.error('Error updating user status:', error);
+            toast.error('Error updating user status:', error);
         }
     };
 
+    /**
+     * Handles granting or revoking admin rights for a user.
+     * 
+     * @param {string} handle - The handle of the user to be updated.
+     * @param {boolean} isAdmin - The new admin status of the user.
+     */
     const handleAdminRights = async (handle, isAdmin) => {
         try {
             await updateUserStatus(handle, { isAdmin });
             setUsers(users.map(user => user.handle === handle ? { ...user, isAdmin } : user));
         } catch (error) {
-            console.error('Error updating user status:', error);
+            toast.error('Error updating user status:', error);
         }
     };
 
+    /**
+     * Handles the deletion of a thread with confirmation dialog.
+     * 
+     * @param {string} threadId - The ID of the thread to be deleted.
+     */
     const handleDeleteThread = async (threadId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this thread?");
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(99, 236, 112)',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        });
 
-        if (confirmDelete) {
+        if (result.isConfirmed) {
             try {
                 await deleteThread(threadId);
                 setThreads(threads.filter(thread => thread.id !== threadId));
-                alert('Thread deleted successfully.');
+                toast.success('Thread deleted successfully.');
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Your thread has been deleted.',
+                    icon: 'success',
+                    confirmButtonColor: 'rgb(99, 236, 112)',
+                });
             } catch (error) {
-                console.error('Error deleting thread:', error);
+                toast.error('Error deleting thread:', error.message || error);
             }
         }
-    }
+    };
+
     if (!userData) {
-        return <p>Loading...</p>; 
+        return <p>Loading...</p>;
     }
 
     return (
         <div>
             <h1>Admin Panel</h1>
             <select value={searchBy} onChange={(e) => setSearchBy(e.target.value)}>
-                <option value="handle">Handle</option>
+                <option value="handle">User Name</option>
                 <option value="email">Email</option>
-                <option value="displayName">Display Name</option>
+                <option value="firstName">First Name</option>
             </select>
 
             <input
@@ -99,7 +159,8 @@ const AdminPanel = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>Handle</th>
+                        <th>First name</th>
+                        <th>User name</th>
                         <th>Email</th>
                         <th>Block</th>
                         <th>Admin</th>
@@ -110,6 +171,7 @@ const AdminPanel = () => {
                         .filter(user => user.handle !== userData.handle)
                         .map(user => (
                             <tr key={user.id}>
+                                <td>{user.firstName}</td>
                                 <td>{user.handle}</td>
                                 <td>{user.email}</td>
                                 <td>
@@ -123,7 +185,6 @@ const AdminPanel = () => {
                                             {user.isAdmin ? 'Yes' : 'No'}
                                         </button>
                                     )}
-
                                 </td>
                             </tr>
                         ))}
@@ -136,6 +197,7 @@ const AdminPanel = () => {
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
+                        <th>Details</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -144,6 +206,9 @@ const AdminPanel = () => {
                         <tr key={thread.id}>
                             <td>{thread.title}</td>
                             <td>{thread.author}</td>
+                            <td>
+                                <button className="button" onClick={() => navigate(`/threads/${thread.id}`)}>See more</button>
+                            </td>
                             <td>
                                 <button onClick={() => handleDeleteThread(thread.id)}>Delete</button>
                             </td>

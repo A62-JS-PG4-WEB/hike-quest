@@ -1,0 +1,73 @@
+.threadsPageContainer {
+    padding: 20px;
+}
+
+.threadSectionsContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.threadsColumn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.threadCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.threadTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.threadDate {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.threadExcerpt {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.threadActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.viewMoreButton {
+    background-color: #4CAF50;
+    /* Change this color as needed */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.viewMoreButton:hover {
+    background-color: #45a049;
+    /* Slightly darker shade on hover */
+}
+
+.noThreadsMessage {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}

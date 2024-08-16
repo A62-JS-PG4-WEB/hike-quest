@@ -10,7 +10,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid #000;
+    border: 1px solid var(--war-green-color);
     object-fit: cover;
 }
 
@@ -40,10 +40,6 @@
     font-size: 24px;
     font-weight: bold;
 }
-
-
-.threadContainer {}
-
 
 .threadCreatedOn {
     font-size: 12px;
@@ -93,43 +89,14 @@
     font-size: larger;
     border-style: hidden;
     border-radius: 10px;
-    border-color: rgb(0, 0, 0);
+    border-color: var(--war-green-color);
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
-.threadButtons {
-    background-color: rgb(99, 236, 112);
-    border: 3px solid transparent;
-    color: rgb(26, 25, 25);
-    border-color: transparent;
-    margin: 5px;
-    padding-inline: 20px;
-    padding-block: 10px;
-    border-radius: 20px;
-    justify-content: flex-end;
-    transition: all 0.3s ease-in-out;
-}
-
-.threadButtons svg {
-    margin-right: 4px;
-}
-
-.threadButtons.like0 {
-    background-color: transparent;
-    border: 3px solid rgb(99, 236, 112);
-}
-
-.threadButtons:hover {
-    background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-}
-
 .commentButtons {
     display: flex;
-    text-align: right;
+    text-align: left;
     width: 100%;
 }
 
@@ -150,7 +117,7 @@
     height: 40px;
     padding: 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--war-green-color);
     border-radius: 10px;
     box-sizing: border-box;
     font-family: monospace;
@@ -164,7 +131,7 @@ textarea.commentBox {
 .locationBox {
     resize: none;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--war-green-color);
     border-radius: 10px;
     box-sizing: border-box;
     font-family: monospace;
@@ -182,7 +149,7 @@ textarea.commentBox {
     display: block;
     margin: 20px;
     padding: 20px;
-    border-color: rgb(0, 0, 0);
+    border-color: var(--war-green-color);
 }
 
 .actualComment {
@@ -192,24 +159,93 @@ textarea.commentBox {
     font-size: large;
     border-style: double;
     border-radius: 10px;
-    border-color: rgb(0, 0, 0);
+    border-color: var(--war-green-color);
     word-wrap: break-word;
     overflow-wrap: break-word;
     margin: 0;
 }
 
-.createTitle {
-    font-size: 24px;
-    padding: 16px
-}
-
-.createContent {
-    padding: 16px;
-    font-size: 24px;
-}
-
-
 hr {
     width: 50%;
     margin: 0 auto;
+}
+
+
+.createThreadContainer {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.createThreadTitle {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.createThreadLabel {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+}
+
+.createThreadInput,
+.createThreadTextarea {
+    resize: none;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.createThreadTextarea {
+    min-height: 100px;
+    resize: none;
+}
+
+.createThreadButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.createThreadButton:hover {
+    background-color: #45a049;
+}
+
+.createLocationLabel {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+}
+
+.createLocationInput {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
 }

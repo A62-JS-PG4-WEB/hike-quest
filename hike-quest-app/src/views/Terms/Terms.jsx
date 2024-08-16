@@ -1,3 +1,14 @@
+/**
+ * Terms component displays the "Terms of Use" page.
+ *
+ * Simple static page that contains the terms and conditions 
+ * 
+ * @component
+ * @example
+ * return (
+ *   <Terms />
+ * )
+ */
 export default function Terms() {
 
     return (
