@@ -82,7 +82,7 @@ export default function Header() {
             <div className={styles.logoContainer}>
                 <a className={styles.aLogo} href="/">
                     <img
-                        src="/src/components/icons/logo.png"
+                        src='https://imagizer.imageshack.com/v2/1600x1200q70/922/xwgsR4.png'
                         alt='logo'
                         className={styles.logoPicture}
                     />
